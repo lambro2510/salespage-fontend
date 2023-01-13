@@ -1,10 +1,10 @@
-.top-header{
-    background-color: tomato;
-}
-
 .top-header .anticon{
     color: white;
+    margin-right: 5px;
+    margin-left: 5px;
 }
+
+
 .navbar-wrapper {
     display: flex;
     padding: 10px;
@@ -23,12 +23,13 @@
     justify-content: flex-end;
 }
 
+
 .sub-navbar-1 div:not(:last-child){
     border-right: 1px thistle solid;
 }
 
 .sub-navbar-1 div:last-child a{
-    padding-right: 10px;
+    padding-right: 5px;
 }
 
 .sub-navbar-2 div:nth-child(4){
@@ -44,3 +45,13 @@
     color: white;
 }
 
+.dropdown-menu {
+    position: absolute;
+    display: none;
+    
+}
+
+.hover-fade:hover .dropdown-menu {
+    display: block;
+    color: black;
+}
