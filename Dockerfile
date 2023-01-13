@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package.json .
 RUN npm install
-
+RUN npm install --save @ant-design/icons
 COPY . .
 
 RUN npm run build
