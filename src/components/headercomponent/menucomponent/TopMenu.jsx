@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Menu } from "antd"
 import { FacebookOutlined, TwitterOutlined, DownOutlined, GlobalOutlined, BellOutlined, QuestionCircleOutlined } from '@ant-design/icons'
 import './TopMenu.css'
+import ChangeLanguage from "../../UI/ChangeLanguage";
 function TopMenu() {
 
     const [showChooseLanguage, setShowChooseLanguage] = useState(false);
@@ -35,15 +36,12 @@ function TopMenu() {
                         <QuestionCircleOutlined />
                         <a href="">Help</a>
                     </div>
-                    <div className="hover-fade" onMouseEnter={() => setShowChooseLanguage(true)} onMouseLeave={() => setShowChooseLanguage(false)}>
-                        <GlobalOutlined />
-                        <a href="">English</a>
-                        <DownOutlined />
+                    <div onMouseEnter={() => setShowChooseLanguage(true)} onMouseLeave={() => setShowChooseLanguage(false)}>
+                        <GlobalOutlined className="hover-fade" />
+                        <a href="" className="hover-fade">English</a>
+                        <DownOutlined className="hover-fade" />
                         {showChooseLanguage && (
-                            <div className="dropdown-menu">
-                                <a href="#">English</a>
-                                <a href="#">Tiếng Việt</a>
-                            </div>
+                            <ChangeLanguage />
                         )}
                     </div>
                     <div className="hover-fade">

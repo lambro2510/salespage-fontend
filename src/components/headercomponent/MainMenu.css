@@ -10,6 +10,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 
 .logo img {
@@ -17,16 +18,19 @@
     height: auto;
     
 }
+.search-menu{
+
+}
 
 .search-menu input {
-    width: 1000px;
     padding: 10px;
-    border-radius: 5px;
+    position: relative;
     border: none;
 }
 
 .search-menu>div {
     margin-top: 10px;
+    float: left;
 }
 .search-menu>div a{
     color: white;
@@ -50,7 +54,7 @@
     margin-left: 20px;
 }
 
-.header-with-search .anticon {
+.header-with-search> .anticon {
     font-size: 80px;
     color: white;
 }

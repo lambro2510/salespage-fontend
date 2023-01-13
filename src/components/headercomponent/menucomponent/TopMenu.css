@@ -24,19 +24,19 @@
 }
 
 
-.sub-navbar-1 div:not(:last-child){
+.sub-navbar-1>div:not(:last-child){
     border-right: 1px thistle solid;
 }
 
-.sub-navbar-1 div:last-child a{
+.sub-navbar-1>div:last-child a{
     padding-right: 5px;
 }
 
-.sub-navbar-2 div:nth-child(4){
+.sub-navbar-2>div:nth-child(4){
     border-right: 1px thistle solid;
 }
 
-.sub-navbar-1 div, .sub-navbar-2 div {
+.sub-navbar-1>div, .sub-navbar-2 div {
     padding: 0 10px;
 }
 
@@ -47,7 +47,7 @@
 
 .dropdown-menu {
     position: absolute;
-    display: none;
+    display: block;
     
 }
 
