@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, DatePicker } from 'antd';
 
 const layout = {
   labelCol: { span: 8 },
@@ -30,24 +30,62 @@ const RegisterForm = () => {
       onFinishFailed={onFinishFailed}
     >
       <Form.Item
-        label="Username"
+        label="Tên đăng nhập"
         name="username"
-        rules={[{ required: true, message: 'Please input your username!' }]}
+        rules={[{ required: true, message: 'Vui lòng nhập tên đăng nhập của bạn!' }]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="Họ"
+        name="firstName"
+        rules={[{ required: true, message: 'Vui lòng nhập họ của bạn!' }]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="Tên"
+        name="lastName"
+        rules={[{ required: true, message: 'Vui lòng nhập tên của bạn!' }]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="Mật khẩu"
+        name="password"
+        rules={[{ required: true, message: 'Vui lòng nhập mật khẩu của bạn!' }]}
+      >
+        <Input.Password />
+      </Form.Item>
+
+      <Form.Item
+        label="Email"
+        name="email"
+        rules={[
+          { required: true, message: 'Vui lòng nhập email của bạn!' },
+          { type: 'email', message: 'Vui lòng nhập đúng định dạng email!' },
+        ]}
       >
         <Input />
       </Form.Item>
 
       <Form.Item
-        label="Password"
-        name="password"
-        rules={[{ required: true, message: 'Please input your password!' }]}
+        label="Số điện thoại"
+        name="phoneNumber"
+        rules={[
+          { required: true, message: 'Vui lòng nhập số điện thoại của bạn!' },
+          { pattern: /^\d{10,11}$/, message: 'Vui lòng nhập đúng định dạng số điện thoại (10-11 chữ số)!' },
+        ]}
       >
-        <Input.Password />
+        <Input />
+      </Form.Item>
+      <Form.Item label="Ngày sinh" name="dateOfBirth">
+        <DatePicker />
       </Form.Item>
 
       <Form.Item {...tailLayout}>
         <Button type="primary" htmlType="submit">
-          Register
+          Đăng ký
         </Button>
       </Form.Item>
     </Form>
