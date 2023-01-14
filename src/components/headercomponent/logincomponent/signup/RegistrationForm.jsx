@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, DatePicker } from 'antd';
-
+import AccountService from '../../../../services/AccountService';
+import './RegistrationForm.css'
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
@@ -11,13 +12,25 @@ const tailLayout = {
 
 const RegisterForm = () => {
   const [form] = Form.useForm();
+  const { request } = {
+    username: '',
+    password: '',
+    confirmPassword: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    dateOfBirth: ''
 
-  const onFinish = values => {
-    console.log('Success:', values);
-  };
+  }
 
-  const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
+  const onFinish = async values => {
+    try {
+      const response = await AccountService.signUp(values.username, values.password, values.confirmPassword, values.firstName, values.lastName, values.email, values.phoneNumber, values.dateOfBirth);
+      console.log('Successful registration:', response);
+    } catch (error) {
+      console.log('Error registering:', error);
+    }
   };
 
   return (
@@ -27,7 +40,6 @@ const RegisterForm = () => {
       name="basic"
       initialValues={{ remember: true }}
       onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
     >
       <Form.Item
         label="Tên đăng nhập"
@@ -57,7 +69,13 @@ const RegisterForm = () => {
       >
         <Input.Password />
       </Form.Item>
-
+      <Form.Item
+        label="Xác nhận mật khẩu"
+        name="confirmPassword"
+        rules={[{ required: true, message: 'Vui lòng xác nhận mật khẩu của bạn!' }]}
+      >
+        <Input.Password />
+      </Form.Item>
       <Form.Item
         label="Email"
         name="email"
@@ -79,7 +97,9 @@ const RegisterForm = () => {
       >
         <Input />
       </Form.Item>
-      <Form.Item label="Ngày sinh" name="dateOfBirth">
+      <Form.Item 
+      label="Ngày sinh" 
+      name="dateOfBirth" rules={[{ required: true, message: 'Vui lòng nhập ngày sinh của bạn!' }]}>
         <DatePicker />
       </Form.Item>
 

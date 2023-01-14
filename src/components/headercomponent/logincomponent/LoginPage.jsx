@@ -11,7 +11,7 @@ function LoginPage(setProfile) {
             <div className="login-header">
                 <div className="header-logo">
                     <img src={require("../../../asserts/Main-Logo.png")} alt="logo" />
-                    <h1>Đăng nhập</h1>
+                    <h1>{currentForm}</h1>
                 </div>
             </div>
             <div className="container">
