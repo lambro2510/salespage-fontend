@@ -14,7 +14,7 @@ const AccountService = {
                 message: 'Chào mừng ' + response.data.username + " trở lại",
                 duration: 3,
             });
-            return response.data;
+            return response.data.value;
         } catch (error) {
             notification.error({
                 message: 'Đăng nhập thất bại',
