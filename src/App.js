@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import MainMenu from './components/headercomponent/MainMenu.jsx';
 import LoginPage from './components/headercomponent/logincomponent/LoginPage.jsx';
-
+import RegistrationForm from './components/headercomponent/logincomponent/signup/RegistrationForm.jsx';
 function App() {
   const [profile, setProfile] = useState()
   const [isLogin, setIsLogin] = useState(false);

@@ -1,76 +1,85 @@
-import React, { useState } from 'react';
-import { Form, Input, Button, Checkbox,Card } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import './LoginForm.css'
+import { useState } from 'react';
+import { Form, Input, Checkbox, Avatar, Card, Button, notification, Spin } from 'antd';
+import Link from 'antd/es/typography/Link';
+import AccountService from '../../../../services/AccountService';
+import './LoginForm.css';
+import { FacebookFilled, GoogleCircleFilled, GithubFilled } from '@ant-design/icons';
 
-function LoginForm() {
-    const [form] = Form.useForm();
-    
-    const onFinish = values => {
-        console.log('Received values of form: ', values);
+const LoginForm = ({ setCurrentForm }) => {
+    const [loading, setLoading] = useState(false);
+    const [username, setUsername] = useState()
+    const [password, setPassword] = useState()
+
+    const onFinish = async () => {
+        setLoading(true);
+        try {
+            const tokenInfo = await AccountService.signIn(username, password);
+            notification.open({ message: "Chào mừng" + tokenInfo.value.username + "trở lại" })
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+        }
+    };
+
+
+    const onUsernameChange = (e) => {
+        setUsername(e.target.value);
+    };
+
+    const onPasswordChange = (e) => {
+        setPassword(e.target.value);
     };
 
     return (
-        <div className="login-page">
-            <Card className="login-card" bordered={false}>
-                <div className="login-card-header">
-                    <h1 className="login-card-title">Đăng nhập</h1>
-                </div>
+        <Card title="Đăng nhập" className="LoginForm" headStyle={{ textAlign: 'center', fontSize: '20px' }}>
+            <Spin spinning={loading}>
                 <Form
-                    form={form}
-                    name="normal_login"
-                    className="login-form"
                     onFinish={onFinish}
+                    className="form"
                 >
                     <Form.Item
-                        name="username"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Vui lòng nhập tên đăng nhập!',
-                            },
-                        ]}
+                        name="email"
+                        rules={[{ required: true, message: 'Please input your email!' }]}
                     >
-                        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Tên đăng nhập" />
+                        <Input placeholder="Email" onChange={onUsernameChange} />
                     </Form.Item>
+
                     <Form.Item
                         name="password"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Vui lòng nhập mật khẩu!',
-                            },
-                        ]}
+                        rules={[{ required: true, message: 'Please input your password!' }]}
                     >
-                        <Input
-                            prefix={<LockOutlined className="site-form-item-icon" />}
-                            type="password"
-                            placeholder="Mật khẩu"
-                        />
+                        <Input.Password placeholder="Password" onChange={onPasswordChange} />
                     </Form.Item>
+
+                    <Form.Item name="remember" valuePropName="checked">
+                        <Checkbox >Remember me</Checkbox>
+                        <Link to="/forgot-password" style={{ float: 'right' }}>Forgot password?</Link>
+                    </Form.Item>
+
                     <Form.Item>
-                        <Form.Item name="remember" valuePropName="checked" noStyle>
-                            <Checkbox>Nhớ mật khẩu</Checkbox>
-                        </Form.Item>
-    
-                        <a className="login-form-forgot" href="">
-                            Quên mật khẩu
-                        </a>
-                    </Form.Item>
-    
-                    <Form.Item className='btn-submit'>
                         <Button type="primary" htmlType="submit" className="login-form-button">
-                            Đăng nhập
+                            Log in
                         </Button>
-                        Hoặc <a href="">Đăng ký tài khoản mới</a>
+                        <div className="social-login">
+                            <Button type="default" icon={<FacebookFilled />} className="social-login-btn">
+                                Facebook
+                            </Button>
+                            <Button type="default" icon={<GoogleCircleFilled />} className="social-login-btn">
+                                Google
+                            </Button>
+                            <Button type="default" icon={<GithubFilled />} className="social-login-btn">
+                                Github
+                            </Button>
+                        </div>
                     </Form.Item>
-                    <Form.Item>
-                        <img src={require("../../../../asserts/Facebook.png")} alt="facebook"/>
-                        <img src={require("../../../../asserts/Google.png")} alt="facebook"/>
+                    <Form.Item style={{ display: 'flex', justifyContent: 'center' }}>
+                        <Link to="/sign-up" onClick={() => setCurrentForm("registration")}>Create new account</Link>
                     </Form.Item>
+
                 </Form>
-            </Card>
-        </div>
+            </Spin>
+        </Card>
     );
-}
+};
+
 export default LoginForm;

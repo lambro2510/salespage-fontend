@@ -2,7 +2,6 @@ import React from "react";
 import './SearchMenu.css'
 import { Input } from "antd";
 import { ShoppingCartOutlined } from '@ant-design/icons'
-import SearchUI from "../../../UI/SearchUI/SearchUI";
 function SearchMenu() {
     return (
         <div className="search-menu">
