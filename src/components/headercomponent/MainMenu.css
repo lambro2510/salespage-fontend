@@ -2,68 +2,14 @@
     background: linear-gradient(to bottom, #f44300, #f44302, #f44304, #f44306, #f44308, #f44310);
 }
 
-.header>div {
-    padding: 0px 50px;
+.header-container {
+    width: 80%;
+    margin: 0 auto;
 }
 
-.header-with-search {
+
+
+.search-container {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    position: relative;
-}
-
-.logo img {
-    width: 150px;
-    height: auto;
-    
-}
-.search-menu{
-
-}
-
-.search-menu input {
-    padding: 10px;
-    position: relative;
-    border: none;
-}
-
-.search-menu>div {
-    margin-top: 10px;
-    float: left;
-}
-.search-menu>div a{
-    color: white;
-    padding: 0px 10px;
-}
-
-.search-menu a {
-    margin-left: 10px;
-    text-decoration: none;
-    color: black;
-}
-
-.cart {
-    width: 50px;
-    height: 50px;
-    background-color: #f44336;
-    color: white;
-    text-align: center;
-    line-height: 50px;
-    border-radius: 50%;
-    margin-left: 20px;
-}
-
-.header-with-search> .anticon {
-    font-size: 80px;
-    color: white;
-}
-
-
-.hover-fade{
-    opacity: 1;
-    transition: opacity 0.5s;
-}
-.hover-fade:hover{
-    opacity: 0.5;
 }

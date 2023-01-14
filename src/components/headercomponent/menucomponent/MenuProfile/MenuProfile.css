@@ -1,0 +1,20 @@
+.menu-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .menu-container .ant-menu-item {
+
+    background-color: inherit;
+    padding: 0 20px;
+  }
+  
+  .menu-social-media-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .menu-social-media-label {
+    margin-right: 8px;
+  }
+  
