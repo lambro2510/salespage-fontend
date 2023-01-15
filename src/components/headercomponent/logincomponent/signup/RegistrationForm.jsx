@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Form, Input, Button, DatePicker } from 'antd';
 import AccountService from '../../../../services/AccountService';
 import './RegistrationForm.css'
+import translate from '../../../../language';
+import {useSelector} from 'react-redux'
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
@@ -10,7 +12,10 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-const RegisterForm = () => {
+const RegistrationForm = () => {
+
+  const text = translate[useSelector(state => state.language)];
+
   const [form] = Form.useForm();
   const { request } = {
     username: '',
@@ -42,74 +47,74 @@ const RegisterForm = () => {
       onFinish={onFinish}
     >
       <Form.Item
-        label="Tên đăng nhập"
+        label={text.username}
         name="username"
-        rules={[{ required: true, message: 'Vui lòng nhập tên đăng nhập của bạn!' }]}
+        rules={[{ required: true, message: text.please_input_username }]}
       >
         <Input />
       </Form.Item>
       <Form.Item
-        label="Họ"
+        label={text.first_name}
         name="firstName"
-        rules={[{ required: true, message: 'Vui lòng nhập họ của bạn!' }]}
+        rules={[{ required: true, message: text.please_input_first_name }]}
       >
         <Input />
       </Form.Item>
       <Form.Item
-        label="Tên"
+        label={text.last_name}
         name="lastName"
-        rules={[{ required: true, message: 'Vui lòng nhập tên của bạn!' }]}
+        rules={[{ required: true, message: text.please_input_last_name }]}
       >
         <Input />
       </Form.Item>
       <Form.Item
-        label="Mật khẩu"
+        label={text.password}
         name="password"
-        rules={[{ required: true, message: 'Vui lòng nhập mật khẩu của bạn!' }]}
+        rules={[{ required: true, message: text.please_input_password }]}
       >
         <Input.Password />
       </Form.Item>
       <Form.Item
-        label="Xác nhận mật khẩu"
+        label={text.confirm_password}
         name="confirmPassword"
-        rules={[{ required: true, message: 'Vui lòng xác nhận mật khẩu của bạn!' }]}
+        rules={[{ required: true, message: text.please_input_confirm_password }]}
       >
         <Input.Password />
       </Form.Item>
       <Form.Item
-        label="Email"
+        label={text.email}
         name="email"
         rules={[
-          { required: true, message: 'Vui lòng nhập email của bạn!' },
-          { type: 'email', message: 'Vui lòng nhập đúng định dạng email!' },
+          { required: true, message: text.please_input_email },
+          { type: 'email', message: text.please_enter_valid_email_format },
         ]}
       >
         <Input />
       </Form.Item>
 
       <Form.Item
-        label="Số điện thoại"
+        label={text.phone_number}
         name="phoneNumber"
         rules={[
-          { required: true, message: 'Vui lòng nhập số điện thoại của bạn!' },
+          { required: true, message: text.please_input_phone_number },
           { pattern: /^\d{10,11}$/, message: 'Vui lòng nhập đúng định dạng số điện thoại (10-11 chữ số)!' },
         ]}
       >
         <Input />
       </Form.Item>
       <Form.Item 
-      label="Ngày sinh" 
+      label={text.date_of_birth}
       name="dateOfBirth" rules={[{ required: true, message: 'Vui lòng nhập ngày sinh của bạn!' }]}>
         <DatePicker />
       </Form.Item>
 
       <Form.Item {...tailLayout}>
         <Button type="primary" htmlType="submit">
-          Đăng ký
+          {text.sign_up}
         </Button>
       </Form.Item>
     </Form>
   );
 };
 
-export default RegisterForm;
+export default RegistrationForm;

@@ -8,7 +8,9 @@ RUN npm install --save @ant-design/icons
 RUN npm install --save antd
 RUN npm install --save react-router-dom
 RUN npm install --save axios
-RUN npm install --save react-router-dom
+RUN npm install history@latest
+RUN npm install redux react-redux
+RUN npm install @reduxjs/toolkit
 COPY . .
 
 RUN npm run build
