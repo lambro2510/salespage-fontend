@@ -1,0 +1,9 @@
+.button{
+    color: black;
+    cursor: pointer;
+}
+
+.button:hover{
+    color: slategrey;
+    cursor: pointer;
+}
