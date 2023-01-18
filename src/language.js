@@ -1,117 +1,92 @@
 const translate = {
     English: {
-        //text
-        wellcome: "Wellcome ",
-        back: " back!",
 
-        //Valid data
-        please_input_username: "Please input username!",
-        please_input_email: "Please input email!",
-        please_input_password: "Please input password!",
-        please_input_confirm_password: "Please input confirm password!",
-        please_input_first_name: "Please input first name!",
-        please_input_last_name: "Please input last name!",
-        please_input_phone_number: "Please input phone number!",
-        please_input_date_of_birth: "Please input date of birth!",
-        please_enter_valid_email_format: "Please enter a valid email format!",
-        please_enter_correct_phone_number_format : "Please enter the correct phone number format (10-11 digits)!",
-
-        //login
-        remember_me: "Remember me",
-        forgot_password: "Forgot password?",
-        create_account: "Create account",
-
-        //menu
-        seller_center: "Seller center",
-        join_seller: "Join as seller",
-        download: "Download",
-        follow_us: "Follow us on",
-        notifications: "Notifications",
-        help: "Help",
-        sign_up: "Sign up",
-        sign_in: "Login",
+        //Login + regis
         login: "Login",
-        search: "Search",
-
-        //product type
-        female_bag: "Female bag",
-        jacket: "Jacket",
-        shoes: "Shoes",
-        croptop: "Croptop",
-        male_jacket: "Male jacket",
-        t_shirt: "T-shirt",
-        male_shoes: "Male shoes",
-
-        //profile
+        register: "Register",
         username: "Username",
-        password: "Password",
         first_name: "First name",
         last_name: "Last name",
+        password: "Password",
         confirm_password: "Confirm password",
         email: "Email",
         phone_number: "Phone number",
         date_of_birth: "Date of birth",
+        remember_password: "Remember password",
+        forgot_password: "Forgot password ?",
+        you_dont_have_account: "You don't have account ? ",
+        register_now: "Register now",
+        fill_in_information: "Fill in information",
+        verify_information: "Verify information",
+        fill_in_profile: "Fill in profile",
+        please_enter_username: "Please enter your username !",
+        please_enter_password: "Please enter your password !",
+        please_enter_confirm_password: "Please enter your confirm password !",
+        please_enter_email: "Please enter your email !",
+        please_enter_correct_email_format: "Please enter correct email format !",
+        please_enter_phone_number: "Please enter phone number !",
+        please_enter_correct_phone_number_format: "Please enter correct phone number format !",
+        please_enter_date_of_birth: "Please enter your date of birth",
+        please_enter_the_verification_code: "Please enter the verification code",
+        the_verification_code_has_been_sent_via_email: "The verification code has been sent via Email",
+        verify_code: "Verify code",
+        select_date: "Select date",
+        login_error: "Incorrect username or password",
+        //Sider menu
+        profile: "Profile",
 
-
-        //Another
-        register: "Register",
-        language: "Language"
+        //Home header
+        support: "Support",
+        contact: "Contact",
+        download: "Download",
+        language: "Language",
     },
     Vietnamese: {
-        //text
-        wellcome: "Chào mừng ",
-        back: " trở lại!",
 
-        //Valid data
-        please_input_username: "Vui lòng nhập tên đăng nhập!",
-        please_input_email: "Vui lòng nhập email!",
-        please_input_password: "Vui lòng nhập mật khẩu!",
-        please_input_confirm_password: "Vui lòng xác nhận mật khẩu!",
-        please_input_last_name: "Vui lòng nhập tên!",
-        please_input_first_name: "Vui lòng nhập họ!",
-        please_input_phone_number: "Vui lòng nhập số điện thoại!",
-        please_input_date_of_birth: "Vui lòng nhập ngày sinh!",
-        please_enter_valid_email_format: "Vui lòng nhập đúng định dạng email!",
-        please_enter_correct_phone_number_format : "Vui lòng nhập đúng định dạng số điện thoại (10-11 chữ số)!",
-        
-        //login
-        remember_me: "Nhớ tôi",
-        forgot_password: "Quên mật khẩu?",
-        create_account: "Tạo tài khoản",
-
-        //menu
-        seller_center: "Trung tâm bán hàng",
-        join_seller: "Tham gia làm người bán",
-        download: "Tải về",
-        follow_us: "Theo dõi chúng tôi",
-        notifications: "Thông báo",
-        help: "Trợ giúp",
-        sign_up: "Đăng ký",
-        sign_in: "Đăng nhập",
+        //Login + regis
         login: "Đăng nhập",
-        search: "Tìm kiếm",
-
-        //product type
-        female_bag: "Túi xách nữ",
-        jacket: "Áo khoác",
-        shoes: "Dép",
-        croptop: "Áo croptop",
-        male_jacket: "Áo khoác nam",
-        t_shirt: "Áo thun",
-        male_shoes: "Giày nam",
+        register: "Đăng ký",
         username: "Tên đăng nhập",
+        first_name: "Tên",
+        last_name: "Họ",
         password: "Mật khẩu",
-        first_name: "Họ",
-        last_name: "Tên",
-        confirm_password: "Xác nhận lại mật khẩu",
+        confirm_password: "Xác nhận mật khẩu",
         email: "Email",
         phone_number: "Số điện thoại",
         date_of_birth: "Ngày sinh",
+        remember_password: "Ghi nhớ mật khẩu",
+        forgot_password: "Quên mật khẩu ?",
+        you_dont_have_account: "Bạn chưa có tài khoản ? ",
+        register_now: "Đăng ký ngay",
+        fill_in_information: "Điền thông tin",
+        verify_information: "Xác thực thông tin",
+        fill_in_profile: "Điền hồ sơ",
+        please_enter_username: "Vui lòng nhập tên đăng nhập !",
+        please_enter_password: "Vui lòng nhập mật khẩu !",
+        please_enter_confirm_password: "Vui lòng nhập xác nhận mật khẩu !",
+        please_enter_email: "Vui lòng nhập email !",
+        please_enter_correct_email_format: "Vui lòng nhập đúng định dạng email !",
+        please_enter_phone_number: "Vui lòng nhập số điện thoại !",
+        please_enter_correct_phone_number_format: "Vui lòng nhập đúng định dạng số điện thoại !",
+        please_enter_date_of_birth: "Vui lòng nhập ngày sinh",
+        please_enter_the_verification_code: "Vui lòng nhập mã xác thực",
+        the_verification_code_has_been_sent_via_email: "Mã xác thực đã được gửi qua Email",
+        verify_code: "Xác thực mã",
+        select_date: "Chọn ngày",
+        login_error: "Sai tên đăng nhập hoặc mật khẩu",
 
-        //another
-        register: "Đăng ký",
-        language: "Ngôn ngữ"
+        //Sider menu
+        profile: "Hồ sơ cá nhân",
+
+        //Home header
+        support: "Hỗ trợ",
+        contact: "Liên hệ",
+        download: "Tải về",
+        language: "Ngôn ngữ",
     }
+
+
 }
+
 
 export default translate

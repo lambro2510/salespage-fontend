@@ -11,6 +11,7 @@ RUN npm install --save axios
 RUN npm install history@latest
 RUN npm install redux react-redux
 RUN npm install @reduxjs/toolkit
+RUN npm install js-cookie
 COPY . .
 
 RUN npm run build

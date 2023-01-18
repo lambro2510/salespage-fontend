@@ -1,26 +1,15 @@
 import React, { useState } from 'react';
-import MainMenu from './components/headercomponent/MainMenu.jsx';
-import Home from './components/main/Home.jsx';
-import LoginPage from './components/headercomponent/logincomponent/LoginPage.jsx';
-import RegistrationForm from './components/headercomponent/logincomponent/signup/RegistrationForm.jsx';
 import { Route, Routes, Link } from 'react-router-dom';
+import Home from './component/Home/Home';
+import Login from './component/Login/Login';
+import Register from './component/Register/Register';
 function App() {
-  const [profile, setProfile] = useState({
-    username: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    phoneNumber: '',
-    dateOfBirth: ''
-  })
-  const [language, setLanguage] = useState('English');
-
   return (
     <div>
       <Routes>
-        <Route exec path='/' element={<MainMenu profile={profile} setProfile={setProfile} language={language} setLanguage={setLanguage} />} />
-        <Route path='/login' element={<LoginPage form={'login'} setProfile={setProfile}  language={language} setLanguage={setLanguage} />} />
-        <Route path='/registration' element={<LoginPage form={'registration'}/>} />
+        <Route exec path='/' element={<Home/>} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
       </Routes>
     </div>
     
