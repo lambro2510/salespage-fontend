@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { } from 'react-redux';
 
-const URL = "https://shoppee-fake-lpdgp.appengine.bfcplatform.vn"
+const URL = "https://salepage-server-rherm.appengine.bfcplatform.vn/"
 
 const AccountService = {
     async signIn(username, password) {
