@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { notification } from 'antd';
-const URL = "https://shoppee-fake-lpdgp.appengine.bfcplatform.vn"
+const URL = "https://salepage-server-rherm.appengine.bfcplatform.vn"
 
 const UserService = {
 
