@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { notification } from 'antd';
 import { } from 'react-redux';
 
 const URL = "https://shoppee-fake-lpdgp.appengine.bfcplatform.vn"
