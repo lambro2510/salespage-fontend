@@ -1,6 +1,7 @@
-import { Button, Card, Checkbox, Col, Form, Input, Layout, Row } from "antd";
+import { Button, Card, Checkbox, Col, Form, Input, Layout, Row, notification } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import { GoogleOutlined, FacebookOutlined, TwitterOutlined } from '@ant-design/icons'
+
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './Login.css'
@@ -12,7 +13,7 @@ import Cookies from 'js-cookie'
 function Login() {
     const [username, setUsername] = useState()
     const [password, setPassword] = useState('')
-    const [error, setError] = useState();
+    const [error, setError] = useState('');
     const nagative = useNavigate()
     const text = translate[localStorage.getItem('language') || "English"]
 
@@ -20,11 +21,18 @@ function Login() {
         try {
             let response = await AccountService.signIn(username, password);
             console.log(response);
-            Cookies.set('token', response.token, {expires: 1});
-            Cookies.set('username', response.username, {expires: 0.1});
+            Cookies.set('token', response.token, { expires: 1 });
+            Cookies.set('username', response.username, { expires: 0.1 });
             nagative('/')
-        } catch {
-            setError(text.login_error); // login error message
+            notification.success({
+                message: text.login_successful,
+                description: `${text.welcome} ${response.username}!`
+            });
+        } catch (error) {
+            notification.error({
+                message: text.login_failed,
+                description: `${text.error} ${error.message}`
+            });
         }
 
     }
@@ -40,7 +48,6 @@ function Login() {
                         <Card title="Login" className="card-login" style={{ backgroundColor: "ButtonFace" }}>
                             <Form className="login-form">
                                 <Input className="text-input" type="text" placeholder={text.username} onChange={(e) => setUsername(e.target.value)}></Input>
-                                {error ? null : <><label style={{ color: "red" }}>{error}</label></>}
                                 <Input className="text-input" type="password" placeholder={text.password} onChange={(e) => setPassword(e.target.value)}></Input>
                                 <Row className="cb-input">
                                     <Checkbox >{text.remember_password}</Checkbox>
