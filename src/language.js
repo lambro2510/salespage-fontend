@@ -32,6 +32,11 @@ const translate = {
         verify_code: "Verify code",
         select_date: "Select date",
         login_error: "Incorrect username or password",
+        login_successful: "Login Successful",
+        welcome: "Welcome",
+        login_failed : "Login unsuccessful",
+        register_failed : "Register unsuccessful",
+
         //Sider menu
         profile: "Profile",
 
@@ -74,7 +79,10 @@ const translate = {
         verify_code: "Xác thực mã",
         select_date: "Chọn ngày",
         login_error: "Sai tên đăng nhập hoặc mật khẩu",
-
+        login_successful: "Login Successful",
+        welcome: "Welcome",
+        login_failed : "Login unsuccessful",
+        register_failed : "Register unsuccessful",
         //Sider menu
         profile: "Hồ sơ cá nhân",
 
