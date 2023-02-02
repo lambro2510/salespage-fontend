@@ -10,11 +10,14 @@ import Cookies from "js-cookie";
 import UserService from "../../services/UserService";
 export default function Home() {
     const [collapsed, setCollapsed] = useState(true);
-    const [username, setUsername] = useState(Cookies.get("username"))
 
     useEffect(() => {
-        const profile = UserService.getProfile(Cookies.get("token"))
-        setUsername(Cookies.get('username'))
+        const token = Cookies.get("token")
+        console.log(token);
+        if(typeof(token) == 'undefined'){
+            const profile = UserService.getProfile(Cookies.get("token"))
+            Cookies.set("username",profile.username)
+        }
     })
     return (
         <Layout>

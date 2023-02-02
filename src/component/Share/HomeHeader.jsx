@@ -19,7 +19,6 @@ export default function HomeHeader() {
 
     useEffect(() => {
         setUsername(Cookies.get('username'))
-        console.log(username);
     }, [])
     return (
         <Row style={{ display: "flex", justifyContent: "space-between" }}>

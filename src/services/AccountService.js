@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { } from 'react-redux';
 
 const URL = "https://salepage-server-rherm.appengine.bfcplatform.vn/"
 
@@ -25,8 +24,27 @@ const AccountService = {
                 dateOfBirth: dateOfBirth
             });
         return response.data;
+    },
+
+    async verifyCode(token, code) {
+        const response = await axios.post(URL + '/v1/api/account/verify', {
+            code: code
+        }, {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        });
+        return response.data;
+    },
+
+    async createVerifyCode(token) {
+        const response = await axios.post(URL + '/v1/api/account/verify-code', null, {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        });
+        return response.data;
     }
 }
-
 
 export default AccountService
