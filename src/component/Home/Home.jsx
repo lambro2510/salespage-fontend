@@ -5,20 +5,10 @@ import './Home.css'
 import Sider from "antd/es/layout/Sider";
 import MainSider from "../Share/MainSider";
 import HomeHeader from "../Share/HomeHeader";
-import { useEffect } from "react";
-import Cookies from "js-cookie";
-import UserService from "../../services/UserService";
 export default function Home() {
     const [collapsed, setCollapsed] = useState(true);
 
-    useEffect(() => {
-        const token = Cookies.get("token")
-        console.log(token);
-        if(typeof(token) == 'undefined'){
-            const profile = UserService.getProfile(Cookies.get("token"))
-            Cookies.set("username",profile.username)
-        }
-    })
+    
     return (
         <Layout>
             <Sider trigger={null} collapsible collapsed={collapsed}>
