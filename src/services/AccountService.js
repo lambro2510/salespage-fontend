@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-const URL = "https://salepage-server-rherm.appengine.bfcplatform.vn/"
+const URL = "/"
 
 const AccountService = {
     async signIn(username, password) {
-        const response = await axios.post(URL + '/v1/api/account/sign-in', {
+        const response = await axios.post(URL + 'v1/api/account/sign-in', {
             username: username,
             password: password
         },{
@@ -21,7 +21,7 @@ const AccountService = {
     },
 
     async signUp(username, password, confirmPassword, firstName, lastName, email, phoneNumber, dateOfBirth) {
-            const response = await axios.post(URL + '/v1/api/account/sign-up', {
+            const response = await axios.post(URL + 'v1/api/account/sign-up', {
                 username: username,
                 password: password,
                 confirmPassword: confirmPassword,
@@ -39,7 +39,7 @@ const AccountService = {
     },
 
     async verifyCode(token, code) {
-        const response = await axios.post(URL + '/v1/api/account/verify', {
+        const response = await axios.post(URL + 'v1/api/account/verify', {
             code: code
         }, {
             headers: {
@@ -51,7 +51,7 @@ const AccountService = {
     },
 
     async createVerifyCode(token) {
-        const response = await axios.post(URL + '/v1/api/account/verify-code', null, {
+        const response = await axios.post(URL + 'v1/api/account/verify-code', null, {
             headers: {
                 Authorization: 'Bearer ' + token
             }
