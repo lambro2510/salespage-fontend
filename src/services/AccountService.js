@@ -26,6 +26,10 @@ const AccountService = {
                 email: email,
                 phoneNumber: phoneNumber,
                 dateOfBirth: dateOfBirth
+            },{
+                headers: {
+                    'Access-Control-Allow-Origin' : '*'
+                }
             });
         return response.data;
     },
