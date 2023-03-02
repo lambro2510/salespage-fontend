@@ -7,6 +7,10 @@ const AccountService = {
         const response = await axios.post(URL + '/v1/api/account/sign-in', {
             username: username,
             password: password
+        }, {
+            headers: {
+                'Access-Control-Allow-Origin' : '*'
+            }
         });
         return response.data;
 
@@ -22,6 +26,10 @@ const AccountService = {
                 email: email,
                 phoneNumber: phoneNumber,
                 dateOfBirth: dateOfBirth
+            }, {
+                headers: {
+                    'Access-Control-Allow-Origin' : '*'
+                }
             });
         return response.data;
     },
@@ -31,7 +39,8 @@ const AccountService = {
             code: code
         }, {
             headers: {
-                Authorization: 'Bearer ' + token
+                Authorization: 'Bearer ' + token,
+                'Access-Control-Allow-Origin' : '*'
             }
         });
         return response.data;

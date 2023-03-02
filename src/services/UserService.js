@@ -7,7 +7,8 @@ const UserService = {
     async getProfile(token) {
         const response = await axios.get(URL + '/v1/api/user/profile', {
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Access-Control-Allow-Origin' : '*'
             }
         });
         return response.data;
