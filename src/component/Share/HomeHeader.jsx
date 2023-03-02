@@ -3,7 +3,7 @@ import { MenuFoldOutlined, MenuUnfoldOutlined, SearchOutlined, GlobalOutlined, Q
 import { Link } from "react-router-dom";
 import { Input, Col, Layout, Row, Select, Popover, Button } from "antd"
 import translate from "../../language";
-import "./Share.scss"
+import "./Share.css"
 import { useState } from "react";
 import Cookies from "js-cookie";
 
