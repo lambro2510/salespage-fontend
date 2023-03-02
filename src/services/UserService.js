@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const URL = "/"
+const URL = "https://salepage-server-rherm.appengine.bfcplatform.vn/"
 
 const UserService = {
 
