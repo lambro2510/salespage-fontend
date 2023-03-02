@@ -9,7 +9,11 @@ const AccountService = {
             password: password
         },{
             headers: {
-                'Access-Control-Allow-Origin' : '*'
+                'Access-Control-Allow-Origin' : '*',
+                'Content-Type' : 'application/json',
+                'Accept' : '*/*',
+                'Accept-Encoding' : 'gzip, deflate, br',
+                'Connection' : 'keep-alive'
             }
         });
         return response.data;
