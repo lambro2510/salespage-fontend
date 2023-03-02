@@ -39,7 +39,7 @@ function Login() {
 
     return (
         <Layout className="layout">
-            <LoginHeader type={"Login"} />
+            <LoginHeader type={text.login} message={text.you_need_help} />
             <Content className="layout-content">
                 <Row align="top" className="content-row" />
                 <Row justify="space-between" align="middle" className="content-middle-row" style={{ height: '100%', backgroundColor: "GrayText" }}>

@@ -3,12 +3,13 @@ import { MenuFoldOutlined, MenuUnfoldOutlined, SearchOutlined, GlobalOutlined, Q
 import { Link } from "react-router-dom";
 import { Input, Col, Layout, Row, Select, Popover, Button } from "antd"
 import translate from "../../language";
-import "./Share.css"
+import "./Share.scss"
 import { useState } from "react";
 import Cookies from "js-cookie";
+
 export default function HomeHeader() {
     const [language, setLanguage] = useState("English")
-    const [username, setUsername] = useState(Cookies.get("username"))
+    const [username, setUsername] = useState()
 
     const text = translate[localStorage.getItem('language') || "English"]
 
@@ -18,12 +19,18 @@ export default function HomeHeader() {
     }
 
     useEffect(() => {
-        setUsername(Cookies.get('username'))
+        var username = Cookies.get('username');
+        if (typeof (username) != "undefined") {
+            console.log(username)
+            setUsername(username)
+        }
     }, [])
     return (
         <Row style={{ display: "flex", justifyContent: "space-between" }}>
             <Col span={2} >
-                <img src={require('../../asserts/Main-Logo.png')} style={{ height: "75px", width: "auto" }} />
+                <Link to="/">
+                    <img src={require('../../asserts/Main-Logo.png')} style={{ height: "75px", width: "auto" }} />
+                </Link>
             </Col>
             <Col span={10} style={{ paddingTop: "6px" }}>
                 <Input prefix={<SearchOutlined />} />
@@ -53,7 +60,7 @@ export default function HomeHeader() {
                         <div>
                             <Popover content={
                                 <>
-                                    <div style={{ display: "grid", marginRight: "10px", textAlign: "left" }}>
+                                    <div style={{ display: "grid", marginRight: "10px", textAlign: "left"}}>
                                         <div className="button" onClick={() => setPageLanguage("English")}>English</div>
                                         <div className="button" onClick={() => setPageLanguage("Vietnamese")}>Tiếng việt</div>
                                     </div>
@@ -75,10 +82,10 @@ export default function HomeHeader() {
                                 : <>
                                     <Row>
                                         <Col span={12}>
-                                            <Link to={'/register'} style={{ color: "black" }}>{text.register}</Link>
+                                            <Link className="button" to={'/register'} style={{ color: "black" }}>{text.register}</Link>
                                         </Col>
                                         <Col span={12}>
-                                            <Link to={'/login'} style={{ color: "black" }}>{text.login}</Link>
+                                            <Link className="button" to={'/login'} style={{ color: "black" }}>{text.login}</Link>
                                         </Col>
                                     </Row>
                                 </>

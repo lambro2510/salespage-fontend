@@ -9,8 +9,7 @@ function App() {
 
   useEffect(() => {
     const token = Cookies.get("token")
-    console.log(token);
-    if(typeof(token) == 'undefined'){
+    if(typeof(token) != 'undefined'){
         const profile = UserService.getProfile(Cookies.get("token"))
         Cookies.set("username",profile.username)
     }

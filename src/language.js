@@ -36,7 +36,7 @@ const translate = {
         welcome: "Welcome",
         login_failed : "Login unsuccessful",
         register_failed : "Register unsuccessful",
-
+        you_need_help : "You need help? ",
         //Sider menu
         profile: "Profile",
 
@@ -79,10 +79,12 @@ const translate = {
         verify_code: "Xác thực mã",
         select_date: "Chọn ngày",
         login_error: "Sai tên đăng nhập hoặc mật khẩu",
-        login_successful: "Login Successful",
-        welcome: "Welcome",
-        login_failed : "Login unsuccessful",
-        register_failed : "Register unsuccessful",
+        login_successful: "Đăng nhập thành công",
+        welcome: "Chào mừng",
+        login_failed : "Đăng nhập không thành công",
+        register_failed : "Đăng ký không thành công",
+        you_need_help : "Bạn cần giúp đỡ? ",
+
         //Sider menu
         profile: "Hồ sơ cá nhân",
 

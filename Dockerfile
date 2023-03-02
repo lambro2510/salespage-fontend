@@ -12,6 +12,9 @@ RUN npm install history@latest
 RUN npm install redux react-redux
 RUN npm install @reduxjs/toolkit
 RUN npm install js-cookie
+RUN npm install node-sass
+RUN npm install webpack webpack-cli --save-dev
+
 COPY . .
 
 RUN npm run build
