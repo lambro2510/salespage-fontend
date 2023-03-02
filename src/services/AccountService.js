@@ -7,6 +7,10 @@ const AccountService = {
         const response = await axios.post(URL + '/v1/api/account/sign-in', {
             username: username,
             password: password
+        },{
+            headers: {
+                'Access-Control-Allow-Origin' : '*'
+            }
         });
         return response.data;
 
