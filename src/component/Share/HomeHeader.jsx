@@ -20,8 +20,8 @@ export default function HomeHeader() {
 
     useEffect(() => {
         var username = Cookies.get('username');
-        if (typeof (username) != "undefined") {
-            console.log(username)
+        if (typeof (username) != "undefined" || username != "undefined") {
+            console.log("get username: " + username)
             setUsername(username)
         }
     }, [])
