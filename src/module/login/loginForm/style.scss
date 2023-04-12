@@ -1,0 +1,134 @@
+  .form-container {
+    background-color: white;
+    background-image: inherit;
+    opacity: 0.95;
+    height: 80%;
+    width: 90%;
+    padding: 40px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+
+    &:hover{
+      opacity: 1;
+    }
+  }
+  
+  .login-header {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #555;
+  }
+  
+  .input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .form-item {
+    margin-bottom: 0;
+  }
+  
+  .login-button {
+    background-color: #1890ff;
+    color: white;
+    border: none;
+    width: 100%;
+    height: 40px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .login-button:hover {
+    background-color: #40a9ff;
+  }
+
+  .options-actions{
+    flex : 1;
+    width: 100%;
+    flex-direction: row;
+    justify-items: center;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .forgot-password {
+    float: right;
+    text-align: right;
+    font-size: 14px;
+    color: #999;
+  }
+  
+  .other-login-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .fb-login-button,
+  .google-login-button,
+  .phone-login-button {
+    background-color: white;
+    border: 1px solid #d9d9d9;
+    color: #555;
+    height: 40px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .fb-login-button:hover,
+  .google-login-button:hover,
+  .phone-login-button:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .ant-input,
+  .ant-checkbox-inner {
+    border-color: #d9d9d9;
+  }
+  
+  .ant-input:focus,
+  .ant-checkbox-inner:focus {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  }
+  
+  .ant-input-affix-wrapper {
+  border-radius: 4px;
+  }
+  
+  .ant-checkbox-wrapper {
+  margin-bottom: 0;
+  }
+  
+  @media (max-width: 768px) {
+  .form-container {
+  padding: 20px;
+  }
+  
+  .login-header {
+  font-size: 20px;
+  }
+  
+  .other-login-options {
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+  }
+  
+  .fb-login-button,
+  .google-login-button,
+  .phone-login-button {
+  width: 100%;
+  }
+  }
+  

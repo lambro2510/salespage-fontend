@@ -1,0 +1,26 @@
+.container{
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.login-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: auto;
+    align-items: center;
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%;
+}
+
+.login-container{
+    background-image: url('../../assert/banner-login-1.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.login-form{
+    width: 30%;
+}
