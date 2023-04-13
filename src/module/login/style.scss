@@ -1,5 +1,5 @@
-.container{
-    flex: 1;
+.login{
+    height: 100vh;
     justify-content: space-between;
     align-items: center;
 }
@@ -10,17 +10,18 @@
     justify-content: space-between;
     margin: auto;
     align-items: center;
-    border-radius: 10px;
+    height: 10vh;
     padding: 20px;
     width: 90%;
 }
 
-.login-container{
-    background-image: url('../../assert/banner-login-1.jpg');
-    background-size: contain;
-    background-repeat: no-repeat;
+.login-form-container{
+    height: 80vh;
 }
 
 .login-form{
     width: 30%;
+    min-width: 400px;
+    max-height: 600px;
+    margin: auto;
 }
