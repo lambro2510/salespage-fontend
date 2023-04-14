@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import AccountService from '../../../service/AccountService';
 import './style.scss';
 
-const LoginForm = () => {
+const LoginForm = ({ setForm }) => {
   const navigate = useNavigate();
   const [loginData, setLoginData] = React.useState({
     username: '',
@@ -46,8 +46,8 @@ const LoginForm = () => {
       <div className="login-header">
         <h2>Đăng nhập</h2>
         <div onMouseEnter={handleMouseEnter}>
-      <QRCode value={'localhost'} size={100} />
-    </div>
+          <QRCode value={'localhost'} size={100} />
+        </div>
       </div>
       <div className="input-container">
         <Form.Item
@@ -85,19 +85,19 @@ const LoginForm = () => {
           <Button className="login-button" onClick={handleLogin}>Đăng nhập</Button>
         </Form.Item>
         <div className="other-login-options">
-        <Button icon={<FacebookOutlined />} className="fb-login-button">
-        </Button>
-        <Button icon={<GoogleOutlined />} className="google-login-button">
-        </Button>
-        <Button icon={<PhoneOutlined />} className="phone-login-button">
-        </Button>
-      </div>
-      <div className='register'>
-        <span>
-          Chưa có tài khoản?
-          <Link to={'/register'} > Đăng ký ngay!</Link>
-        </span>
-      </div>
+          <Button icon={<FacebookOutlined />} className="fb-login-button">
+          </Button>
+          <Button icon={<GoogleOutlined />} className="google-login-button">
+          </Button>
+          <Button icon={<PhoneOutlined />} className="phone-login-button" onClick={() => { setForm('loginWithPhone') }}>
+          </Button>
+        </div>
+        <div className='register'>
+          <span>
+            Chưa có tài khoản?
+            <Link to={'/register'} > Đăng ký ngay!</Link>
+          </span>
+        </div>
       </div>
     </Form>
 
