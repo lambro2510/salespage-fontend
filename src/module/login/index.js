@@ -7,7 +7,8 @@ import {LOGIN, REGISTER, LOGIN_WITH_PHONE} from './constant';
 import "./style.scss";
 
 const Login = () => {
-    const [form, setForm] = React.useState('login');
+    const [form, setForm] = React.useState(LOGIN);
+
     React.useEffect(() => {
     })
 

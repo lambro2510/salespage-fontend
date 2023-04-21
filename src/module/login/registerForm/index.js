@@ -1,7 +1,8 @@
 import { Form, Input, Button } from 'antd';
 import axios from 'axios';
-
-const RegisterForm = () => {
+import { LOGIN } from '../constant';
+import './style.scss'
+const RegisterForm = ({ setForm }) => {
   const onFinish = async (values) => {
     try {
       const response = await axios.post('/api/register', values);
@@ -18,9 +19,9 @@ const RegisterForm = () => {
   return (
     <Form
       name="register"
+      className='form-container'
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
-      style={{ maxWidth: 400 }}
     >
       <Form.Item
         label="Username"
@@ -100,10 +101,15 @@ const RegisterForm = () => {
         <Input type="date" />
       </Form.Item>
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit">
-          Register
-        </Button>
+      <Form.Item >
+        <div className='list-btn'>
+          <Button type="primary" htmlType="submit">
+            Dang ky
+          </Button>
+          <Button onClick={() => setForm(LOGIN)}>
+            Tro lai dang nhap
+          </Button>
+        </div>
       </Form.Item>
     </Form>
   );

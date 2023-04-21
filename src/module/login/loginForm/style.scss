@@ -1,5 +1,6 @@
   .form-container {
-    display: flexbox;
+    display: flex;
+    flex-direction: column;
     background-color: white;
     background-image: inherit;
     opacity: 0.95;
@@ -7,22 +8,23 @@
     width: 90%;
     padding: 40px;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
-
     &:hover {
       opacity: 1;
     }
   }
 
-  .login-header {
+  .login-tittle-header {
+    display: flex;
     text-align: center;
-    justify-content: center;
+    justify-content: space-between;
     margin: auto;
     margin-bottom: 20px;
     font-size: 24px;
     color: #555;
-    
+
   }
-  .qr-code-icon{
+
+  .qr-code-icon {
     size: 50px;
   }
 
@@ -47,7 +49,8 @@
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    &:hover{
+
+    &:hover {
       background-color: #40a9ff;
       color: #555 !important;
     }
@@ -90,22 +93,29 @@
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    &:hover{
+
+    &:hover {
       background-color: #f5f5f5;
     }
   }
 
-  .register{
+  .footer-text {
     margin: auto;
     justify-content: center;
     align-items: center;
   }
 
+  .login{
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+  }
 
   .ant-input,
   .ant-checkbox-inner {
     border-color: #d9d9d9;
-    &:focus{
+
+    &:focus {
       border-color: #1890ff;
       box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
     }
@@ -119,12 +129,12 @@
     margin-bottom: 0;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 500px) {
     .form-container {
       padding: 20px;
     }
 
-    .login-header {
+    .login-tittle-header {
       font-size: 20px;
     }
 

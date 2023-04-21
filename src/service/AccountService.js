@@ -14,6 +14,14 @@ const AccountService =  {
             getErrorFromResponse(error);
         }
     },
+
+    async signUp(signUpForm) {
+        try{
+
+        }catch(error){
+            getErrorFromResponse(error)
+        }
+    }
 }
 
 export default AccountService;
