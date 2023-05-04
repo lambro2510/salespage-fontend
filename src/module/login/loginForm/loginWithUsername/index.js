@@ -2,10 +2,13 @@ import * as React from 'react';
 import { Form, QRCode, Button, Input, Checkbox, notification, Modal } from 'antd';
 import { FacebookOutlined, GoogleOutlined, PhoneOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
+import {useSelector, useDispatch } from 'react-redux';
+import { login } from '../../../../redux/authSlide';
 import { LOGIN_WITH_PHONE, REGISTER } from '../../constant';
 import AccountService from '../../../../service/AccountService';
 const LoginWithUsername = ({ setForm }) => {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const [isShowModal, setIsShowModal] = React.useState(false);
 	const [loginData, setLoginData] = React.useState({
 		username: '',
@@ -17,13 +20,15 @@ const LoginWithUsername = ({ setForm }) => {
 		<Modal children={children} />
 	}
 	const handleLogin = () => {
+		console.log(loginData);
 		AccountService.signIn(loginData)
-			.then(response => {
+			.then((response) => {
+				dispatch(login({ token: response.token, username: response.username }));
 				notification.success({ message: 'Đăng nhập thành công' });
 				navigate(-1);
 			})
 			.catch(error => {
-				console.log(error);
+				
 			});
 	};
 

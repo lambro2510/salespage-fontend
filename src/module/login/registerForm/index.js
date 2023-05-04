@@ -1,14 +1,31 @@
-import { Form, Input, Button } from 'antd';
-import axios from 'axios';
+import * as React from 'react';
+import { Form, Input, Button,notification } from 'antd';
+import AccountService from '../../../service/AccountService';
+import { useNavigate } from 'react-router-dom';
 import { LOGIN } from '../constant';
 import './style.scss'
 const RegisterForm = ({ setForm }) => {
-  const onFinish = async (values) => {
+  const navigate = useNavigate();
+  const [signUpForm, setSignUpForm] = React.useState(
+    {
+      username: "",
+      password: "",
+      confirmPassword: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      phoneNumber: "",
+      dateOfBirth: ""
+    }
+  )
+  const onFinish = async () => {
     try {
-      const response = await axios.post('/api/register', values);
-      console.log(response.data);
+      AccountService.signUp(signUpForm).then(res => {
+        notification.success({ message: 'Đăng ký thành công' });
+				navigate(-1);
+      })
     } catch (error) {
-      console.log(error);
+      
     }
   };
 
