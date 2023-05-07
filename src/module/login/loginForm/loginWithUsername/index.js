@@ -10,7 +10,7 @@ import AlertMessage from '../../../../component/AlertMessage';
 const LoginWithUsername = ({ setForm }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const [isShowModal, setIsShowModal] = React.useState(true);
+	const [isShowModal, setIsShowModal] = React.useState(false);
 	const [isLoading, setIsLoading] = React.useState(false);
 	const [loginData, setLoginData] = React.useState({
 		username: '',
@@ -25,15 +25,13 @@ const LoginWithUsername = ({ setForm }) => {
 		setIsLoading(true);
 		AccountService.signIn(loginData)
 			.then((response) => {
-				console.log(response);
 				dispatch(login({ token: response.token, username: response.username }));
-				notification.success({ message: 'Đăng nhập thành công' });
+				setIsLoading(false);
 				setIsShowModal(true);
 				setTimeout(() => {
-					setIsLoading(false);
 					setIsShowModal(false);
 					navigate(-1);
-				}, 200000);
+				}, 2000);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -54,7 +52,7 @@ const LoginWithUsername = ({ setForm }) => {
 	return (
 
 		<Form className="form-container" onFinish={handleLogin}>
-			<AlertMessage message={"Đăng nhập thành công"} visible={isShowModal} onClose={() => setIsShowModal(false)}/>
+			<AlertMessage message={"Đăng nhập thành công"} visible={isShowModal} onClose={() => setIsShowModal(false)} />
 			<Spin spinning={isLoading}>
 				<div className="login-tittle-header">
 					<h2>Đăng nhập</h2>
@@ -95,7 +93,12 @@ const LoginWithUsername = ({ setForm }) => {
 						<Link to={'/forgot-password'} className='forgot-password'>Quên mật khẩu?</Link>
 					</Form.Item>
 					<Form.Item>
-						<Button className="login-button" onClick={handleLogin}>Đăng nhập</Button>
+						<Button className="login-button" onClick={handleLogin}
+							onKeyPress={(e) => {
+								if (e.key === 'Enter') {
+									handleLogin();
+								}
+							}}>Đăng nhập</Button>
 					</Form.Item>
 					<div className="other-login-options">
 						<Button icon={<FacebookOutlined />} className="fb-login-button">

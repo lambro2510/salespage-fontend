@@ -22,7 +22,7 @@
       }
   
       .ant-input-affix-wrapper {
-        padding: 0 16px;
+        padding: 0 16px 0 0;
       }
   
       .ant-input-search-button {
@@ -53,6 +53,10 @@
       button {
         border-radius: 20px;
       }
+    }
+
+    .list-search-product{
+      position: absolute;
     }
   }
   

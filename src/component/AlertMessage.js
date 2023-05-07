@@ -7,6 +7,7 @@ const AlertMessage = ({ message, visible, onClose }) => {
       visible={visible}
       closable={false}
       onCancel={onClose}
+      
       footer={[
         <div key="ok" style={{ display: 'flex', justifyContent: 'center' }}>
           <Button onClick={onClose} style={{ width: '20%' }}>
@@ -16,7 +17,6 @@ const AlertMessage = ({ message, visible, onClose }) => {
       ]}
       title={
         <div>
-          <div style={{ backgroundColor: '#1890ff', height: 20 }} ></div>
           <div style={{ textAlign: 'center' }}>
             <CheckCircleFilled style={{ color: '#52c41a', fontSize: '36px', marginBottom: '10px' }} />
             <div style={{ fontSize: '20px' }}>{message}</div>

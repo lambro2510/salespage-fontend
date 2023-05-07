@@ -1,7 +1,10 @@
 import { notification } from "antd";
+import {store} from "./redux/store";
+import { logout } from "./redux/authSlide";
 
 export function getErrorFromResponse(error) {
   if (error.response.status === 401) {
+    store.dispatch(logout())
     notification.error({ message: "Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!" });
     throw new Error('Login')
   }
