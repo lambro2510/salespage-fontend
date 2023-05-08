@@ -1,13 +1,12 @@
 import * as React from 'react';
-import { Input, Button, Badge, Modal, Select, InputNumber, Menu, List } from 'antd';
-import { HomeOutlined, BellOutlined, UserOutlined, SearchOutlined } from '@ant-design/icons';
+import { Input, Button, Badge, List } from 'antd';
+import { HomeOutlined, BellOutlined, UserOutlined, FileSearchOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import SearchModal from './SearchModal';
 import './style.scss';
 import { REGISTER } from '../../login/constant';
 import ProductService from '../../../service/ProductService';
-
-const { Option } = Select;
+import SearchInput from '../../../component/SearchInput';
 
 const Header = ({ username }) => {
   const navigate = useNavigate();
@@ -28,9 +27,13 @@ const Header = ({ username }) => {
 
   const handleSearch = async () => {
     const response = await ProductService.findProduct(productFilter);
-    console.log(response.data);
     setSearchResults(response.data);
     setShowSearchResults(true);
+  }
+
+  const handleSearchName = (value) => {
+    setProductFilter({...productFilter, productName: value});
+    handleSearch();
   }
 
   const handleModalVisible = () => {
@@ -43,27 +46,7 @@ const Header = ({ username }) => {
         <HomeOutlined />
       </div>
       <div className="header-search">
-        <Input.Search
-          placeholder="Tên sản phẩm"
-          enterButton={<Button icon={<SearchOutlined onClick={handleSearch} />} />}
-          prefix={<div className="header-advanced-search">
-            <Button onClick={handleModalVisible}>Tìm kiếm chi tiết</Button>
-          </div>}
-        />
-        <div className='search-result' style={{ display: showSearchResults ? 'block' : 'none' }}>
-          <List
-            className='list-search-product'
-            bordered
-            dataSource={searchResults}
-            renderItem={(item) => (
-              <List.Item>
-                <div>{item.productName}</div>
-                <div>{item.storeName}</div>
-                <div>{item.price}</div>
-              </List.Item>
-            )}
-          />
-        </div>
+        <SearchInput onChange={handleSearchName} searchResults={searchResults} placeholder={"Nhập tên sản phẩm"} />
       </div>
       <div className="header-notification">
         <Badge count={5}>
