@@ -1,0 +1,42 @@
+.banner-container {
+    height: 30vh;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+
+    .slick-slider {
+        height: 100%;
+
+        .slick-list {
+            height: 100%;
+        }
+
+        .slick-track {
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .slick-slide {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                max-height: 100%;
+                max-width: 100%;
+            }
+        }
+
+        .slick-arrow {
+            display: none !important;
+        }
+
+    }
+}
+
+.ads-image{
+    width: 80vw;
+    height: 30vh;
+}

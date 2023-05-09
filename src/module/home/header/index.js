@@ -25,17 +25,26 @@ const Header = ({ username }) => {
   });
   const [searchResults, setSearchResults] = React.useState([]);
 
-  const handleSearch = async () => {
-    const response = await ProductService.findProduct(productFilter);
+  const handleSearch = async (params) => {
+    const response = await ProductService.findProduct(params);
     setSearchResults(response.data);
     setShowSearchResults(true);
   }
 
   const handleSearchName = (value) => {
-    setProductFilter({...productFilter, productName: value});
-    handleSearch();
+    const params = {...productFilter, productName: value};
+    setProductFilter(params);
+    handleSearch(params);
   }
 
+  const getListProduct = (products) => {
+    return products = products.map(product => {
+      return {
+        id: product.productId,
+        name: product.productName
+      }
+    })
+  }
   const handleModalVisible = () => {
     setIsModalVisible(!isModalVisible);
   };
@@ -46,7 +55,7 @@ const Header = ({ username }) => {
         <HomeOutlined />
       </div>
       <div className="header-search">
-        <SearchInput onChange={handleSearchName} searchResults={searchResults} placeholder={"Nhập tên sản phẩm"} />
+        <SearchInput onChange={handleSearchName} searchResults={getListProduct(searchResults)} placeholder={"Nhập tên sản phẩm"} />
       </div>
       <div className="header-notification">
         <Badge count={5}>
@@ -62,9 +71,6 @@ const Header = ({ username }) => {
         <>
           <div className="header-login">
             <Button icon={<UserOutlined />} onClick={() => navigate('login')}>Đăng nhập</Button>
-          </div>
-          <div className="header-register">
-            <Button icon={<UserOutlined />} onClick={() => navigate('login', { setForm: REGISTER })}>Đăng ký</Button>
           </div>
         </>
       }

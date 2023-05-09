@@ -1,21 +1,23 @@
 import * as React from 'react';
-import { Input, List } from 'antd';
+import { Input, List, Spin  } from 'antd';
+import {LoadingOutlined} from '@ant-design/icons';
 import { debounce } from 'lodash';
+import './style.scss';
 const SearchInput = ({ onChange, searchResults, placeholder }) => {
   const [isClickInput, setIsClickInput] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [value, setValue] = React.useState("");
-  const debouncedOnChange = React.useMemo(() => debounce(onChange, 2000), [onChange]);
+  const [value, setValue] = React.useState();
+  const debouncedOnChange = React.useCallback(debounce((inputValue) => onChange(inputValue), 1000), [])
 
   const handleInputChange = (event) => {
-    setValue(event.target.value);
+    const inputValue = event.target.value;
+    setValue(inputValue);
     setIsLoading(true);
-    debouncedOnChange(event.target.value);
-    setIsLoading(false);
+    debouncedOnChange(inputValue);
   };
-  
+
   return (
-    <div style={{ position: 'relative' }}>
+    <div className='search-container'>
       <Input
         className='input-data'
         placeholder={placeholder}
@@ -30,23 +32,23 @@ const SearchInput = ({ onChange, searchResults, placeholder }) => {
           {searchResults.length > 0 ? (
             <List
               className='list-search'
-              style={{ position: 'absolute', top: '100%', left: 0, width: '100%', zIndex: 1, backgroundColor: '#f6f6f6' }}
               bordered
               dataSource={searchResults}
               renderItem={(item) => (
-                <List.Item className='item' style={{ backgroundColor: '#f6f6f6' }}>
-                  <div className='item-data'>{item.productName}</div>
+                <List.Item 
+                key={item.id} className='item-search'>
+                  <div className='item-data' >{item.name}</div>
                 </List.Item>
               )}
             />
           ) : (
             <div>
               {isLoading ? (
-                <div style={{ position: 'absolute', top: '100%', left: 0, width: '100%', zIndex: 1, textAlign: 'center', padding: '5px 0px', backgroundColor: '#f6f6f6', border: '1px black solid' }}>
-                  Đang tải...
+                <div  className='no-data-container'>
+                  <Spin indicator={<LoadingOutlined />}/>
                 </div>
               ) : (
-                <div style={{ position: 'absolute', top: '100%', left: 0, width: '100%', zIndex: 1, textAlign: 'center', padding: '5px 0px', backgroundColor: '#f6f6f6', border: '1px black solid' }}>
+                <div className='no-data-container'>
                   Không có kết quả tìm kiếm phù hợp
                 </div>
               )}
