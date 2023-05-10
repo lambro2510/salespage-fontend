@@ -3,11 +3,9 @@ import { Input, Button, Badge, List } from 'antd';
 import { HomeOutlined, BellOutlined, UserOutlined, FileSearchOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import SearchModal from './SearchModal';
-import './style.scss';
-import { REGISTER } from '../../login/constant';
 import ProductService from '../../../service/ProductService';
 import SearchInput from '../../../component/SearchInput';
-
+import './style.scss';
 const Header = ({ username }) => {
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = React.useState(false);
@@ -29,6 +27,7 @@ const Header = ({ username }) => {
     const response = await ProductService.findProduct(params);
     setSearchResults(response.data);
     setShowSearchResults(true);
+    
   }
 
   const handleSearchName = (value) => {
@@ -36,6 +35,12 @@ const Header = ({ username }) => {
     setProductFilter(params);
     handleSearch(params);
   }
+
+  const getProductData = async (productId) => {
+    const response = await ProductService.getProductDetail(productId);
+    navigate(`/products/${productId}`,{ state: { product: response } });
+  };
+
 
   const getListProduct = (products) => {
     return products = products.map(product => {
@@ -55,7 +60,7 @@ const Header = ({ username }) => {
         <HomeOutlined />
       </div>
       <div className="header-search">
-        <SearchInput onChange={handleSearchName} searchResults={getListProduct(searchResults)} placeholder={"Nhập tên sản phẩm"} />
+        <SearchInput onChange={handleSearchName} searchResults={getListProduct(searchResults)} placeholder={"Nhập tên sản phẩm"} onClick={getProductData} />
       </div>
       <div className="header-notification">
         <Badge count={5}>

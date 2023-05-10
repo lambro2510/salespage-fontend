@@ -31,6 +31,15 @@ const ProductService = {
         }catch(error){
             getErrorFromResponse(error)
         }
+    },
+
+    async getProductDetail(productId){
+        try{
+            const response = await axios.get(URL + '/v1/api/public/product/detail' + `?productId=${productId}`, {});
+            return response.data;
+        }catch(error){
+            getErrorFromResponse(error)
+        }
     }
 }
 

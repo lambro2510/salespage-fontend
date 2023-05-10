@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import Slider from 'react-slick';
+import React, { useState } from 'react';
+import { Carousel } from 'antd';
+import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import './style.scss';
 
 const BannerAds = () => {
@@ -12,29 +13,29 @@ const BannerAds = () => {
     'https://static.vecteezy.com/system/resources/previews/003/692/287/original/big-sale-discount-promotion-banner-template-with-blank-product-podium-scene-graphic-free-vector.jpg'
   ]);
 
-  // Thời gian chuyển đổi banner, tính bằng mili giây
-  const bannerTransitionTime = 2000;
+  const bannerTransitionTime = 5000;
 
-  const sliderSettings = {
-    dots: false,
+  const carouselSettings = {
+    dots: true,
     infinite: true,
-    arrows: false,
-    speed: 250,
-    slidesToShow: 2.4,
+    arrows: true,
+    speed: 1500,
+    slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: bannerTransitionTime,
-    centerMode: true, 
-    
+    centerMode: true,
+    prevArrow: <ArrowLeftOutlined className="prev-arrow" />,
+    nextArrow: <ArrowRightOutlined className="next-arrow" />,
   };
 
   return (
     <div className="banner-container">
-      <Slider {...sliderSettings}>
+      <Carousel {...carouselSettings}>
         {banners.map((banner, index) => (
-          <img className='ads-image' key={index} src={banner} alt="Banner" />
+            <img className='ads-image' src={banner} alt="Banner" />
         ))}
-      </Slider>
+      </Carousel>
     </div>
   );
 };

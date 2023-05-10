@@ -10,7 +10,7 @@ import AlertMessage from '../../../../component/AlertMessage';
 const LoginWithUsername = ({ setForm }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const [isShowModal, setIsShowModal] = React.useState(false);
+	const [isShowModal, setIsShowModal] = React.useState(true);
 	const [isLoading, setIsLoading] = React.useState(false);
 	const [loginData, setLoginData] = React.useState({
 		username: '',
@@ -52,7 +52,7 @@ const LoginWithUsername = ({ setForm }) => {
 	return (
 
 		<Form className="form-container" onFinish={handleLogin}>
-			<AlertMessage message={"Đăng nhập thành công"} visible={isShowModal} onClose={() => setIsShowModal(false)} />
+			<AlertMessage message={"Đăng nhập thành công"} visible={isShowModal} onClose={() => setIsShowModal(false)}  status={'success'}/>
 			<Spin spinning={isLoading}>
 				<div className="login-tittle-header">
 					<h2>Đăng nhập</h2>

@@ -1,13 +1,12 @@
-import { Modal, Button } from 'antd';
+import { Modal, Button,Result } from 'antd';
 import { CheckCircleFilled } from '@ant-design/icons';
 
-const AlertMessage = ({ message, visible, onClose }) => {
+const AlertMessage = ({ message, visible, onClose, status }) => {
   return (
     <Modal
       visible={visible}
       closable={false}
       onCancel={onClose}
-      
       footer={[
         <div key="ok" style={{ display: 'flex', justifyContent: 'center' }}>
           <Button onClick={onClose} style={{ width: '20%' }}>
@@ -18,8 +17,7 @@ const AlertMessage = ({ message, visible, onClose }) => {
       title={
         <div>
           <div style={{ textAlign: 'center' }}>
-            <CheckCircleFilled style={{ color: '#52c41a', fontSize: '36px', marginBottom: '10px' }} />
-            <div style={{ fontSize: '20px' }}>{message}</div>
+            <Result status={status} title={message} />
           </div>
         </div>
       }

@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux';
 import { notification } from 'antd';
 import UserService from '../../service/UserService';
 import Header from './header';
-import ProductMenu from '../menu/mainMenu';
-import BannerAds from './bannerAds';
-
+import ProductDetail from '../product/productDetail';
+import HomeProductMenu from './homeProductScreen';
 import './style.scss';
+import { Route, Routes } from 'react-router-dom';
 const Home = () => {
     const profileData = useSelector((state) => state.auth);
     React.useEffect(() => {
@@ -20,10 +20,11 @@ const Home = () => {
     return(
         <div>
             <Header username={profileData.username}/>
-            <div className='banner-container' >
-                <BannerAds/>
-            </div>
-            <ProductMenu />
+            <Routes>
+                <Route path="products/:productId" element={<ProductDetail />} />
+                <Route path="/" element={<HomeProductMenu />} />
+            </Routes>
+            
         </div>
     )
 }
