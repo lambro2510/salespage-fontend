@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { notification } from 'antd';
+import { Button, notification } from 'antd';
 import UserService from '../../service/UserService';
 import Header from './header';
 import ProductDetail from '../product/productDetail';
@@ -11,12 +11,15 @@ const Home = () => {
     const profileData = useSelector((state) => state.auth);
     React.useEffect(() => {
         console.log(profileData);
-        if(profileData.token){
-            UserService.getProfile(profileData.token).then((res) => {
-                notification.success({message : res});
-            })
+        if(profileData.isLogin){
+            console.log(profileData.token);
+            getProfile(profileData.token)
         }
-    })
+    }, [profileData.isLogin] )
+
+    const getProfile = async (token) => {
+        const response = await UserService.getProfile(token);
+    }
     return(
         <div>
             <Header username={profileData.username}/>

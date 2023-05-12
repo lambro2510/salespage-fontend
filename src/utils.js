@@ -1,5 +1,5 @@
 import { notification } from "antd";
-import {store} from "./redux/store";
+import { store } from "./redux/store";
 import { logout } from "./redux/authSlide";
 
 export function getErrorFromResponse(error) {
@@ -30,10 +30,8 @@ export function getMessageFromError(message) {
   return lastErrorMessage;
 }
 
-export function header(token) {
+export function Authorization(token) {
   return {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
+    Authorization: `Bearer ${token}`
   };
 }

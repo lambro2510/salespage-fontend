@@ -1,6 +1,6 @@
 import axios from "axios";
 import { URL } from "../constant";
-import { getErrorFromResponse, header } from "../utils";
+import { getErrorFromResponse, Authorization } from "../utils";
 const ProductService = {
     async findProduct(productFilter) {
         try {
@@ -16,7 +16,7 @@ const ProductService = {
                   size: productFilter?.size,
                   sort: productFilter?.sort,
                 },
-                headers: header(),
+                headers: Authorization(),
               });              
             return response.data;
         } catch (error) {

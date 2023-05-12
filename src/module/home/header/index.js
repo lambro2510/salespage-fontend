@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Input, Button, Badge, List } from 'antd';
+import { Input, Button, Badge, List, Row, Col } from 'antd';
 import { HomeOutlined, BellOutlined, UserOutlined, FileSearchOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import SearchModal from './SearchModal';
@@ -55,33 +55,42 @@ const Header = ({ username }) => {
   };
 
   return (
-    <div className="header">
-      <div className="header-icon">
-        <HomeOutlined />
-      </div>
-      <div className="header-search">
-        <SearchInput onChange={handleSearchName} searchResults={getListProduct(searchResults)} placeholder={"Nhập tên sản phẩm"} onClick={getProductData} />
-      </div>
-      <div className="header-notification">
-        <Badge count={5}>
-          <BellOutlined />
-        </Badge>
-      </div>
-      {username ?
-        <div className="header-userinfo" onClick={() => navigate('/profile')}>
-          <UserOutlined />
-          <span className="header-username">Xin chào, {username}</span>
-        </div>
-        :
-        <>
+    <Row justify="space-between" align="middle" className="header">
+      <Col className="header-icon">
+          <HomeOutlined />
+      </Col>
+      <Col flex={1} className="header-search">
+          <SearchInput
+            onChange={handleSearchName}
+            searchResults={getListProduct(searchResults)}
+            placeholder={"Nhập tên sản phẩm"}
+            onClick={getProductData}
+          />
+      </Col>
+      <Button onClick={() => navigate('/seller')}/>
+      <Col className="header-notification">
+          <Badge count={5}>
+            <BellOutlined />
+          </Badge>
+      </Col>
+      <Col>
+        {username ?
+          <div className="header-userinfo" onClick={() => navigate('/profile')}>
+            <UserOutlined />
+            <span className="header-username">{username}</span>
+          </div>
+          :
           <div className="header-login">
             <Button icon={<UserOutlined />} onClick={() => navigate('login')}>Đăng nhập</Button>
           </div>
-        </>
-      }
-      <SearchModal isModalVisible={isModalVisible} handleModalVisible={handleModalVisible} />
-    </div>
+        }
+      </Col>
+      <Col>
+        <SearchModal isModalVisible={isModalVisible} handleModalVisible={handleModalVisible} />
+      </Col>
+    </Row>
   );
 };
+
 
 export default Header;
