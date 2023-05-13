@@ -27,13 +27,15 @@ const LoginWithUsername = ({ setForm }) => {
 			setIsShowModal(true);
 			setTimeout(() => {
 				setIsShowModal(false);
-				navigate(-1);
+				if(response?.role === "USER"){
+					navigate('/');
+				}if(response?.role === "SELLER"){
+					navigate('/seller');
+				}
 			}, 2000);
 		}catch(err){
-
+			setIsLoading(false);
 		}
-	
-
 };
 
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { Button, notification } from 'antd';
-import UserService from '../../service/UserService';
+import UserService from '../../../service/UserService';
 import Header from './header';
 import ProductDetail from '../product/productDetail';
 import HomeProductMenu from './homeProductScreen';

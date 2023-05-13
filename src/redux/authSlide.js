@@ -18,7 +18,7 @@ export const authSlice = createSlice({
       state.isLogin = false;
       state.token = null;
       state.username = null;
-      role : "USER";
+      state.role = 'USER';
     },
   },
 })

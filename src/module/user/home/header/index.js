@@ -3,8 +3,8 @@ import { Input, Button, Badge, List, Row, Col } from 'antd';
 import { HomeOutlined, BellOutlined, UserOutlined, FileSearchOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import SearchModal from './SearchModal';
-import ProductService from '../../../service/ProductService';
-import SearchInput from '../../../component/SearchInput';
+import ProductService from '../../../../service/ProductService';
+import SearchInput from '../../../../component/SearchInput';
 import './style.scss';
 const Header = ({ username }) => {
   const navigate = useNavigate();
@@ -36,20 +36,23 @@ const Header = ({ username }) => {
     handleSearch(params);
   }
 
-  const getProductData = async (productId) => {
-    const response = await ProductService.getProductDetail(productId);
-    navigate(`/products/${productId}`,{ state: { product: response } });
+  const getProductData = (productId) => {
+    navigate(`/products/${productId}`,{ state: { productId: productId } });
   };
 
 
   const getListProduct = (products) => {
-    return products = products.map(product => {
-      return {
-        id: product.productId,
-        name: product.productName
-      }
-    })
+    if (products) {
+      return products.map(product => {
+        return {
+          id: product.productId,
+          name: product.productName
+        }
+      })
+    }
+    return [];
   }
+  
   const handleModalVisible = () => {
     setIsModalVisible(!isModalVisible);
   };

@@ -19,7 +19,6 @@ const SearchInput = ({ onChange, searchResults, placeholder, onClick }) => {
   };
 
   const handleOnClickResult = (id) => {
-    console.log(id);
     onClick(id);
   };
 

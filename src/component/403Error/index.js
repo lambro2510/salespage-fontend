@@ -1,12 +1,12 @@
 import React from 'react';
 import { Result, Button } from 'antd';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const UnauthorizedPage = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleNavigateToHome = () => {
-    history.push('/');
+    navigate('/')
   };
 
   return (

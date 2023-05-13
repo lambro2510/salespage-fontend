@@ -1,14 +1,14 @@
 import { notification } from "antd";
 import { store } from "./redux/store";
 import { logout } from "./redux/authSlide";
+import { useNavigate } from "react-router-dom";
 
 export function getErrorFromResponse(error) {
   if (error.response.status === 401) {
-    store.dispatch(logout())
+    store.dispatch(logout());
     notification.error({ message: "Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!" });
-    throw new Error('Login')
-  }
-  if (error.response.data.code === 1001) {
+    throw new Error('Login');
+  } else if (error.response.data.code === 1001) {
     notification.error({ message: getMessageFromError(error.response.data.message) })
     throw new Error(getMessageFromError(error.response.data.message))
   } else if (error.response.data.code === 1005) {
@@ -30,8 +30,18 @@ export function getMessageFromError(message) {
   return lastErrorMessage;
 }
 
-export function Authorization(token) {
+export function Authorization() {
+  const token = store.getState().auth.token;
   return {
     Authorization: `Bearer ${token}`
+  };
+}
+
+export function useLogoutAndNavigate() {
+  const navigate = useNavigate();
+  return () => {
+    store.dispatch(logout());
+    notification.error({ message: "Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!" });
+    navigate('/login');
   };
 }
