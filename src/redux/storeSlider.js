@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const storeSlide = createSlice({
     name: 'store',
     initialState: {
-        sellerStore: {}
+        sellerStore: []
     },
     reducers: {
         setSellerStore: (state, action) => {

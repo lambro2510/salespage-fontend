@@ -11,6 +11,7 @@ const SellerListProduct = () => {
 
     const [isLoading, setIsloading] = React.useState(true);
     const [visible, setVisible] = React.useState(false);
+    const [update, setUpdate] = React.useState(false);
     const [product, setProduct] = React.useState({})
     const [sellerProduct, setSellerProduct] = React.useState([]);
     const [currentPage, setCurrentPage] = React.useState(1);
@@ -22,7 +23,7 @@ const SellerListProduct = () => {
 
     React.useEffect(() => {
         fetchData();
-    }, [currentPage])
+    }, [currentPage,update])
 
     const getSellProduct = async () => {
         const response = await ProductService.findProduct(
@@ -39,7 +40,6 @@ const SellerListProduct = () => {
         try {
             setIsloading(true);
             const data = await getSellProduct();
-            console.log(data);
             setSellerProduct(data.data);
             setMetaData(data.metadata)
             setIsloading(false)
@@ -48,11 +48,13 @@ const SellerListProduct = () => {
         }
     }
 
-
+    const updateProduct = () => {
+        setUpdate(!update)
+    }
 
     return (
         <div>
-            <SellerProductModal setVisible={setVisible} visible={visible} product={product} />
+            <SellerProductModal setVisible={setVisible} visible={visible} id={product.productId} setUpdate={() => updateProduct()}/>
             <SearchProductInput handleSearch={fetchData} productFilter={productFilter} setProductFilter={setProductFilter} />
             <Spin spinning={isLoading} size="large" style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                 <SellerProductList productList={sellerProduct} setVisible={setVisible} setProduct={setProduct} />
