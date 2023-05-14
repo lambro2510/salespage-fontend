@@ -8,7 +8,7 @@ import SellerProductModal from '../sellerProductModal';
 const PAGESIZE = 8;
 const SellerListProduct = () => {
     const profileData = useSelector((state) => state.auth);
-
+    const [update, setUpdate] = React.useState(false)
     const [isLoading, setIsloading] = React.useState(true);
     const [visible, setVisible] = React.useState(false);
     const [product, setProduct] = React.useState({})
@@ -53,7 +53,7 @@ const SellerListProduct = () => {
 
     return (
         <div>
-            <SellerProductModal setVisible={setVisible} visible={visible} id={product.productId} setUpdate={() => updateProduct()}/>
+            <SellerProductModal setVisible={setVisible} visible={visible} id={product.productId} update={update} setUpdate={() => updateProduct()}/>
             <SearchProductInput handleSearch={fetchData} productFilter={productFilter} setProductFilter={setProductFilter} />
             <Spin spinning={isLoading} size="large" style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                 <SellerProductList productList={sellerProduct} setVisible={setVisible} setProduct={setProduct} />

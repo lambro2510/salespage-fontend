@@ -78,13 +78,17 @@ const ProductService = {
         }
     },
 
-    async deleteProductImages(productId, listImage) {
+    async deleteProductImages(productId, images) {
         try {
-            const response = await axios.delete(URL + '/v1/api/product/delete-images' + `?productId=${productId}`, 
-            listImage,
-            {
-                headers: Authorization()
-            });
+            const response = await axios.delete(URL + '/v1/api/product/delete-images',
+                {
+                    headers: Authorization(),
+                    params: {
+                        productId: productId,
+                        imageIds: images
+                    }
+                });
+
             return response?.data;
         } catch (error) {
             getErrorFromResponse(error);

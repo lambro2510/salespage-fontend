@@ -12,7 +12,7 @@ const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
     const [isLoading, setIsloading] = React.useState(false);
     const [isResettingImage, setIsResettingImage] = React.useState(false);
     const [fileList, setFileList] = React.useState([]);
-    const [deleteImages, setDeleteImages] = React.useState([])
+    const [deleteImages, setDeleteImages] = React.useState('')
     const [product, setProduct] = React.useState({});
     const [productTypes, setProductTypes] = React.useState([]);
     const [sellerStores, setSellerStores] = React.useState([])
@@ -20,7 +20,7 @@ const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
     const types = useSelector((state) => state.type.productType);
 
     React.useEffect(() => {
-        setIsloading(false)
+        
         setProductTypes(types);
         setSellerStores(stores);
         setFileList([])
@@ -31,8 +31,8 @@ const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
     }, [id])
 
     React.useEffect(() => {
-        setIsloading(false)
-    })
+        
+    },[])
 
     const getProductDetail = async () => {
         const response = await ProductService.getProductDetail(id)
@@ -40,8 +40,10 @@ const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
     }
 
     const fetchData = async () => {
+        setIsloading(true)
         const response = await getProductDetail();
         setProduct(response)
+        setIsloading(false)
 
     }
     const handleCancel = () => {
@@ -53,15 +55,15 @@ const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
         return response;
     }
     const handleSave = () => {
-        setIsloading(false)
+        setIsloading(true)
         saveProduct();
         setUpdate();
-        setIsloading(true);
         setVisible(false);
+        setIsloading(false)
     };
 
     const handleUpload = async () => {
-        setIsloading(true);
+        setIsloading(true)
         const formData = new FormData();
 
         fileList.forEach(file => {
@@ -72,6 +74,8 @@ const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
             product?.productId,
             formData
         );
+        setUpdate()
+        setIsloading(false)
     }
 
     const handleRemove = (file) => {
@@ -84,17 +88,15 @@ const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
     };
 
     const handleDeleteImage =  async (imageUrl) => {
-        
         setIsloading(true)
-        const imageUrls = [...deleteImages, imageUrl];
+        const imageUrls = `${deleteImages},${imageUrl}`;
+        setDeleteImages(imageUrls)
         console.log(imageUrls);
         const response = await ProductService.deleteProductImages(product?.productId, imageUrls);
-        setIsloading(false)
+        setUpdate();
+        setIsloading(false);
     }
 
-    const deleteImage = (imageUrl) => {
-
-    }
 
     const handleResetImage = () => {
         setIsResettingImage(true);
@@ -260,7 +262,7 @@ const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
             ]}
             width={'80vw'}
         >
-            <Spin spinning={isLoading}>
+            <Spin spinning={isLoading} size='large'>
                 {renderProductForm()}
             </Spin>
         </Modal>
