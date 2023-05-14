@@ -7,15 +7,22 @@ import ProductDetail from '../product/productDetail';
 import HomeProductMenu from './homeProductScreen';
 import './style.scss';
 import { Route, Routes } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from '../../../redux/authSlide';
 const Home = () => {
+    const dispatch = useDispatch();
     const profileData = useSelector((state) => state.auth);
     React.useEffect(() => {
-        console.log(profileData);
+        
         if(profileData.isLogin){
             console.log(profileData.token);
             getProfile(profileData.token)
         }
     }, [profileData.isLogin] )
+
+    React.useEffect(() => {
+        // dispatch(login(localStorage.getItem('token'), localStorage.getItem('username'), localStorage.getItem('role')))
+    }, [] )
 
     const getProfile = async (token) => {
         const response = await UserService.getProfile(token);

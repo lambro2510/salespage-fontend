@@ -4,12 +4,15 @@ import { Modal, Form, Input, Button, Select, Spin, Carousel, Image, Upload, Popo
 import { DeleteOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import ProductService from '../../../../service/ProductService';
+import './style.scss'
 const { TextArea } = Input;
 const { Option } = Select;
 
 const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
     const [isLoading, setIsloading] = React.useState(false);
-    const [isResettingImage, setIsResettingImage] = useState(false);
+    const [isResettingImage, setIsResettingImage] = React.useState(false);
+    const [fileList, setFileList] = React.useState([]);
+    const [deleteImages, setDeleteImages] = React.useState([])
     const [product, setProduct] = React.useState({});
     const [productTypes, setProductTypes] = React.useState([]);
     const [sellerStores, setSellerStores] = React.useState([])
@@ -20,7 +23,11 @@ const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
         setIsloading(false)
         setProductTypes(types);
         setSellerStores(stores);
-        fetchData();
+        setFileList([])
+        setIsResettingImage(false)
+        if (id) {
+            fetchData();
+        }
     }, [id])
 
     React.useEffect(() => {
@@ -33,7 +40,6 @@ const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
     }
 
     const fetchData = async () => {
-
         const response = await getProductDetail();
         setProduct(response)
 
@@ -54,11 +60,39 @@ const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
         setVisible(false);
     };
 
-    const handleUpload = () => {
+    const handleUpload = async () => {
+        setIsloading(true);
+        const formData = new FormData();
 
+        fileList.forEach(file => {
+            formData.append('files', file);
+        });
+
+        const response = await ProductService.uploadProductImage(
+            product?.productId,
+            formData
+        );
     }
 
-    const handleDeleteImage = () => {
+    const handleRemove = (file) => {
+        setFileList(fileList.filter(f => f !== file));
+    };
+
+    const handleBeforeUpload = (file) => {
+        setFileList([...fileList, file]);
+        return false;
+    };
+
+    const handleDeleteImage =  async (imageUrl) => {
+        
+        setIsloading(true)
+        const imageUrls = [...deleteImages, imageUrl];
+        console.log(imageUrls);
+        const response = await ProductService.deleteProductImages(product?.productId, imageUrls);
+        setIsloading(false)
+    }
+
+    const deleteImage = (imageUrl) => {
 
     }
 
@@ -94,31 +128,33 @@ const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
 
     const renderImage = (imageUrl) => {
         return (
-          <>
-            <div
-              key={imageUrl}
-              style={{ width: '100%', height: '30vh' }}
-              onClick={() => {
-                if (isResettingImage) {
-                  setProduct({ ...product, imageUrl: imageUrl });
-                  setIsResettingImage(false);
-                }
-              }}
-            >
-              <Image
-                src={imageUrl}
-                preview={false}
-                style={{ objectFit: 'fill', width: '100%', height: '30vh' }}
-              />
+            <div className='select-image-container'>
+                {!isResettingImage && (<DeleteOutlined onClick={() => handleDeleteImage(imageUrl)} />)}
+                {isResettingImage && (
+                    <>
+                        <Button className='btn-default' onClick={() => {
+                            setProduct({ ...product, imageUrl: imageUrl });
+                            setIsResettingImage(false);
+                        }}>Chọn làm ảnh chính</Button>
+                        <Button className='btn-default' onClick={() => {
+                            setIsResettingImage(false);
+                        }}>Hủy bỏ</Button>
+                    </>
+
+                )}
+                <div
+                    key={imageUrl}
+                    className='image-container'
+                >
+                    <Image
+                        src={imageUrl}
+                        preview={false}
+                        className='image'
+                    />
+                </div>
             </div>
-            {isResettingImage ? (
-              <Checkbox>Xóa</Checkbox>
-            ) : (
-              <Button onClick={handleResetImage}>Thiết lập lại ảnh hiển thị</Button>
-            )}
-          </>
         );
-      };
+    };
 
 
 
@@ -187,11 +223,14 @@ const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
                         ))}
                     </Carousel>
                     <Upload
-                        customRequest={handleUpload}
-                        showUploadList={false}
+                        fileList={fileList}
+                        beforeUpload={handleBeforeUpload}
+                        onRemove={handleRemove}
                     >
-                        <Button>Tải thêm ảnh</Button>
+                        <Button>Chọn ảnh</Button>
                     </Upload>
+                    <Button onClick={handleUpload}>Tải lên</Button>
+
                     <Button>Xóa các ảnh đã chọn</Button>
 
                 </Form.Item>

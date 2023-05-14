@@ -1,6 +1,6 @@
 import axios from "axios";
 import { URL } from "../constant";
-import { getErrorFromResponse, Authorization } from "../utils";
+import { getErrorFromResponse, Authorization, MultipartAuthorization } from "../utils";
 const ProductService = {
     async findProduct(productFilter) {
         try {
@@ -44,7 +44,7 @@ const ProductService = {
             getErrorFromResponse(error);
         }
     },
-      
+
     async getProductType() {
         try {
             const response = await axios.get(URL + '/v1/api/public/product/type', {});
@@ -61,7 +61,36 @@ const ProductService = {
         } catch (error) {
             getErrorFromResponse(error)
         }
+    },
+
+    async uploadProductImage(productId, files) {
+        try {
+            const response = await axios.post(
+                URL + '/v1/api/product/upload-images' + `?productId=${productId}`,
+                files,
+                {
+                    headers: { ...Authorization(), 'Content-Type': 'multipart/form-data' }
+                }
+            );
+            return response.data;
+        } catch (error) {
+            getErrorFromResponse(error)
+        }
+    },
+
+    async deleteProductImages(productId, listImage) {
+        try {
+            const response = await axios.delete(URL + '/v1/api/product/delete-images' + `?productId=${productId}`, 
+            listImage,
+            {
+                headers: Authorization()
+            });
+            return response?.data;
+        } catch (error) {
+            getErrorFromResponse(error);
+        }
     }
+
 }
 
 export default ProductService;

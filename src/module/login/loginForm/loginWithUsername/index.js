@@ -21,8 +21,10 @@ const LoginWithUsername = ({ setForm }) => {
 		try {
 			setIsLoading(true);
 			const response =await AccountService.signIn(loginData)
-			
 			dispatch(login({ token: response?.token, username: response?.username, role: response?.role }));
+			localStorage.setItem('token',response?.token )
+			localStorage.setItem('username',response?.username )
+			localStorage.setItem('role',response?.role )
 			setIsLoading(false);
 			setIsShowModal(true);
 			setTimeout(() => {

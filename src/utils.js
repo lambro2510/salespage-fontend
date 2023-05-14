@@ -37,6 +37,16 @@ export function Authorization() {
   };
 }
 
+
+export function MultipartAuthorization() {
+  const token = store.getState().auth.token;
+  return {
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'multipart/form-data'
+  }
+};
+
+
 export function useLogoutAndNavigate() {
   const navigate = useNavigate();
   return () => {

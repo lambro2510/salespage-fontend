@@ -1,0 +1,28 @@
+.btn-default{
+    color: #000 !important;
+    &:hover {
+        background-color: inherit !important;
+        color: #f6f6f6;
+    }
+}
+
+.slick-active button {
+    
+    background-color: inherit !important;
+}
+
+.select-image-container{
+    padding: 30px 30px;
+}
+
+.image-container{
+    width: 100%;
+    height: 30vh;
+    padding: auto
+}
+
+.image{
+    object-fit: fill;
+     width: 100%;
+     height: 30vh
+}
