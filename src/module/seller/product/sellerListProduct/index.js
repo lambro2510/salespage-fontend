@@ -11,7 +11,6 @@ const SellerListProduct = () => {
 
     const [isLoading, setIsloading] = React.useState(true);
     const [visible, setVisible] = React.useState(false);
-    const [update, setUpdate] = React.useState(false);
     const [product, setProduct] = React.useState({})
     const [sellerProduct, setSellerProduct] = React.useState([]);
     const [currentPage, setCurrentPage] = React.useState(1);

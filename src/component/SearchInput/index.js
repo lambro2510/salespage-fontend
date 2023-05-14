@@ -11,6 +11,7 @@ const SearchInput = ({ onChange, searchResults, placeholder, onClick }) => {
   const debouncedOnChange = React.useCallback(debounce((inputValue) => onChange(inputValue), 1000), []);
 
   const handleInputChange = (event) => {
+    console.log(searchResults);
     const inputValue = event.target.value;
     setValue(inputValue);
     setIsLoading(true);
