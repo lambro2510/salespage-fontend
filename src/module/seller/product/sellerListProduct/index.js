@@ -53,7 +53,7 @@ const SellerListProduct = () => {
 
     return (
         <div>
-            <SellerProductModal setVisible={setVisible} visible={visible} id={product.productId} update={update} setUpdate={() => updateProduct()}/>
+            <SellerProductModal setVisible={setVisible} visible={visible} id={product.productId} setUpdate={() => updateProduct()}/>
             <SearchProductInput handleSearch={fetchData} productFilter={productFilter} setProductFilter={setProductFilter} />
             <Spin spinning={isLoading} size="large" style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                 <SellerProductList productList={sellerProduct} setVisible={setVisible} setProduct={setProduct} />

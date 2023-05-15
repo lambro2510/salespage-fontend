@@ -29,7 +29,7 @@ const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
     React.useEffect(() => {
         setTimeout(() => {
             setIsloading(false);
-        }, 10000)
+        }, 60000)
         
     },[isLoading])
 
@@ -98,7 +98,6 @@ const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
 
     const handleSelectStoreChange = (value) => {
         const selectedStore = sellerStores?.filter(item => item?.storeName === value)[0];
-        console.log(selectedStore);
         setProduct({
             ...product,
             storeId: selectedStore.storeId,

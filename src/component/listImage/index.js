@@ -11,8 +11,7 @@ const ListImage = ({
     upload,
     size,
     selectMode,
-    selectItem,
-    uploadSuccessImage,
+    selectItem
 }) => {
     const [fileList, setFileList] = useState([]);
     const [selectedImage, setSelectedImage] = useState(null);
@@ -48,7 +47,7 @@ const ListImage = ({
         handleSelectImage(file);
     };
 
-    const handleUpload =async () => {
+    const handleUpload = async () => {
         const formData = new FormData();
         const pendingFiles = [];
 
@@ -58,12 +57,6 @@ const ListImage = ({
             }
         });
         await upload(formData);
-        fileList.forEach((file) => {
-            file.status = (imageUrls.includes(file.url) || uploadSuccessImage.includes(file.url))
-                ? 'done'
-                : 'error';
-        });
-
     };
 
     const handleSelectImage = (file) => {
@@ -87,7 +80,6 @@ const ListImage = ({
             okType: 'danger',
             cancelText: 'Hủy',
             onOk() {
-                console.log(file);
                 handleDelete(file.url);
             },
             onCancel() {
@@ -115,28 +107,31 @@ const ListImage = ({
 
     useEffect(() => {
         setFileList([])
+
         if (Array.isArray(imageUrls)) {
             const images = imageUrls?.map((url, index) => ({
-                uid: -index,
+                uid: url,
                 name: `image-${index}.png`,
                 status: 'done',
                 url: url,
             }));
+            console.log('------update file list');
             setFileList(images);
         }
     }, [imageUrls]);
 
-    // useEffect(() => {
-    //     if (Array.isArray(uploadSuccessImage)) {
-    //         const images = uploadSuccessImage?.map((url, index) => ({
-    //             uid: -index,
-    //             name: `image-${index}.png`,
-    //             status: 'done',
-    //             url: url,
-    //         }));
-    //         setFileList([...fileList, uploadSuccessImage]);
-    //     }
-    // }, [uploadSuccessImage]);
+    React.useEffect(() => {
+        console.log('-------------------image');
+        console.log(imageUrls);
+        fileList.forEach((file) => {
+            console.log('-------------------file');
+            console.log(file.url);
+            file.status = (imageUrls.includes(file.url))
+                ? 'done'
+                : 'error';
+        });
+    }, [fileList])
+
 
     return (
         <div>
