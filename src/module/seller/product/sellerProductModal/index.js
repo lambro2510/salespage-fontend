@@ -1,21 +1,19 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Modal, Form, Input, Button, Select, Spin, Carousel, Image, Upload, Popover, Checkbox } from 'antd';
-import { DeleteOutlined } from '@ant-design/icons';
+import { Modal, Form, Input, Button, Select, Spin,Image} from 'antd';
 import { useSelector } from 'react-redux';
 import ProductService from '../../../../service/ProductService';
 import './style.scss'
+import ListImage from '../../../../component/listImage';
 const { TextArea } = Input;
 const { Option } = Select;
 
 const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
     const [isLoading, setIsloading] = React.useState(false);
-    const [isResettingImage, setIsResettingImage] = React.useState(false);
-    const [fileList, setFileList] = React.useState([]);
-    const [deleteImages, setDeleteImages] = React.useState('')
     const [product, setProduct] = React.useState({});
     const [productTypes, setProductTypes] = React.useState([]);
-    const [sellerStores, setSellerStores] = React.useState([])
+    const [sellerStores, setSellerStores] = React.useState([]);
+    const [uploadSuccessImage, setUploadSuccessImage] = React.useState([]);
     const stores = useSelector((state) => state.store.sellerStore);
     const types = useSelector((state) => state.type.productType);
 
@@ -23,16 +21,17 @@ const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
         
         setProductTypes(types);
         setSellerStores(stores);
-        setFileList([])
-        setIsResettingImage(false)
         if (id) {
             fetchData();
         }
     }, [id])
 
     React.useEffect(() => {
+        setTimeout(() => {
+            setIsloading(false);
+        }, 10000)
         
-    },[])
+    },[isLoading])
 
     const getProductDetail = async () => {
         const response = await ProductService.getProductDetail(id)
@@ -62,45 +61,23 @@ const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
         setIsloading(false)
     };
 
-    const handleUpload = async () => {
+    const handleUpload = async (files) => {
         setIsloading(true)
-        const formData = new FormData();
-
-        fileList.forEach(file => {
-            formData.append('files', file);
-        });
-
         const response = await ProductService.uploadProductImage(
             product?.productId,
-            formData
+            files
         );
         setUpdate()
+        setUploadSuccessImage(response)
         setIsloading(false)
     }
 
-    const handleRemove = (file) => {
-        setFileList(fileList.filter(f => f !== file));
-    };
-
-    const handleBeforeUpload = (file) => {
-        setFileList([...fileList, file]);
-        return false;
-    };
-
     const handleDeleteImage =  async (imageUrl) => {
         setIsloading(true)
-        const imageUrls = `${deleteImages},${imageUrl}`;
-        setDeleteImages(imageUrls)
-        console.log(imageUrls);
-        const response = await ProductService.deleteProductImages(product?.productId, imageUrls);
+        const response = await ProductService.deleteProductImages(product?.productId, imageUrl);
         setUpdate();
         setIsloading(false);
     }
-
-
-    const handleResetImage = () => {
-        setIsResettingImage(true);
-    };
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -127,38 +104,6 @@ const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
             storeId: selectedStore.storeId,
         });
     };
-
-    const renderImage = (imageUrl) => {
-        return (
-            <div className='select-image-container'>
-                {!isResettingImage && (<DeleteOutlined onClick={() => handleDeleteImage(imageUrl)} />)}
-                {isResettingImage && (
-                    <>
-                        <Button className='btn-default' onClick={() => {
-                            setProduct({ ...product, imageUrl: imageUrl });
-                            setIsResettingImage(false);
-                        }}>Chọn làm ảnh chính</Button>
-                        <Button className='btn-default' onClick={() => {
-                            setIsResettingImage(false);
-                        }}>Hủy bỏ</Button>
-                    </>
-
-                )}
-                <div
-                    key={imageUrl}
-                    className='image-container'
-                >
-                    <Image
-                        src={imageUrl}
-                        preview={false}
-                        className='image'
-                    />
-                </div>
-            </div>
-        );
-    };
-
-
 
     const renderProductForm = () => {
         return (
@@ -219,28 +164,13 @@ const SellerProductModal = ({ id, visible, setVisible, setUpdate }) => {
                     />
                 </Form.Item>
                 <Form.Item label="Danh sách ảnh">
-                    <Carousel slidesToShow={3} style={{ width: '100%' }}>
-                        {product?.imageUrls?.map((imageUrl) => (
-                            renderImage(imageUrl)
-                        ))}
-                    </Carousel>
-                    <Upload
-                        fileList={fileList}
-                        beforeUpload={handleBeforeUpload}
-                        onRemove={handleRemove}
-                    >
-                        <Button>Chọn ảnh</Button>
-                    </Upload>
-                    <Button onClick={handleUpload}>Tải lên</Button>
-
-                    <Button>Xóa các ảnh đã chọn</Button>
-
+                    <ListImage imageUrls={product?.imageUrls} upload={handleUpload} size={10} handleDelete={handleDeleteImage} uploadSuccessImage={uploadSuccessImage}/>
                 </Form.Item>
 
 
                 <Form.Item label="Ảnh hiển thị">
                     <Image src={product?.imageUrl} preview={false} />
-                    <Button onClick={handleResetImage}>Thiết lập lại ảnh hiển thị</Button>
+                    <Button onClick={{}}>Thiết lập lại ảnh hiển thị</Button>
                 </Form.Item>
             </Form>
         );
