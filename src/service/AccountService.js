@@ -1,6 +1,6 @@
 import axios from "axios";
 import { URL } from "../constant";
-import { getErrorFromResponse } from "../utils";
+import { getErrorFromResponse, notificationFromResponse } from "../utils";
 const AccountService = {
     async signIn(loginForm) {
         try {
@@ -9,7 +9,7 @@ const AccountService = {
                     username: loginForm?.username,
                     password: loginForm?.password
                 });
-            return response.data;
+            return notificationFromResponse(response?.data);
         } catch (error) {
             getErrorFromResponse(error);
         }
@@ -28,8 +28,8 @@ const AccountService = {
                     phoneNumber: signUpForm?.phoneNumber,
                     dateOfBirth: signUpForm?.dateOfBirth
                 });
-            return response.data;
-        } catch (error) {
+                return notificationFromResponse(response?.data);
+            } catch (error) {
             getErrorFromResponse(error)
         }
     }

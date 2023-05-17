@@ -115,17 +115,13 @@ const ListImage = ({
                 status: 'done',
                 url: url,
             }));
-            console.log('------update file list');
             setFileList(images);
         }
     }, [imageUrls]);
 
     React.useEffect(() => {
-        console.log('-------------------image');
         console.log(imageUrls);
         fileList.forEach((file) => {
-            console.log('-------------------file');
-            console.log(file.url);
             file.status = (imageUrls.includes(file.url))
                 ? 'done'
                 : 'error';

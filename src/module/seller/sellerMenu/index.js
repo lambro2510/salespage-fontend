@@ -33,8 +33,8 @@ function SellerMenu() {
           <Menu.Item key="5" icon={<ShopOutlined />} onClick={() => navigate('/seller')}>Thêm cửa hàng mới</Menu.Item>
         </SubMenu>
         <SubMenu key="sub3" title={showText ? 'Thông tin tài khoản' : ''} icon={<UserOutlined />}>
-          <Menu.Item key="6" icon={<UserOutlined />} onClick={() => navigate('/seller')}>Cập nhật thông tin</Menu.Item>
-          <Menu.Item key="7" icon={<LockOutlined />} onClick={() => navigate('/seller')}>Đổi mật khẩu</Menu.Item>
+          <Menu.Item key="7" icon={<UserOutlined />} onClick={() => navigate('/seller')}>Cập nhật thông tin</Menu.Item>
+          <Menu.Item key="8" icon={<LockOutlined />} onClick={() => navigate('/seller')}>Đổi mật khẩu</Menu.Item>
         </SubMenu>
         <Menu.Item onClick={toggleShowText} >{showText ? 'Thu nhỏ' : <MenuUnfoldOutlined />}</Menu.Item>
       </Menu>

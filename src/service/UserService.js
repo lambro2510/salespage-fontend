@@ -1,6 +1,6 @@
 import axios from "axios";
 import { URL } from "../constant";
-import { Authorization, getErrorFromResponse, header } from "../utils";
+import { Authorization, getErrorFromResponse, notificationFromResponse } from "../utils";
 const UserService = {
     async getProfile(token) {
         try {
@@ -10,8 +10,8 @@ const UserService = {
                 },
                 
                 );
-            return response.data;
-        } catch (error) {
+                return notificationFromResponse(response?.data);
+            } catch (error) {
             getErrorFromResponse(error);
         }
     }

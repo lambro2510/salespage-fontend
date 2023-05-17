@@ -1,6 +1,6 @@
 import axios from "axios";
 import { URL } from "../constant";
-import { Authorization, getErrorFromResponse, header } from "../utils";
+import { Authorization, getErrorFromResponse, notificationFromResponse } from "../utils";
 const SellerStoreService = {
     async getSellerStore() {
         try {
@@ -10,7 +10,8 @@ const SellerStoreService = {
                 },
 
             );
-            return response.data;
+            console.log(response?.data);
+            return notificationFromResponse(response?.data);
         } catch (error) {
             getErrorFromResponse(error);
         }

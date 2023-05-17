@@ -1,6 +1,6 @@
 import axios from "axios";
 import { URL } from "../constant";
-import { getErrorFromResponse, Authorization, MultipartAuthorization } from "../utils";
+import { getErrorFromResponse, Authorization, notificationFromResponse } from "../utils";
 const ProductService = {
     async findProduct(productFilter) {
         try {
@@ -19,7 +19,7 @@ const ProductService = {
                 },
                 headers: Authorization(),
             });
-            return response.data;
+            return notificationFromResponse(response?.data);
         } catch (error) {
             getErrorFromResponse(error);
         }
@@ -39,7 +39,7 @@ const ProductService = {
             }, {
                 headers: Authorization()
             });
-            return response?.data;
+            return notificationFromResponse(response?.data);
         } catch (error) {
             getErrorFromResponse(error);
         }
@@ -48,7 +48,7 @@ const ProductService = {
     async getProductType() {
         try {
             const response = await axios.get(URL + '/v1/api/public/product/type', {});
-            return response.data;
+            return notificationFromResponse(response?.data);
         } catch (error) {
             getErrorFromResponse(error)
         }
@@ -57,7 +57,7 @@ const ProductService = {
     async getProductDetail(productId) {
         try {
             const response = await axios.get(URL + '/v1/api/public/product/detail' + `?productId=${productId}`, {});
-            return response.data;
+            return notificationFromResponse(response?.data);
         } catch (error) {
             getErrorFromResponse(error)
         }
@@ -72,7 +72,7 @@ const ProductService = {
                     headers: { ...Authorization(), 'Content-Type': 'multipart/form-data' }
                 }
             );
-            return response.data;
+            return notificationFromResponse(response?.data);
         } catch (error) {
             getErrorFromResponse(error)
         }
@@ -89,8 +89,8 @@ const ProductService = {
                     }
                 });
 
-            return response?.data;
-        } catch (error) {
+                return notificationFromResponse(response?.data);
+            } catch (error) {
             getErrorFromResponse(error);
         }
     }

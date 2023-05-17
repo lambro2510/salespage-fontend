@@ -7,18 +7,32 @@ export function getErrorFromResponse(error) {
   if (error.response.status === 401) {
     store.dispatch(logout());
     notification.error({ message: "Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!" });
-    throw new Error('Login');
-  } else if (error.response.data.code === 1001) {
-    notification.error({ message: getMessageFromError(error.response.data.message) })
-    throw new Error(getMessageFromError(error.response.data.message))
-  } else if (error.response.data.code === 1005) {
-    notification.error({ message: error.response.data.message })
-    throw new Error(error.response.data.message)
   } else {
     notification.error({ message: "Lỗi hệ thống, vui lòng thử lại sau!" })
-    throw new Error('Server error')
   }
 }
+
+export function notificationFromResponse(response) {
+  if (response?.error === true) {
+    if (response?.message) {
+      notification.error({
+        message: response.message,
+      });
+    } else {
+      notification.error({
+        message: 'Hệ thống đang bảo trì, vui lòng thử lại sau.',
+      });
+    }
+  } else {
+    if (response?.message) {
+      notification.success({
+        message: response.message,
+      });
+    }
+  }
+  return response?.data;
+}
+
 
 export function getMessageFromError(message) {
   const regex = /default message \[(.*?)\]/g;
@@ -37,14 +51,6 @@ export function Authorization() {
   };
 }
 
-
-export function MultipartAuthorization() {
-  const token = store.getState().auth.token;
-  return {
-    Authorization: `Bearer ${token}`,
-    'Content-Type': 'multipart/form-data'
-  }
-};
 
 
 export function useLogoutAndNavigate() {
