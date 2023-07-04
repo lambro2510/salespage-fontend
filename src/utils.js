@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 export function getErrorFromResponse(error) {
   if (error.response.status === 401) {
     store.dispatch(logout());
+    localStorage.removeItem('token')
     notification.error({ message: "Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!" });
   } else {
     notification.error({ message: "Lỗi hệ thống, vui lòng thử lại sau!" })
@@ -44,8 +45,13 @@ export function getMessageFromError(message) {
   return lastErrorMessage;
 }
 
-export function Authorization() {
-  const token = store.getState().auth.token;
+export function Authorization(token) {
+  if(token){
+    token = localStorage.getItem('token')
+  }
+  if(token){
+    token = store.getState().auth.token;
+  }
   return {
     Authorization: `Bearer ${token}`
   };

@@ -6,7 +6,9 @@ const UserService = {
         try {
             const response = await axios.get(URL + '/v1/api/user/profile',
                 {
-                  headers : Authorization(token)  
+                  headers : {
+                    Authorization: `Bearer ${token}`
+                  }
                 },
                 
                 );
