@@ -45,10 +45,8 @@ export function getMessageFromError(message) {
   return lastErrorMessage;
 }
 
-export function Authorization(token) {
-  if(token){
-    token = localStorage.getItem('token')
-  }
+export function Authorization() {
+  let token = localStorage.getItem('token')
   if(token){
     token = store.getState().auth.token;
   }

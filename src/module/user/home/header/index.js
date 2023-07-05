@@ -2,12 +2,16 @@ import * as React from 'react';
 import { Input, Button, Badge, List, Row, Col } from 'antd';
 import { HomeOutlined, BellOutlined, UserOutlined, FileSearchOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import SearchModal from './SearchModal';
 import ProductService from '../../../../service/ProductService';
 import SearchInput from '../../../../component/SearchInput';
+import { setProfile } from '../../../../redux/profileSlide';
 import './style.scss';
-const Header = ({ username }) => {
+const Header = ({ profile }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [showSearchResults, setShowSearchResults] = React.useState(false);
   const [productFilter, setProductFilter] = React.useState({
@@ -22,7 +26,7 @@ const Header = ({ username }) => {
     sort: '',
   });
   const [searchResults, setSearchResults] = React.useState([]);
-
+  
   const handleSearch = async (params) => {
     const response = await ProductService.findProduct(params);
     setSearchResults(response.data);
@@ -38,6 +42,11 @@ const Header = ({ username }) => {
 
   const getProductData = (productId) => {
     navigate(`/products/${productId}`,{ state: { productId: productId } });
+  };
+
+  const navigateProfile = () => {
+    dispatch(setProfile(profile));
+    navigate('/profile');
   };
 
 
@@ -77,10 +86,10 @@ const Header = ({ username }) => {
           </Badge>
       </Col>
       <Col>
-        {username ?
-          <div className="header-userinfo" onClick={() => navigate('/profile')}>
+        {profile?.username ?
+          <div className="header-userinfo" onClick={() => navigateProfile()}>
             <UserOutlined />
-            <span className="header-username">{username}</span>
+            <span className="header-username">{profile?.username}</span>
           </div>
           :
           <div className="header-login">

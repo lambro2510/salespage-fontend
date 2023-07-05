@@ -8,11 +8,13 @@ import SellerHome from "./module/seller";
 import SellerListProduct from "./module/seller/product/sellerListProduct";
 import UnauthorizedPage from "./component/403Error";
 import SellerListStore from "./module/seller/store";
+import ProfileScreen from "./module/user/profile";
 const Router = () => {
     return (
         <Routes>
             <Route path="/" element={<Home />} >
                 <Route path="/products/:productId" element={<ProductDetail />} />
+                <Route path="profile" element={<ProfileScreen />} />
                 <Route path="/" element={<HomeProductMenu />} />
             </Route>
             <Route path="/seller" element={<SellerHome />} >

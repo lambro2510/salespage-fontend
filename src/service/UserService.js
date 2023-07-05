@@ -16,7 +16,23 @@ const UserService = {
             } catch (error) {
             getErrorFromResponse(error);
         }
+    },
+
+    async uploadImage(file) {
+      try {
+        const response = await axios.post(
+            URL + '/v1/api/user/uploadImage',
+            file,
+            {
+                headers: { ...Authorization(), 'Content-Type': 'multipart/form-data' }
+            }
+        );
+        return notificationFromResponse(response?.data);
+    } catch (error) {
+        getErrorFromResponse(error)
     }
+    }
+
 }
 
 export default UserService;
