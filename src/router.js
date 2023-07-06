@@ -18,8 +18,8 @@ const Router = () => {
             <Route path="/not-found" element={<UnauthorizedPage />} />
 
             <Route path="/seller" element={<SellerHomeScreen />} >
-                <Route path="/seller/dashboard" element={<DashboardScreen />} />
-                <Route path="/seller/product" element={<SellerProductScreen />} />
+                <Route path="dashboard" element={<DashboardScreen />} />
+                <Route path="product" element={<SellerProductScreen />} />
                 <Route path="product-category" element={<ProductCategoryScreen />} />
             </Route>
             <Route path="/seller/login" element={<SellerLoginScreen />} />

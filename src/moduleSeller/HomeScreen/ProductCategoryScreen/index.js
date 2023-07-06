@@ -8,7 +8,8 @@ const ProductCategoryScreen = () => {
     const [productCategories, setProductCategories] = React.useState([]);
     const [isCreateModalVisible, setCreateModalVisible] = React.useState(false);
     const [isUpdateModalVisible, setUpdateModalVisible] = React.useState(false);
-
+    const [categoriId, setCategoriId] = React.useState("")
+    const [isLoading, setLoading] = React.useState(false);
     React.useEffect(() => {
         const fetchProductCategories = async () => {
             const categoryData = await ProductCategoryService.getProductCategory();
@@ -16,7 +17,8 @@ const ProductCategoryScreen = () => {
         };
 
         fetchProductCategories();
-    }, []);
+        setLoading(false)
+    }, [isLoading]);
 
     const handleCreateModalOpen = () => {
         setCreateModalVisible(true);
@@ -27,7 +29,9 @@ const ProductCategoryScreen = () => {
     };
 
     const handleCreateCategory = (newCategory) => {
+        ProductCategoryService.createProductCategory(newCategory);
         setCreateModalVisible(false);
+        setLoading(true)
     };
 
     const createCategory = (
@@ -43,7 +47,9 @@ const ProductCategoryScreen = () => {
         </>
     );
 
-    const handleUpdateModalOpen = () => {
+    const handleUpdateModalOpen = (id) => {
+        setCategoriId(id)
+        console.log(id);
         setUpdateModalVisible(true);
     };
 
@@ -55,9 +61,14 @@ const ProductCategoryScreen = () => {
         setUpdateModalVisible(false);
     };
 
+    const handleDeleteCategory = (id) => {
+
+    };
+
     const updateCategory = (
         <>
             <UpdateCategoryModal
+                id={categoriId}
                 visible={isUpdateModalVisible}
                 onClose={handleUpdateModalClose}
                 onUpdate={handleUpdateCategory}
@@ -80,9 +91,14 @@ const ProductCategoryScreen = () => {
                                 <p>{item?.description}</p>
                             </Col>
                             <Col>
-                            <Button type="primary" onClick={handleUpdateModalOpen}>
-                Cập nhật
-            </Button>
+                                <Button type="primary" onClick={() => handleUpdateModalOpen(item?.id)}>
+                                    Cập nhật
+                                </Button>
+                            </Col>
+                            <Col>
+                                <Button type="primary" onClick={handleDeleteCategory}>
+                                    Xóa
+                                </Button>
                             </Col>
                         </Row>
                     </List.Item>

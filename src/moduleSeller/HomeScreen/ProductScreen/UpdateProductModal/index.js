@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Form, Input, Button } from 'antd';
 
 const UpdateProductModal = ({ visible, onClose, onUpdate }) => {
-  const [newProduct, setNewProduct] = useState({
+  const [updateProduct, setUpdateProduct] = useState({
     productName: '',
     description: '',
     type: '',
@@ -12,9 +12,9 @@ const UpdateProductModal = ({ visible, onClose, onUpdate }) => {
   });
 
   const handleUpdateProduct = () => {
-    // Call the parent component's onUpdate function with the newProduct object
-    onUpdate(newProduct);
-    setNewProduct({
+    // Call the parent component's onUpdate function with the updateProduct object
+    onUpdate(updateProduct);
+    setUpdateProduct({
       productName: '',
       description: '',
       type: '',
@@ -41,17 +41,17 @@ const UpdateProductModal = ({ visible, onClose, onUpdate }) => {
       <Form>
         <Form.Item label="Product Name">
           <Input
-            value={newProduct.productName}
+            value={updateProduct.productName}
             onChange={(e) =>
-              setNewProduct({ ...newProduct, productName: e.target.value })
+              setUpdateProduct({ ...updateProduct, productName: e.target.value })
             }
           />
         </Form.Item>
         <Form.Item label="Description">
           <Input.TextArea
-            value={newProduct.description}
+            value={updateProduct.description}
             onChange={(e) =>
-              setNewProduct({ ...newProduct, description: e.target.value })
+              setUpdateProduct({ ...updateProduct, description: e.target.value })
             }
           />
         </Form.Item>

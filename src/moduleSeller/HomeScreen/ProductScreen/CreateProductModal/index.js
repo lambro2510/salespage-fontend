@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { Modal, Form, Input, Button } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Modal, Form, Input, Button, Select } from 'antd';
+
+const { Option } = Select;
 
 const CreateProductModal = ({ visible, onClose, onCreate }) => {
   const [newProduct, setNewProduct] = useState({
@@ -12,7 +14,6 @@ const CreateProductModal = ({ visible, onClose, onCreate }) => {
   });
 
   const handleCreateProduct = () => {
-    // Call the parent component's onCreate function with the newProduct object
     onCreate(newProduct);
     setNewProduct({
       productName: '',
@@ -23,6 +24,48 @@ const CreateProductModal = ({ visible, onClose, onCreate }) => {
       storeId: '',
     });
   };
+
+  const categoriTypes = [
+    {
+      "type": "SMALL",
+      "typeName": "Nhỏ",
+    },
+    {
+      "type": "BIG",
+      "typeName": "Lớn",
+    },
+    {
+      "type": "LARGE",
+      "typeName": "Rất lớn",
+    },
+    {
+      "type": "SUPPER_LARGE",
+      "typeName": "Cực lớn",
+    },
+  ];
+
+  const timeTypes = [
+    {
+      "type": "MINUTE",
+      "typeName": "Phút",
+    },
+    {
+      "type": "HOUR",
+      "typeName": "Giờ",
+    },
+    {
+      "type": "DAY",
+      "typeName": "Ngày",
+    },
+    {
+      "type": "WEEK",
+      "typeName": "Tuần",
+    },
+    {
+      "type": "MONTH",
+      "typeName": "Tháng",
+    }
+  ]
 
   return (
     <Modal
@@ -39,7 +82,7 @@ const CreateProductModal = ({ visible, onClose, onCreate }) => {
       ]}
     >
       <Form>
-        <Form.Item label="Product Name">
+        <Form.Item label="Tên sản phẩm">
           <Input
             value={newProduct.productName}
             onChange={(e) =>
@@ -47,7 +90,7 @@ const CreateProductModal = ({ visible, onClose, onCreate }) => {
             }
           />
         </Form.Item>
-        <Form.Item label="Description">
+        <Form.Item label="Mô tả">
           <Input.TextArea
             value={newProduct.description}
             onChange={(e) =>
@@ -55,7 +98,20 @@ const CreateProductModal = ({ visible, onClose, onCreate }) => {
             }
           />
         </Form.Item>
-        {/* Add other form items for the remaining properties */}
+
+        <Form.Item label="Loại danh mục">
+          <Select
+            value={newProduct.type}
+            onChange={(value) => setNewProduct({ ...newProduct, categoryId: value })}
+          >
+            {categoriTypes.map((categoriType) => (
+              <Option key={categoriType.id} value={categoriType.categoryName}>
+                {categoriType.categoryName}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+
       </Form>
     </Modal>
   );

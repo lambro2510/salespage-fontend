@@ -1,28 +1,94 @@
-import React, { useState } from 'react';
-import { Modal, Form, Input, Button } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Modal, Form, Input, Button, Select } from 'antd';
+import ProductService from '../../../../service/ProductService';
 
-const UpdateCategoryModal = ({ visible, onClose, onUpdate }) => {
-  const [newCategory, setNewCategory] = useState({
-    CategoryName: '',
-    description: '',
-    type: '',
-    CategoryPrice: 0,
-    sellingAddress: '',
-    storeId: '',
+const { Option } = Select;
+
+const UpdateCategoryModal = ({id, visible, onClose, onUpdate }) => {
+  const [updateCategory, setUpdateCategory] = useState({
+    id: id,
+    categoryName: "",
+    categoryType: "",
+    description: "",
+    timeType: "",
+    timeValue: 0,
+    productType: ""
   });
 
   const handleUpdateCategory = () => {
-    // Call the parent component's onUpdate function with the newCategory object
-    onUpdate(newCategory);
-    setNewCategory({
-      CategoryName: '',
-      description: '',
-      type: '',
-      CategoryPrice: 0,
-      sellingAddress: '',
-      storeId: '',
+    onUpdate(updateCategory);
+    setUpdateCategory({
+      id: id,
+      categoryName: "",
+      categoryType: "",
+      description: "",
+      timeType: "",
+      timeValue: 0,
+      productType: ""
     });
   };
+
+  const [productTypes, setProductTypes] = useState([]);
+
+  useEffect(() => {
+    const fetchProductType = async () => {
+      const productTypes = await ProductService.getProductType();
+      setProductTypes(productTypes);
+    };
+
+    const fetchProductCategory = async () => {
+      const categoryData = await ProductService.getProductDetail(id);
+      setUpdateCategory(categoryData);
+    };
+
+    if(id){
+      fetchProductCategory();
+    }
+    
+    fetchProductType();
+  }, [id])
+
+  const categoriTypes = [
+    {
+      "type": "SMALL",
+      "typeName": "Nhỏ",
+    },
+    {
+      "type": "BIG",
+      "typeName": "Lớn",
+    },
+    {
+      "type": "LARGE",
+      "typeName": "Rất lớn",
+    },
+    {
+      "type": "SUPPER_LARGE",
+      "typeName": "Cực lớn",
+    },
+  ];
+
+  const timeTypes = [
+    {
+      "type": "MINUTE",
+      "typeName": "Phút",
+    },
+    {
+      "type": "HOUR",
+      "typeName": "Giờ",
+    },
+    {
+      "type": "DAY",
+      "typeName": "Ngày",
+    },
+    {
+      "type": "WEEK",
+      "typeName": "Tuần",
+    },
+    {
+      "type": "MONTH",
+      "typeName": "Tháng",
+    }
+  ]
 
   return (
     <Modal
@@ -39,23 +105,72 @@ const UpdateCategoryModal = ({ visible, onClose, onUpdate }) => {
       ]}
     >
       <Form>
-        <Form.Item label="Category Name">
+        <Form.Item label="Tên danh mục">
           <Input
-            value={newCategory.CategoryName}
+            value={updateCategory?.categoryName}
             onChange={(e) =>
-              setNewCategory({ ...newCategory, CategoryName: e.target.value })
+              setUpdateCategory({ ...updateCategory, categoryName: e.target.value })
             }
           />
         </Form.Item>
-        <Form.Item label="Description">
+
+        <Form.Item label="Mô tả">
           <Input.TextArea
-            value={newCategory.description}
+            value={updateCategory?.description}
             onChange={(e) =>
-              setNewCategory({ ...newCategory, description: e.target.value })
+              setUpdateCategory({ ...updateCategory, description: e.target.value })
             }
           />
         </Form.Item>
-        {/* Add other form items for the remaining properties */}
+
+        <Form.Item label="Loại sản phẩm">
+          <Select
+            value={updateCategory?.categoryType}
+            onChange={(value) => setUpdateCategory({ ...updateCategory, categoryType: value })}
+          >
+            {categoriTypes.map((categoriType) => (
+              <Option key={categoriType.type} value={categoriType.type}>
+                {categoriType.typeName}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+
+        <Form.Item label="Loại thời gian">
+          <Select
+            value={updateCategory?.timeType}
+            onChange={(value) => setUpdateCategory({ ...updateCategory, timeType: value })}
+          >
+            {timeTypes.map((timeType) => (
+              <Option key={timeType.type} value={timeType.type}>
+                {timeType.typeName}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+
+        <Form.Item label="Thời gian">
+          <Input
+            value={updateCategory?.timeValue}
+            onChange={(e) =>
+              setUpdateCategory({ ...updateCategory, timeValue: e.target.value })
+            }
+          />
+        </Form.Item>
+
+        <Form.Item label="Loại sản phẩm">
+          <Select
+            value={updateCategory?.productType}
+            onChange={(value) => setUpdateCategory({ ...updateCategory, productType: value })}
+          >
+            {productTypes.map((productType) => (
+              <Option key={productType?.type} value={productType?.productType}>
+                {productType?.typeName}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+
       </Form>
     </Modal>
   );

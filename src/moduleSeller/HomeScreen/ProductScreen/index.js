@@ -1,20 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { List, Pagination, Image, Row, Col, Button } from 'antd';
 import ProductService from '../../../service/ProductService';
-import CreateProductModal
-    from './CreateProductModal';
+import ProductCategoryService from '../../../service/ProductCategoryService';
+import CreateProductModal from './CreateProductModal';
 import UpdateProductModal from './UpdateProductModal';
 const ProductScreen = () => {
     const [productFilter, setProductFilter] = useState({});
     const [products, setProducts] = useState([]);
+    const [productCategory, setProductCategory] = useState([]);
     const [metadata, setMetadata] = useState({
         page: 0,
         size: 10,
         total: 0,
     });
+
     useEffect(() => {
         getSellerProduct();
     }, [metadata.page]);
+
+    useEffect(() => {
+        getProductCaregory();
+    }, []);
 
     const getSellerProduct = async () => {
         const productInfo = await ProductService.findProduct({
@@ -29,6 +35,10 @@ const ProductScreen = () => {
         setProducts(productInfo?.data || []);
     };
 
+    const getProductCaregory = async () => {
+        const categoriInfo = await ProductCategoryService.getProductCategory();
+        setProductCategory(categoriInfo)
+    }
     const handlePageChange = (page, pageSize) => {
         setMetadata({
             ...metadata,
@@ -108,17 +118,22 @@ const ProductScreen = () => {
                                     </Col>
                                 </Row>
                             </Col>
-                            <Col justify={'space-between'}>
-                                <Row>
-                                    <Button type="primary" onClick={handleUpdateModalOpen}>
-                                        Cập nhật
-                                    </Button>
+                            <Col >
+                                <Row justify={'space-between'}>
+                                    <Col>
+
+                                        <Button type="primary" onClick={handleUpdateModalOpen}>
+                                            Cập nhật
+                                        </Button>
+
+                                    </Col>
+                                    <Col>
+                                        <Button type="primary" onClick={handleUpdateModalOpen}>
+                                            Xóa
+                                        </Button>
+                                    </Col>
                                 </Row>
-                                <Row>
-                                    <Button type="primary" onClick={handleUpdateModalOpen}>
-                                        Xóa
-                                    </Button>
-                                </Row>
+
                             </Col>
                         </Row>
                     </List.Item>
