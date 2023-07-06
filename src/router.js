@@ -9,6 +9,7 @@ import SellerListProduct from "./module/seller/product/sellerListProduct";
 import UnauthorizedPage from "./component/403Error";
 import SellerListStore from "./module/seller/store";
 import ProfileScreen from "./module/user/profile";
+import MapScreen from "./module/map";
 const Router = () => {
     return (
         <Routes>
@@ -23,6 +24,7 @@ const Router = () => {
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/403Error" element={<UnauthorizedPage />} />
+            <Route path="/map" element={<MapScreen />} />
         </Routes>
     )
 }
