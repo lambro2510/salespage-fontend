@@ -2,13 +2,12 @@ import axios from "axios";
 import { URL } from "../constant";
 import { Authorization, getErrorFromResponse, notificationFromResponse } from "../utils";
 const UserService = {
-    async getProfile(token) {
+    async getProfile() {
         try {
             const response = await axios.get(URL + '/v1/api/user/profile',
                 {
-                  headers : {
-                    Authorization: `Bearer ${token}`
-                  }
+
+                  headers : Authorization()
                 },
                 
                 );

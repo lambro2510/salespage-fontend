@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-export const typeSlide = createSlice({
+export const typeSlice = createSlice({
     name: 'type',
     initialState: {
         productType: []
@@ -11,6 +11,6 @@ export const typeSlide = createSlice({
     }
 })
 
-export const { setProductType} = typeSlide.actions
+export const { setProductType} = typeSlice.actions
 
-export default typeSlide.reducer
+export default typeSlice.reducer

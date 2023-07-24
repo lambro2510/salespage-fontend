@@ -10,7 +10,6 @@ const SellerStoreService = {
                 },
 
             );
-            console.log(response?.data);
             return notificationFromResponse(response?.data);
         } catch (error) {
             getErrorFromResponse(error);

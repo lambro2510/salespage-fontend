@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-export const storeSlide = createSlice({
+export const storeSlice = createSlice({
     name: 'store',
     initialState: {
         sellerStore: []
@@ -11,6 +11,6 @@ export const storeSlide = createSlice({
     }
 })
 
-export const { setSellerStore} = storeSlide.actions
+export const { setSellerStore} = storeSlice.actions
 
-export default storeSlide.reducer
+export default storeSlice.reducer

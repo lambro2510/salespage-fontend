@@ -1,6 +1,6 @@
 import { notification } from "antd";
 import { store } from "./redux/store";
-import { logout } from "./redux/authSlide";
+import { logout } from "./redux/authSlice";
 import { useNavigate } from "react-router-dom";
 
 export function getErrorFromResponse(error) {
@@ -47,9 +47,6 @@ export function getMessageFromError(message) {
 
 export function Authorization() {
   let token = localStorage.getItem('token')
-  if(token){
-    token = store.getState().auth.token;
-  }
   return {
     Authorization: `Bearer ${token}`
   };

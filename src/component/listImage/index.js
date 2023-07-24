@@ -120,7 +120,6 @@ const ListImage = ({
     }, [imageUrls]);
 
     React.useEffect(() => {
-        console.log(imageUrls);
         fileList.forEach((file) => {
             file.status = (imageUrls.includes(file.url))
                 ? 'done'
