@@ -1,13 +1,15 @@
 import * as React from 'react';
-import UserService from '../../../service/UserService';
+import TopMenu from './TopMenu';
+import './style.scss';
 
 const MainMenu = () => {
-    const [profile, setProfile] = React.useState({});
-
-    React.useEffect(() => {
-        setProfile(getProfileData);
-    })
-
-    const getProfileData = async () =>  await UserService.getProfile();
-
+    return(
+        <div className='main-menu'>
+            <TopMenu>
+            
+            </TopMenu>
+        </div>
+    )
 }
+
+export default MainMenu;

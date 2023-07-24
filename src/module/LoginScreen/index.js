@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { Card, Input, Button, Checkbox, Row, Col } from 'antd';
 import { UserOutlined, LockOutlined, FacebookOutlined, GoogleOutlined, PhoneOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AccountService from '../../service/AccountService';
 import './style.scss';
-import '../../helper/localStore';
+import {getToken, setToken} from '../../helper/localStore';
 
 const LoginScreen = () => {
+    const navigate = useNavigate();
     const [loginForm, setLoginForm] = React.useState({});
 
     const handleChange = (e) => {
@@ -16,6 +17,8 @@ const LoginScreen = () => {
 
     const handleLogin = async () => {
         const loginResponse = await AccountService.signIn(loginForm);
+        setToken(loginResponse.token);
+        navigate('/');
     };
 
     return (
