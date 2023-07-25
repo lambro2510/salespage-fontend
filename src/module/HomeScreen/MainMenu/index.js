@@ -1,13 +1,18 @@
 import * as React from 'react';
+import { Row, Col } from 'antd';
 import TopMenu from './TopMenu';
 import './style.scss';
+import SearchMenu from './SearchMenu';
 
 const MainMenu = () => {
-    return(
+    return (
         <div className='main-menu'>
-            <TopMenu>
-            
-            </TopMenu>
+            <Row justify="center">
+                <Col span={18}>
+                    <TopMenu> </TopMenu>
+                    <SearchMenu></SearchMenu>
+                </Col>
+            </Row>
         </div>
     )
 }

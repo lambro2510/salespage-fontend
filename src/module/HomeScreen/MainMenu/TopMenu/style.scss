@@ -1,10 +1,13 @@
+.top-menu{
+  background-color: inherit;
+}
 .hover-text{
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%; 
   gap: 5px; 
-  color: #fff;
+  color: #fff !important;
 
   .icon {
     margin-right: 5px;
@@ -12,9 +15,26 @@
   }
 
   &:hover {
-    color: #f0f0f0;
+    color: #aaa9a9 !important;
     cursor: pointer;
   }
+}
+
+.login-regis{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; 
+  gap: 5px; 
+  color: #fff !important;
+
+  .btn{
+    &:hover {
+      color: #aaa9a9 !important;
+      cursor: pointer;
+    }
+  }
+  
 }
 .notification-item {
   padding: 8px;

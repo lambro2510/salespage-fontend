@@ -1,15 +1,17 @@
 import * as React from 'react';
 import UserService from '../../../../service/UserService';
 import { Col, Row, Menu, Dropdown, Avatar } from 'antd';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { BellOutlined, QuestionCircleOutlined, GlobalOutlined, UserOutlined } from '@ant-design/icons';
 import './style.scss';
 import NotificationService from '../../../../service/NotificationService';
-import { getToken, deleteToken } from '../../../../helper/localStore';
+import { getToken, deleteToken, getLanguage, setLanguage } from '../../../../helper/localStore';
 
 const TopMenu = () => {
+    const navigate = useNavigate();
     const [profile, setProfile] = React.useState({});
     const [notifications, setNotifications] = React.useState([])
+    const [language, setLanguage] = React.useState(getLanguage() || "Tiếng Việt")
     const [metaData, setMetaData] = React.useState(
         {
             total: 0,
@@ -17,7 +19,6 @@ const TopMenu = () => {
         }
     )
     React.useEffect(() => {
-        console.log(getToken());
         if (getToken()) {
             getProfileData();
             getNotification();
@@ -37,7 +38,7 @@ const TopMenu = () => {
     const getNotification = async () => {
         try {
             let page = 0;
-            let size = 10;
+            let size = 5;
             const notificationData = await NotificationService.getAllNotification(page, size);
             setNotifications(notificationData?.data);
             setMetaData(notificationData?.metaData);
@@ -68,10 +69,10 @@ const TopMenu = () => {
 
     const languageMenu = (
         <Menu>
-            <Menu.Item key="vietnamese">
+            <Menu.Item key="Vietnamese" onClick={() => setLanguage('Vietnamese')}>
                 Tiếng Việt
             </Menu.Item>
-            <Menu.Item key="English">
+            <Menu.Item key="English" onClick={() => setLanguage('English')}>
                 Tiếng Anh
             </Menu.Item>
         </Menu>
@@ -121,29 +122,29 @@ const TopMenu = () => {
 
 
     return (
-        <Row span={1} justify='space-between' className='main-menu' >
+        <Row justify='space-between' className='top-menu' >
             <Col span={11}>
                 <Row justify='space-evenly'>
                     <Col>
                         <span className='hover-text'>
-                            Kênh người bán
+                            <p>Kênh người bán</p>
                         </span>
                     </Col>
                     <Col>
                         <span className='hover-text'>
-                            Trở thành người bán hàng Shopee
-                        </span>
-
-                    </Col>
-                    <Col>
-                        <span className='hover-text'>
-                            Tải ứng dụng
+                            <p>Trở thành người bán hàng Shopee</p>
                         </span>
 
                     </Col>
                     <Col>
                         <span className='hover-text'>
-                            Kết nối
+                            <p>Tải ứng dụng</p>
+                        </span>
+
+                    </Col>
+                    <Col>
+                        <span className='hover-text'>
+                            <p>Kết nối</p>
                         </span>
 
                     </Col>
@@ -155,20 +156,20 @@ const TopMenu = () => {
                     <Dropdown overlay={notificationMenu} trigger={['click', 'hover']}>
                         <span className='hover-text'>
                             <BellOutlined className='icon' />
-                            Thông báo
+                            <p>Thông báo</p>
                         </span>
                     </Dropdown>
                     <Col>
                         <span className='hover-text'>
                             <QuestionCircleOutlined className='icon' />
-                            Hỗ trợ
+                            <p>Hỗ trợ</p>
                         </span>
                     </Col>
                     <Col>
                         <Dropdown overlay={languageMenu} trigger={['click', 'hover']}>
                             <span className='hover-text'>
                                 <GlobalOutlined className='icon' />
-                                Ngôn ngữ
+                                <p>{language}</p>
                             </span>
                         </Dropdown>
                     </Col>
@@ -181,15 +182,20 @@ const TopMenu = () => {
                                     ) : (
                                         <Avatar className='custom-avatar' icon={<UserOutlined />} />
                                     )}
-                                    {profile?.username}
+                                    <p>{profile?.username}</p>
                                 </span>
                             </Dropdown>
                         ) : (
-                            <span>
-                                <Link to={'login'}>Đăng nhập</Link>
-                                |
-                                <Link to={'regis'}>Đăng ký</Link>
+
+                            <div className='login-regis'>
+                                <span className='btn' onClick={() => navigate('login')}>
+                              Đăng nhập
                             </span>
+                            {' | '}
+                            <span className='btn' onClick={() => navigate('regis')}>
+                              Đăng ký
+                            </span>
+                            </div>
                         )}
                     </Col>
                 </Row>

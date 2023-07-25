@@ -1,0 +1,10 @@
+.banner-container {
+    width: 39vw;
+    background-color: inherit;
+    .slick-slide img {
+        height: 25vh;
+        width: auto;
+        object-fit: cover;
+        
+    }  
+}
