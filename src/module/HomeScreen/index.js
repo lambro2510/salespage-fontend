@@ -1,13 +1,18 @@
 import * as React from 'react';
 import MainMenu from './MainMenu';
 import AdsBanner from './AdsBanner';
+import ProductCategory from './ProductCategory';
+import FlashSaleProduct from './FlashSaleProduct';
+import { Col } from 'antd';
 
 const HomeScreen = () => {
     return (
-        <div className='home'>
+        <Col className='home'>
             <MainMenu></MainMenu>
             <AdsBanner></AdsBanner>
-        </div>
+            <ProductCategory></ProductCategory>
+            <FlashSaleProduct></FlashSaleProduct>
+        </Col>
     )
 }
 

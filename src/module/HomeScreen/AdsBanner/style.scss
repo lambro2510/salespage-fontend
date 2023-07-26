@@ -1,10 +1,56 @@
 .banner-container {
-    width: 39vw;
+    width: 45vw;
+    height: auto;
     background-color: inherit;
+
     .slick-slide img {
         height: 25vh;
         width: auto;
         object-fit: cover;
-        
-    }  
+    }
+}
+
+.image {
+    height: 10.5vh;
+    width: auto;
+}
+
+.sub-banner-image {
+    width: auto;
+    object-fit: fill;
+}
+
+.ant-card-meta-title {
+    font-size: 10px !important;
+}
+
+.ant-card-meta-description {
+    font-size: 10px !important;
+}
+
+.slick-arrow {
+    background-color:#e4e2e2 !important;
+    &.slick-prev,
+    &.slick-next {
+        width: 2%;
+        height: 20%;
+        border-radius: 10%;
+        color: #b8b6b6 !important;
+        z-index: 1;
+    }
+
+    &.slick-prev {
+        font-size: 0;
+        left: 0vw;
+    }
+
+    &.slick-next {
+        font-size: 0;
+        right: 0vw;
+    }
+
+    &.slick-next::after {
+        font-size: 10px;
+        right: 0vw;
+    }
 }
