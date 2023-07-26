@@ -4,6 +4,9 @@ import AdsBanner from './AdsBanner';
 import ProductCategory from './ProductCategory';
 import FlashSaleProduct from './FlashSaleProduct';
 import { Col } from 'antd';
+import Product from './Product';
+import FoodProduct from './FoodProduct';
+import HomeFooter from './HomeFooter';
 
 const HomeScreen = () => {
     return (
@@ -12,6 +15,9 @@ const HomeScreen = () => {
             <AdsBanner></AdsBanner>
             <ProductCategory></ProductCategory>
             <FlashSaleProduct></FlashSaleProduct>
+            <Product></Product>
+            <FoodProduct></FoodProduct>
+            <HomeFooter></HomeFooter>
         </Col>
     )
 }

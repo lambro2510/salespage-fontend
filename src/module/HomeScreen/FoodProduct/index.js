@@ -6,23 +6,21 @@ import { Link } from 'react-router-dom';
 import './style.scss';
 import ProductService from '../../../service/ProductService';
 import ProductCardComponent from '../../../component/ProductCardComponent';
-import ClockComponent from '../../../component/ClockComponent';
 
 const settings = {
-  dots: true,
+  dots: true, 
   infinite: true,
-  speed: 500,
-  slidesToShow: 9,
-  slidesToScroll: 1,
-  arrows: true,
-  prevArrow: <LeftOutlined />,
+  speed: 500, 
+  slidesToShow: 9, 
+  slidesToScroll: 1, 
+  arrows : true,
+  prevArrow: <LeftOutlined />, 
   nextArrow: <RightOutlined />,
 };
 
 
-const FlashSaleProduct = () => {
-  const [flashSaleImg, setFlashSaleImage] = React.useState('https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/flashsale/fb1088de81e42c4e538967ec12cb5caa.png');
-  const [flsProducts, setFlsProducts] = React.useState([])
+const FoodProduct = () => {
+  const [foods, setFoods] = React.useState([])
   const [metaData, setMetaData] = React.useState({
     page: 0,
     size: 10
@@ -34,10 +32,7 @@ const FlashSaleProduct = () => {
         const flsResponse = await getFlashSaleProduct();
         console.log(flsResponse?.data);
         setMetaData(flsResponse?.metadata);
-        setFlsProducts(flsResponse?.data);
-        setFlashSaleImage(
-          'https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/flashsale/fb1088de81e42c4e538967ec12cb5caa.png'
-        );
+        setFoods(flsResponse?.data);
       } catch (error) {
         console.error(error);
       }
@@ -52,27 +47,16 @@ const FlashSaleProduct = () => {
   }
 
   return (
-    <Row justify="center" span={24} className='flash-sale-container'>
+    <Row justify="center" span={24} className='food-container'>
       <Col justify="center" span={20}>
         <Card
-          title={
-            <>
-              <Row>
-                <Col>
-                  <Image preview={false} src={flashSaleImg} />
-                </Col>
-                <Col>
-                  <ClockComponent />
-                </Col>
-              </Row>
-            </>
-          }
+          title={'Shop đồ ăn'}
           extra={<Link to="#">Xem tất cả</Link>}
           className='card-product'
         >
           <Carousel {...settings}>
-            {flsProducts.map((flsProduct) => (
-              <ProductCardComponent key={flsProduct.id} product={flsProduct} />
+            {foods.map((food) => (
+              <ProductCardComponent key={food.id} product={food} />
             ))}
           </Carousel>
         </Card>
@@ -82,4 +66,4 @@ const FlashSaleProduct = () => {
   );
 };
 
-export default FlashSaleProduct;
+export default FoodProduct;

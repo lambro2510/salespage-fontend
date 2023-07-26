@@ -1,13 +1,19 @@
 import { Card, Image } from 'antd';
-import * as React from 'react';
+import React from 'react'; // Import React from 'react', no need for alias *
 import './style.scss';
+
 const ProductCardComponent = ({ product }) => {
-    return (
-        <div className='card'>
-            <Card cover={<Image preview={false} src={product?.imageUrl} />} title={product?.productName} style={{height : '100%'}}>
-            </Card>
-        </div>
-    )
-}
+  const mainImage = (imageUrl) => (
+    <Image className='card-image' preview={false} src={imageUrl} />
+  );
+
+  return (
+    <div className='card'>
+      <Card className='card-container' cover={mainImage(product?.imageUrl)} hoverable >
+        <Card.Meta title={product?.productName} description={product?.description} />
+      </Card>
+    </div>
+  );
+};
 
 export default ProductCardComponent;

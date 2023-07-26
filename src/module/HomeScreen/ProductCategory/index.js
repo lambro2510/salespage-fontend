@@ -56,7 +56,7 @@ const ProductCategory = () => {
 
 
     return (
-        <Row justify="center" span={24}>
+        <Row justify="center" span={24} className='categories-container'>
             <Col justify="center" span={20}>
                 <Card title={'Danh mục sản phẩm'} className='categories-card'>
                     <Row justify="center">
