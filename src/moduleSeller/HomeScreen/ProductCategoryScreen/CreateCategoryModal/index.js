@@ -78,7 +78,7 @@ const CreateCategoryModal = ({ visible, onClose, onCreate }) => {
       "typeName": "Tháng",
     }
   ];
-  
+
   return (
     <Modal
       title="Tạo danh mục sản phẩm"
