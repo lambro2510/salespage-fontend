@@ -3,6 +3,7 @@ import { List, Pagination, Image, Row, Col, Button } from 'antd';
 import ProductService from '../../../service/ProductService';
 import CreateProductModal
     from './CreateProductModal';
+import UpdateProductModal from './UpdateProductModal';
 const ProductScreen = () => {
     const [productFilter, setProductFilter] = useState({});
     const [products, setProducts] = useState([]);
@@ -11,8 +12,6 @@ const ProductScreen = () => {
         size: 10,
         total: 0,
     });
-    const [isCreateModalVisible, setCreateModalVisible] = useState(false);
-
     useEffect(() => {
         getSellerProduct();
     }, [metadata.page]);
@@ -38,6 +37,7 @@ const ProductScreen = () => {
         });
     };
 
+    const [isCreateModalVisible, setCreateModalVisible] = useState(false);
     const handleCreateModalOpen = () => {
         setCreateModalVisible(true);
     };
@@ -62,22 +62,63 @@ const ProductScreen = () => {
             />
         </>
     );
+
+    const [isUpdateModalVisible, setUpdateModalVisible] = useState(false);
+    const handleUpdateModalOpen = () => {
+        setUpdateModalVisible(true);
+    };
+
+    const handleUpdateModalClose = () => {
+        setUpdateModalVisible(false);
+    };
+
+    const handleUpdateProduct = (updateProduct) => {
+        setUpdateModalVisible(false);
+    };
+
+    const updateProduct = (
+        <>
+            <UpdateProductModal
+                visible={isUpdateModalVisible}
+                onClose={handleUpdateModalClose}
+                onUpdate={handleUpdateProduct}
+            />
+        </>
+    );
+
     return (
         <>
             {createProduct}
+            {updateProduct}
             <List
                 itemLayout="vertical"
                 dataSource={products}
                 renderItem={(item) => (
                     <List.Item key={item?.productId}>
-                        <Row>
+                        <Row justify={'space-between'}>
                             <Col>
-                                <Image src={item?.imageUrl}></Image>
+                                <Row>
+                                    <Col>
+                                        <Image src={item?.imageUrl}></Image>
 
+                                    </Col>
+                                    <Col>
+                                        <h3>{item?.productName}</h3>
+                                        <p>{item?.description}</p>
+                                    </Col>
+                                </Row>
                             </Col>
-                            <Col>
-                                <h3>{item?.productName}</h3>
-                                <p>{item?.description}</p>
+                            <Col justify={'space-between'}>
+                                <Row>
+                                    <Button type="primary" onClick={handleUpdateModalOpen}>
+                                        Cập nhật
+                                    </Button>
+                                </Row>
+                                <Row>
+                                    <Button type="primary" onClick={handleUpdateModalOpen}>
+                                        Xóa
+                                    </Button>
+                                </Row>
                             </Col>
                         </Row>
                     </List.Item>

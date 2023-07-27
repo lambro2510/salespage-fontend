@@ -14,7 +14,66 @@ const ProductCategoryService = {
         } catch (error) {
             getErrorFromResponse(error);
         }
+    },
+
+    async getDetailProductCategory(id) {
+        try {
+            const response = await axios.get(URL + '/api/v1/product-category/detail?id=' + id,
+                {
+                    headers: Authorization()
+                },
+
+            );
+            return notificationFromResponse(response?.data);
+        } catch (error) {
+            getErrorFromResponse(error);
+        }
+    },
+
+    async createProductCategory(category) {
+        try {
+            const response = await axios.post(URL + '/api/v1/product-category',
+                {
+                    categoryName: category?.categoryName,
+                    categoryType: category?.categoryType,
+                    description: category?.description,
+                    timeType: category?.timeType,
+                    timeValue: category?.timeValue,
+                    productType: category?.productType
+                },
+                {
+                    headers: Authorization()
+                },
+
+            );
+            return notificationFromResponse(response?.data);
+        } catch (error) {
+            getErrorFromResponse(error);
+        }
+    },
+    async updateProductCategory(category) {
+        try {
+            const response = await axios.put(URL + '/api/v1/product-category/detail',
+                {
+                    id: category?.id,
+                    categoryName: category?.categoryName,
+                    categoryType: category?.categoryType,
+                    description: category?.description,
+                    timeType: category?.timeType,
+                    timeValue: category?.timeValue,
+                    productType: category?.productType
+                },
+                {
+                    headers: Authorization()
+                },
+
+            );
+            return notificationFromResponse(response?.data);
+        } catch (error) {
+            getErrorFromResponse(error);
+        }
     }
+
 }
 
 export default ProductCategoryService;

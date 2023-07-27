@@ -20,8 +20,8 @@ const LoginScreen = () => {
         if(loginResponse?.role !== 'SELLER'){
             navigate('/not-found');
         }else{
-            setToken(loginResponse.token);
             navigate('/seller');
+            setToken(loginResponse.token);
         }
         
     };
