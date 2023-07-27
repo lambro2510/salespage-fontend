@@ -101,12 +101,10 @@ const ProductScreen = () => {
                         <Row>
                             <Col>
                                 <Image src={item?.imageUrl}></Image>
-
                             </Col>
                             <Col>
                                 <h3>{item?.productName}</h3>
                                 <p>{item?.description}</p>
-                                
                             </Col>
                             <Col>
                                 <Button type="primary" onClick={() => handleUpdateModalOpen(item)}>

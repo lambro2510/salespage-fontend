@@ -55,7 +55,6 @@ const CreateProductModal = ({ visible, onClose, onCreate }) => {
             }
           />
         </Form.Item>
-        {/* Add other form items for the remaining properties */}
       </Form>
     </Modal>
   );
