@@ -30,7 +30,6 @@ const Product = () => {
     const fetchData = async () => {
       try {
         const flsResponse = await getFlashSaleProduct();
-        console.log(flsResponse?.data);
         setMetaData(flsResponse?.metadata);
         setProducts(flsResponse?.data);
       } catch (error) {

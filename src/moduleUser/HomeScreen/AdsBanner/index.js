@@ -1,6 +1,18 @@
 import * as React from 'react';
 import { Carousel, Row, Col, Tooltip, Card } from 'antd';
+import {LeftOutlined, RightOutlined} from '@ant-design/icons';
 import './style.scss';
+
+const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+    prevArrow: <LeftOutlined />,
+    nextArrow: <RightOutlined />,
+  };
 
 const AdsBanner = () => {
     const [banners, setBanners] = React.useState([
@@ -75,11 +87,11 @@ const AdsBanner = () => {
 
 
     return (
-        <Row justify="center" span={24}>
+        <Row justify="center" span={24} className='container'>
             <Col className='main-banner' justify="center" span={20}>
                 <Row justify="center">
                     <Col className="banner-container">
-                        <Carousel autoplay arrows="true" >
+                        <Carousel {...settings} >
                             {banners.map((banner, index) => (
                                 <img className='ads-image' src={banner} alt="Banner" key={index} />
                             ))}

@@ -7,6 +7,7 @@ import { Col } from 'antd';
 import Product from './Product';
 import FoodProduct from './FoodProduct';
 import HomeFooter from './HomeFooter';
+import './style.scss';
 
 const HomeScreen = () => {
     return (

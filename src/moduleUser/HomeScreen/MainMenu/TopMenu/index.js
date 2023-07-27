@@ -42,7 +42,6 @@ const TopMenu = () => {
             const notificationData = await NotificationService.getAllNotification(page, size);
             setNotifications(notificationData?.data);
             setMetaData(notificationData?.metaData);
-            console.log(getToken());
         } catch (error) {
             console.error('Error fetching notification data:', error);
         }

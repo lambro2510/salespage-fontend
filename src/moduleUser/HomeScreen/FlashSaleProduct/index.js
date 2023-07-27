@@ -32,7 +32,6 @@ const FlashSaleProduct = () => {
     const fetchData = async () => {
       try {
         const flsResponse = await getFlashSaleProduct();
-        console.log(flsResponse?.data);
         setMetaData(flsResponse?.metadata);
         setFlsProducts(flsResponse?.data);
         setFlashSaleImage(
@@ -58,8 +57,10 @@ const FlashSaleProduct = () => {
           title={
             <>
               <Row>
-                <Col>
+                <Col justify="center">
+                  <Row>
                   <Image preview={false} src={flashSaleImg} />
+                  </Row>
                 </Col>
                 <Col>
                   <ClockComponent />
