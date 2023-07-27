@@ -12,6 +12,7 @@ import { Layout, Button, theme } from 'antd';
 import { Route, Routes } from 'react-router-dom';
 import DashboardScreen from '../DashboardScreen';
 import SellerProductScreen from './ProductScreen'
+import ProductCategoryScreen from './ProductCategoryScreen';
 
 const { Header, Content } = Layout;
 
@@ -50,6 +51,7 @@ const HomeScreen = () => {
                     <Routes>
                         <Route path="product" element={<SellerProductScreen />} />
                         <Route path="dashboard" element={<DashboardScreen />} />
+                        <Route path="product-category" element={<ProductCategoryScreen />} />
                     </Routes>
                 </Content>
             </Layout>

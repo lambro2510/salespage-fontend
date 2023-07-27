@@ -4,7 +4,7 @@ import { getErrorFromResponse, notificationFromResponse } from "../utils";
 const AccountService = {
     async signIn(loginForm) {
         try {
-            const response = await axios.post(URL + '/v1/api/account/sign-in',
+            const response = await axios.post(URL + '/api/v1/account/sign-in',
                 {
                     username: loginForm?.username,
                     password: loginForm?.password
@@ -17,7 +17,7 @@ const AccountService = {
 
     async signUp(signUpForm) {
         try {
-            const response = await axios.post(URL + '/v1/api/account/sign-up',
+            const response = await axios.post(URL + '/api/v1/account/sign-up',
                 {
                     username: signUpForm?.username,
                     password: signUpForm?.password,

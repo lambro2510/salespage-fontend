@@ -44,53 +44,53 @@ const MainMenu = ({ collapsed }) => {
                             Kho sản phẩm
                         </Tooltip>
                     </Menu.Item>
-                    <Menu.Item key="4" onClick={() => navigate('product-category')}>
+                    <Menu.Item key="5" onClick={() => navigate('product-category')}>
                         <Tooltip title="Danh mục sản phẩm">
                             Danh mục sản phẩm
                         </Tooltip>
                     </Menu.Item>
-                    <Menu.Item key="5">
+                    <Menu.Item key="6">
                         <Tooltip title="Xem sản phẩm giảm giá">
                             Sản phẩm giảm giá
                         </Tooltip>
                     </Menu.Item>
-                    <Menu.Item key="6">
+                    <Menu.Item key="7">
                         <Tooltip title="Xem khách hàng mua sản phẩm">
                             Khách hàng mua sản phẩm
                         </Tooltip>
                     </Menu.Item>
                 </SubMenu>
                 <SubMenu key="sub3" icon={<ShopOutlined />} title="Cửa hàng">
-                    <Menu.Item key="7">
+                    <Menu.Item key="8">
                         <Tooltip title="Xem danh sách cửa hàng">
                             Danh sách cửa hàng
                         </Tooltip>
                     </Menu.Item>
-                    <Menu.Item key="8">
+                    <Menu.Item key="9">
                         <Tooltip title="Xem sản phẩm giảm giá của cửa hàng">
                             Sản phẩm giảm giá
                         </Tooltip>
                     </Menu.Item>
                 </SubMenu>
                 <SubMenu key="sub4" icon={<TagsOutlined />} title="Mã giảm giá">
-                    <Menu.Item key="9">
+                    <Menu.Item key="10">
                         <Tooltip title="Xem kho mã giảm giá">
                             Kho mã giảm giá
                         </Tooltip>
                     </Menu.Item>
-                    <Menu.Item key="10">
+                    <Menu.Item key="11">
                         <Tooltip title="Xem người dùng sử dụng mã giảm giá">
                             Người dùng mã giảm giá
                         </Tooltip>
                     </Menu.Item>
                 </SubMenu>
                 <SubMenu key="sub5" icon={<AppstoreAddOutlined />} title="Đơn hàng người dùng">
-                    <Menu.Item key="11">
+                    <Menu.Item key="12">
                         <Tooltip title="Xem đơn hàng đang diễn ra">
                             Đơn hàng đang diễn ra
                         </Tooltip>
                     </Menu.Item>
-                    <Menu.Item key="12">
+                    <Menu.Item key="13">
                         <Tooltip title="Xem lịch sử bán hàng">
                             Lịch sử bán hàng
                         </Tooltip>
@@ -98,7 +98,7 @@ const MainMenu = ({ collapsed }) => {
                 </SubMenu>
             </Menu>
         </Sider>
-    )
+    );
 };
 
 export default MainMenu;

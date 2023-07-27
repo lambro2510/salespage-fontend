@@ -4,7 +4,7 @@ import { Authorization, getErrorFromResponse, notificationFromResponse } from ".
 const UserService = {
     async getProfile() {
         try {
-            const response = await axios.get(URL + '/v1/api/user/profile',
+            const response = await axios.get(URL + '/api/v1/user/profile',
                 {
 
                   headers : Authorization()
@@ -20,7 +20,7 @@ const UserService = {
     async uploadImage(file) {
       try {
         const response = await axios.post(
-            URL + '/v1/api/user/uploadImage',
+            URL + '/api/v1/user/uploadImage',
             file,
             {
                 headers: { ...Authorization(), 'Content-Type': 'multipart/form-data' }

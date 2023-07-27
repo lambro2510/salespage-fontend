@@ -8,6 +8,7 @@ import SellerLoginScreen from './moduleSeller/LoginScreen';
 import DashboardScreen from './moduleSeller/DashboardScreen';
 import SellerHomeScreen from './moduleSeller/HomeScreen';
 import SellerProductScreen from './moduleSeller/HomeScreen/ProductScreen';
+import ProductCategoryScreen from './moduleSeller/HomeScreen/ProductCategoryScreen';
 const Router = () => {
 
     return (
@@ -19,6 +20,7 @@ const Router = () => {
             <Route path="/seller" element={<SellerHomeScreen />} >
                 <Route path="/seller/dashboard" element={<DashboardScreen />} />
                 <Route path="/seller/product" element={<SellerProductScreen />} />
+                <Route path="product-category" element={<ProductCategoryScreen />} />
             </Route>
             <Route path="/seller/login" element={<SellerLoginScreen />} />
         </Routes>
