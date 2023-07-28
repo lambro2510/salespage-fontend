@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './authSlide';
-import typeReducer from './typeSlider';
-import storeReducer from './storeSlider';
-import profileReducer from './profileSlide';
+import authReducer from './authSlice';
+import typeReducer from './typeSlice';
+import storeReducer from './storeSlice';
+import profileReducer from './profileSlice';
 export const store = configureStore({
   reducer: {
     auth : authReducer,

@@ -1,0 +1,69 @@
+.container{
+    background-color: #ffffff;
+}
+
+.banner-container {
+    width: 45vw;
+    height: auto;
+    background-color : inherit;
+
+    .slick-slide img {
+        height: 25vh;
+        width: auto;
+        object-fit: cover;
+    }
+}
+
+.image {
+    height: 10.5vh;
+    width: auto;
+}
+
+.sub-banner-image {
+    width: auto;
+    object-fit: fill;
+}
+
+.ant-card-meta-title {
+    font-size: 10px !important;
+}
+
+.ant-card-meta-description {
+    font-size: 10px !important;
+}
+
+.slick-arrow {
+    background-color: rgb(128, 128, 128) !important;
+    &.slick-prev,
+    &.slick-next {
+        display: flex;
+        flex-direction: row;
+        &.svg{
+            align-self: center;
+            align-items: center;
+            margin: auto;
+        }
+        border-radius: 50%;
+        font-size: 3vh;
+        color: #ffffff !important;
+        z-index: 1;
+    }
+
+    &.slick-prev:hover,
+    &.slick-next:hover{
+        background-color: black !important;
+    }
+
+    &.slick-prev {
+        left: -0.5vw;
+    }
+
+    &.slick-next {
+        right: -0.5vw;
+    }
+}
+
+.slick-initialized{
+    display: flex;
+    justify-content: center;
+}

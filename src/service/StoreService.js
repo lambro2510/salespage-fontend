@@ -4,13 +4,12 @@ import { Authorization, getErrorFromResponse, notificationFromResponse } from ".
 const SellerStoreService = {
     async getSellerStore() {
         try {
-            const response = await axios.get(URL + '/v1/api/seller-store',
+            const response = await axios.get(URL + '/api/v1/seller-store',
                 {
                     headers: Authorization()
                 },
 
             );
-            console.log(response?.data);
             return notificationFromResponse(response?.data);
         } catch (error) {
             getErrorFromResponse(error);

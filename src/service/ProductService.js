@@ -4,7 +4,7 @@ import { getErrorFromResponse, Authorization, notificationFromResponse } from ".
 const ProductService = {
     async findProduct(productFilter) {
         try {
-            const response = await axios.get(URL + '/v1/api/public/product', {
+            const response = await axios.get(URL + '/api/v1/public/product', {
                 params: {
                     productId: productFilter?.productId,
                     productType: productFilter?.productType,
@@ -27,7 +27,7 @@ const ProductService = {
 
     async updateProduct(product) {
         try {
-            const response = await axios.put(URL + '/v1/api/product', {
+            const response = await axios.put(URL + '/api/v1/product', {
                 productName: product?.productName,
                 description: product?.description,
                 type: product?.type,
@@ -47,7 +47,7 @@ const ProductService = {
 
     async getProductType() {
         try {
-            const response = await axios.get(URL + '/v1/api/public/product/type', {});
+            const response = await axios.get(URL + '/api/v1/public/product/type', {});
             return notificationFromResponse(response?.data);
         } catch (error) {
             getErrorFromResponse(error)
@@ -56,7 +56,7 @@ const ProductService = {
 
     async getProductDetail(productId) {
         try {
-            const response = await axios.get(URL + '/v1/api/public/product/detail' + `?productId=${productId}`, {});
+            const response = await axios.get(URL + '/api/v1/public/product/detail' + `?productId=${productId}`, {});
             return notificationFromResponse(response?.data);
         } catch (error) {
             getErrorFromResponse(error)
@@ -66,7 +66,7 @@ const ProductService = {
     async uploadProductImage(productId, files) {
         try {
             const response = await axios.post(
-                URL + '/v1/api/product/upload-images' + `?productId=${productId}`,
+                URL + '/api/v1/product/upload-images' + `?productId=${productId}`,
                 files,
                 {
                     headers: { ...Authorization(), 'Content-Type': 'multipart/form-data' }
@@ -80,7 +80,7 @@ const ProductService = {
 
     async deleteProductImages(productId, images) {
         try {
-            const response = await axios.delete(URL + '/v1/api/product/delete-images',
+            const response = await axios.delete(URL + '/api/v1/product/delete-images',
                 {
                     headers: Authorization(),
                     params: {

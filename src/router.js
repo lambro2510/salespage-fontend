@@ -1,30 +1,28 @@
+import * as React from 'react'
 import { Route, Routes } from "react-router-dom";
-import Home from "./module/user/home";
-import Login from "./module/login";
-import ProductDetail from "./module/user/product/productDetail";
-import HomeProductMenu from "./module/user/home/homeProductScreen";
-import SellerDashboard from "./module/seller/dashboard";
-import SellerHome from "./module/seller";
-import SellerListProduct from "./module/seller/product/sellerListProduct";
-import UnauthorizedPage from "./component/403Error";
-import SellerListStore from "./module/seller/store";
-import ProfileScreen from "./module/user/profile";
-import MapScreen from "./module/map";
+import LoginScreen from './moduleUser/LoginScreen';
+import HomeScreen from './moduleUser/HomeScreen';
+import UnauthorizedPage from './component/403Error';
+
+import SellerLoginScreen from './moduleSeller/LoginScreen';
+import DashboardScreen from './moduleSeller/DashboardScreen';
+import SellerHomeScreen from './moduleSeller/HomeScreen';
+import SellerProductScreen from './moduleSeller/HomeScreen/ProductScreen';
+import ProductCategoryScreen from './moduleSeller/HomeScreen/ProductCategoryScreen';
 const Router = () => {
+
     return (
         <Routes>
-            <Route path="/" element={<Home />} >
-                <Route path="/products/:productId" element={<ProductDetail />} />
-                <Route path="profile" element={<ProfileScreen />} />
-                <Route path="/" element={<HomeProductMenu />} />
+            <Route path="/login" element={<LoginScreen />} />
+            <Route path="/" element={<HomeScreen />} />
+            <Route path="/not-found" element={<UnauthorizedPage />} />
+
+            <Route path="/seller" element={<SellerHomeScreen />} >
+                <Route path="dashboard" element={<DashboardScreen />} />
+                <Route path="product" element={<SellerProductScreen />} />
+                <Route path="product-category" element={<ProductCategoryScreen />} />
             </Route>
-            <Route path="/seller" element={<SellerHome />} >
-                <Route path="/seller/products" element={<SellerListProduct />} />
-                <Route path="/seller/store" element={<SellerListStore />} />
-            </Route>
-            <Route path="/login" element={<Login />} />
-            <Route path="/403Error" element={<UnauthorizedPage />} />
-            <Route path="/map" element={<MapScreen />} />
+            <Route path="/seller/login" element={<SellerLoginScreen />} />
         </Routes>
     )
 }
