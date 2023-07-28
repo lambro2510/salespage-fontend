@@ -30,6 +30,20 @@ const ProductCategoryService = {
         }
     },
 
+    async deleteProductCategory(id) {
+        try {
+            const response = await axios.delete(URL + '/api/v1/product-category?id=' + id,
+                {
+                    headers: Authorization()
+                },
+
+            );
+            return notificationFromResponse(response?.data);
+        } catch (error) {
+            getErrorFromResponse(error);
+        }
+    },
+
     async createProductCategory(category) {
         try {
             const response = await axios.post(URL + '/api/v1/product-category',
@@ -53,9 +67,9 @@ const ProductCategoryService = {
     },
     async updateProductCategory(category) {
         try {
-            const response = await axios.put(URL + '/api/v1/product-category/detail',
+            const response = await axios.put(URL + '/api/v1/product-category',
                 {
-                    id: category?.id,
+                    id: category?.categoryId,
                     categoryName: category?.categoryName,
                     categoryType: category?.categoryType,
                     description: category?.description,

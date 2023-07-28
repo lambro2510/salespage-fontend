@@ -25,18 +25,48 @@ const ProductService = {
         }
     },
 
+    async createProduct(product) {
+        try {
+            const response = await axios.post(URL + '/api/v1/product', {
+                productName: product?.productName,
+                description: product?.description,
+                categoryId: product?.categoryId,
+                productPrice: product?.productPrice,
+                sellingAddress: product?.sellingAddress,
+                storeId: product?.storeId,
+                imageUrl: product?.imageUrl
+            }, {
+                headers: Authorization()
+            });
+            return notificationFromResponse(response?.data);
+        } catch (error) {
+            getErrorFromResponse(error);
+        }
+    },
+
     async updateProduct(product) {
         try {
             const response = await axios.put(URL + '/api/v1/product', {
                 productName: product?.productName,
                 description: product?.description,
-                type: product?.type,
+                categoryId: product?.categoryId,
                 productPrice: product?.productPrice,
                 sellingAddress: product?.sellingAddress,
                 storeId: product?.storeId,
                 imageUrl: product?.imageUrl,
                 productId: product?.productId
             }, {
+                headers: Authorization()
+            });
+            return notificationFromResponse(response?.data);
+        } catch (error) {
+            getErrorFromResponse(error);
+        }
+    },
+
+    async deleteProduct(id) {
+        try {
+            const response = await axios.delete(URL + '/api/v1/product?id=' + id, {}, {
                 headers: Authorization()
             });
             return notificationFromResponse(response?.data);

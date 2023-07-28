@@ -1,0 +1,1 @@
+export const URL = "https://salepage-server-rherm.appengine.bfcplatform.vn"

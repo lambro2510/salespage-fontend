@@ -1,23 +1,28 @@
-import * as React from 'react';
-import { List, Pagination, Image, Row, Col, Button } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { List, Button, Row, Col } from 'antd';
 import ProductCategoryService from '../../../service/ProductCategoryService';
 import CreateCategoryModal from './CreateCategoryModal';
 import UpdateCategoryModal from './UpdateCategoryModal';
+import ProductService from '../../../service/ProductService';
 
 const ProductCategoryScreen = () => {
-    const [productCategories, setProductCategories] = React.useState([]);
-    const [isCreateModalVisible, setCreateModalVisible] = React.useState(false);
-    const [isUpdateModalVisible, setUpdateModalVisible] = React.useState(false);
-    const [categoriId, setCategoriId] = React.useState("")
-    const [isLoading, setLoading] = React.useState(false);
-    React.useEffect(() => {
+    const [productCategories, setProductCategories] = useState([]);
+    const [productTypes, setProductTypes] = useState([]);
+    const [isCreateModalVisible, setCreateModalVisible] = useState(false);
+    const [isUpdateModalVisible, setUpdateModalVisible] = useState(false);
+    const [categoryId, setCategoryId] = useState('');
+    const [isLoading, setLoading] = useState(false);
+
+    useEffect(() => {
         const fetchProductCategories = async () => {
             const categoryData = await ProductCategoryService.getProductCategory();
             setProductCategories(categoryData);
+            const productTypes = await ProductService.getProductType();
+            setProductTypes(productTypes);
         };
 
         fetchProductCategories();
-        setLoading(false)
+        setLoading(false);
     }, [isLoading]);
 
     const handleCreateModalOpen = () => {
@@ -31,7 +36,7 @@ const ProductCategoryScreen = () => {
     const handleCreateCategory = (newCategory) => {
         ProductCategoryService.createProductCategory(newCategory);
         setCreateModalVisible(false);
-        setLoading(true)
+        setLoading(true);
     };
 
     const createCategory = (
@@ -40,6 +45,7 @@ const ProductCategoryScreen = () => {
                 Tạo danh mục sản phẩm
             </Button>
             <CreateCategoryModal
+                productTypes={productTypes}
                 visible={isCreateModalVisible}
                 onClose={handleCreateModalClose}
                 onCreate={handleCreateCategory}
@@ -48,8 +54,7 @@ const ProductCategoryScreen = () => {
     );
 
     const handleUpdateModalOpen = (id) => {
-        setCategoriId(id)
-        console.log(id);
+        setCategoryId(id);
         setUpdateModalVisible(true);
     };
 
@@ -57,23 +62,30 @@ const ProductCategoryScreen = () => {
         setUpdateModalVisible(false);
     };
 
-    const handleUpdateCategory = (newCategory) => {
+    const handleUpdateCategory = (updatedCategory) => {
+        if(updateCategory){
+            ProductCategoryService.updateProductCategory(updatedCategory);
+            setLoading(true);
+        }
         setUpdateModalVisible(false);
+        setCategoryId()
     };
 
     const handleDeleteCategory = (id) => {
-
+        if(id){
+            ProductCategoryService.deleteProductCategory(id);
+            setLoading(true);
+        }
     };
 
     const updateCategory = (
-        <>
-            <UpdateCategoryModal
-                id={categoriId}
-                visible={isUpdateModalVisible}
-                onClose={handleUpdateModalClose}
-                onUpdate={handleUpdateCategory}
-            />
-        </>
+        <UpdateCategoryModal
+            id={categoryId}
+            productTypes={productTypes}
+            visible={isUpdateModalVisible}
+            onClose={handleUpdateModalClose}
+            onUpdate={handleUpdateCategory}
+        />
     );
 
     return (
@@ -85,18 +97,16 @@ const ProductCategoryScreen = () => {
                 dataSource={productCategories}
                 renderItem={(item) => (
                     <List.Item key={item?.id}>
-                        <Row justify={'space-around'}>
+                        <Row justify={'space-between'}>
                             <Col>
-                                <h3>{item?.CategoryName}</h3>
+                                <h3>{item?.categoryName}</h3>
                                 <p>{item?.description}</p>
                             </Col>
                             <Col>
-                                <Button type="primary" onClick={() => handleUpdateModalOpen(item?.id)}>
+                                <Button type="primary" onClick={() => handleUpdateModalOpen(item?.categoryId)}>
                                     Cập nhật
                                 </Button>
-                            </Col>
-                            <Col>
-                                <Button type="primary" onClick={handleDeleteCategory}>
+                                <Button type="primary" onClick={() => handleDeleteCategory(item?.categoryId)}>
                                     Xóa
                                 </Button>
                             </Col>

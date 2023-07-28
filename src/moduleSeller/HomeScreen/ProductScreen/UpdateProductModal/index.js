@@ -1,27 +1,42 @@
-import React, { useState } from 'react';
-import { Modal, Form, Input, Button } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Modal, Form, Input, Button, Select } from 'antd';
+import ProductService from '../../../../service/ProductService';
 
-const UpdateProductModal = ({ visible, onClose, onUpdate }) => {
+const { Option } = Select;
+
+const UpdateProductModal = ({ stores, productCategory, productId, visible, onClose, onUpdate }) => {
   const [updateProduct, setUpdateProduct] = useState({
+    productId: productId,
     productName: '',
     description: '',
-    type: '',
+    categoryId: '',
     productPrice: 0,
     sellingAddress: '',
     storeId: '',
   });
 
   const handleUpdateProduct = () => {
-    // Call the parent component's onUpdate function with the updateProduct object
     onUpdate(updateProduct);
     setUpdateProduct({
+      productId: '',
       productName: '',
       description: '',
-      type: '',
+      categoryId: '',
       productPrice: 0,
       sellingAddress: '',
       storeId: '',
     });
+  };
+
+  useEffect(() => {
+    if (productId) {
+      getProductDetail();
+    }
+  }, [productId]);
+
+  const getProductDetail = async () => {
+    const productData = await ProductService.getProductDetail(productId);
+    setUpdateProduct(productData);
   };
 
   return (
@@ -33,27 +48,64 @@ const UpdateProductModal = ({ visible, onClose, onUpdate }) => {
         <Button key="cancel" onClick={onClose}>
           Cancel
         </Button>,
-        <Button key="Update" type="primary" onClick={handleUpdateProduct}>
+        <Button key="update" type="primary" onClick={handleUpdateProduct}>
           Update
         </Button>,
       ]}
     >
-      <Form>
-        <Form.Item label="Product Name">
+      <Form layout="vertical">
+        <Form.Item label="Tên sản phẩm">
           <Input
-            value={updateProduct.productName}
-            onChange={(e) =>
-              setUpdateProduct({ ...updateProduct, productName: e.target.value })
-            }
+            value={updateProduct?.productName}
+            onChange={(e) => setUpdateProduct({ ...updateProduct, productName: e.target.value })}
           />
         </Form.Item>
-        <Form.Item label="Description">
-          <Input.TextArea
-            value={updateProduct.description}
-            onChange={(e) =>
-              setUpdateProduct({ ...updateProduct, description: e.target.value })
-            }
+
+        <Form.Item label="Mô tả">
+          <Input
+            value={updateProduct?.description}
+            onChange={(e) => setUpdateProduct({ ...updateProduct, description: e.target.value })}
           />
+        </Form.Item>
+
+        <Form.Item label="Giá tiền">
+          <Input
+            value={updateProduct?.productPrice}
+            onChange={(e) => setUpdateProduct({ ...updateProduct, productPrice: e.target.value })}
+          />
+        </Form.Item>
+
+        <Form.Item label="Địa chỉ bán hàng">
+          <Input
+            value={updateProduct?.sellingAddress}
+            onChange={(e) => setUpdateProduct({ ...updateProduct, sellingAddress: e.target.value })}
+          />
+        </Form.Item>
+
+        <Form.Item label="Loại danh mục">
+          <Select
+            value={updateProduct.categoryId}
+            onChange={(value) => setUpdateProduct({ ...updateProduct, categoryId: value })}
+          >
+            {productCategory.map((category) => (
+              <Option key={category.categoryId} value={category.categoryId}>
+                {category.categoryName}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+
+        <Form.Item label="Cửa hàng bán">
+          <Select
+            value={updateProduct.storeId}
+            onChange={(value) => setUpdateProduct({ ...updateProduct, storeId: value })}
+          >
+            {stores.map((store) => (
+              <Option key={store.storeId} value={store.storeId}>
+                {store?.storeName}
+              </Option>
+            ))}
+          </Select>
         </Form.Item>
       </Form>
     </Modal>

@@ -8,13 +8,13 @@ import ProductService from '../../../service/ProductService';
 import ProductCardComponent from '../../../component/ProductCardComponent';
 
 const settings = {
-  dots: true, 
+  dots: true,
   infinite: true,
-  speed: 500, 
-  slidesToShow: 9, 
-  slidesToScroll: 1, 
-  arrows : true,
-  prevArrow: <LeftOutlined />, 
+  speed: 500,
+  slidesToShow: 9,
+  slidesToScroll: 1,
+  arrows: true,
+  prevArrow: <LeftOutlined />,
   nextArrow: <RightOutlined />,
 };
 
@@ -33,12 +33,13 @@ const Product = () => {
         setMetaData(flsResponse?.metadata);
         setProducts(flsResponse?.data);
       } catch (error) {
-        console.error(error);
+        setProducts([]);
       }
     };
 
     fetchData();
   }, []);
+
 
   const getFlashSaleProduct = async () => {
     const flashSaleProductResponse = await ProductService.findProduct(metaData);

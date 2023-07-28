@@ -11,7 +11,11 @@ const SearchMenu = () => {
     const [productTypes, setProductTypes] = React.useState([])
 
     React.useEffect(() => {
-        getProductType();
+        try {
+            getProductType();
+        } catch (error) {
+            setProducts([]);
+        }
     }, []);
 
     const getProductType = async () => {
@@ -22,7 +26,7 @@ const SearchMenu = () => {
     const getProduct = async (productName) => {
         let size = 10;
         const productData = await ProductService.findProduct({ productName: productName, size: size });
-        setProducts(productData?.data);
+        setProducts(productData?.data | []);
     };
 
     const handleInputChange = (e) => {

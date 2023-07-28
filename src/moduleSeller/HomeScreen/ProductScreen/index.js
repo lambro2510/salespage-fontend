@@ -2,151 +2,173 @@ import React, { useState, useEffect } from 'react';
 import { List, Pagination, Image, Row, Col, Button } from 'antd';
 import ProductService from '../../../service/ProductService';
 import ProductCategoryService from '../../../service/ProductCategoryService';
+import StoreService from '../../../service/StoreService';
 import CreateProductModal from './CreateProductModal';
 import UpdateProductModal from './UpdateProductModal';
+
 const ProductScreen = () => {
-    const [productFilter, setProductFilter] = useState({});
-    const [products, setProducts] = useState([]);
-    const [productCategory, setProductCategory] = useState([]);
-    const [metadata, setMetadata] = useState({
-        page: 0,
-        size: 10,
-        total: 0,
+  const [productFilter, setProductFilter] = useState({});
+  const [products, setProducts] = useState([]);
+  const [stores, setStores] = useState([]);
+  const [productCategory, setProductCategory] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+  const [selectProductId, setSelectProductId] = useState();
+  const [metadata, setMetadata] = useState({
+    page: 0,
+    size: 10,
+    total: 0,
+  });
+
+  useEffect(() => {
+    getProductCategory();
+    getSellerStore();
+    getSellerProduct();
+    setLoading(false);
+  }, [isLoading]);
+
+
+  const getSellerProduct = async () => {
+    const productInfo = await ProductService.findProduct({
+      ...productFilter,
+      page: metadata.page,
+      size: metadata.size,
     });
+    setMetadata({
+      ...metadata,
+      total: productInfo?.metadata.total || 0,
+    });
+    setProducts(productInfo?.data || []);
+  };
 
-    useEffect(() => {
-        getSellerProduct();
-    }, [metadata.page]);
+  const getProductCategory = async () => {
+    const categoryInfo = await ProductCategoryService.getProductCategory();
+    setProductCategory(categoryInfo);
+  };
 
-    useEffect(() => {
-        getProductCaregory();
-    }, []);
+  const getSellerStore = async () => {
+    const storeData = await StoreService.getSellerStore();
+    setStores(storeData?.data);
+  };
 
-    const getSellerProduct = async () => {
-        const productInfo = await ProductService.findProduct({
-            ...productFilter,
-            page: metadata.page,
-            size: metadata.size,
-        });
-        setMetadata({
-            ...metadata,
-            total: productInfo?.metadata.total || 0,
-        });
-        setProducts(productInfo?.data || []);
-    };
+  const handlePageChange = (page, pageSize) => {
+    setMetadata({
+      ...metadata,
+      page: page - 1,
+      size: pageSize,
+    });
+  };
 
-    const getProductCaregory = async () => {
-        const categoriInfo = await ProductCategoryService.getProductCategory();
-        setProductCategory(categoriInfo)
-    }
-    const handlePageChange = (page, pageSize) => {
-        setMetadata({
-            ...metadata,
-            page: page - 1, // Antd Pagination uses 1-based indexing, while our data uses 0-based indexing
-            size: pageSize,
-        });
-    };
+  const [isCreateModalVisible, setCreateModalVisible] = useState(false);
+  const handleCreateModalOpen = () => {
+    setCreateModalVisible(true);
+  };
 
-    const [isCreateModalVisible, setCreateModalVisible] = useState(false);
-    const handleCreateModalOpen = () => {
-        setCreateModalVisible(true);
-    };
+  const handleCreateModalClose = () => {
+    setCreateModalVisible(false);
+  };
 
-    const handleCreateModalClose = () => {
-        setCreateModalVisible(false);
-    };
+  const handleCreateProduct = (newProduct) => {
+    ProductService.createProduct(newProduct);
+    setCreateModalVisible(false);
+    setLoading(true);
+  };
 
-    const handleCreateProduct = (newProduct) => {
-        setCreateModalVisible(false);
-    };
+  const createProduct = (
+    <>
+      <Button type="primary" onClick={handleCreateModalOpen}>
+        Create Product
+      </Button>
+      <CreateProductModal
+        stores={stores}
+        productCategory={productCategory}
+        visible={isCreateModalVisible}
+        onClose={handleCreateModalClose}
+        onCreate={handleCreateProduct}
+      />
+    </>
+  );
 
-    const createProduct = (
-        <>
-            <Button type="primary" onClick={handleCreateModalOpen}>
-                Create Product
-            </Button>
-            <CreateProductModal
-                visible={isCreateModalVisible}
-                onClose={handleCreateModalClose}
-                onCreate={handleCreateProduct}
-            />
-        </>
-    );
+  const [isUpdateModalVisible, setUpdateModalVisible] = useState(false);
+  const handleUpdateModalOpen = (id) => {
+    setSelectProductId(id);
+    setUpdateModalVisible(true);
+  };
 
-    const [isUpdateModalVisible, setUpdateModalVisible] = useState(false);
-    const handleUpdateModalOpen = () => {
-        setUpdateModalVisible(true);
-    };
+  const handleUpdateModalClose = () => {
+    setUpdateModalVisible(false);
+  };
 
-    const handleUpdateModalClose = () => {
-        setUpdateModalVisible(false);
-    };
+  const handleUpdateProduct = (updateProduct) => {
+    ProductService.updateProduct(updateProduct);
+    setUpdateModalVisible(false);
+    setLoading(true);
+  };
 
-    const handleUpdateProduct = (updateProduct) => {
-        setUpdateModalVisible(false);
-    };
+  const updateProduct = (
+    <>
+      <UpdateProductModal
+        productId={selectProductId}
+        stores={stores}
+        productCategory={productCategory}
+        visible={isUpdateModalVisible}
+        onClose={handleUpdateModalClose}
+        onUpdate={handleUpdateProduct}
+      />
+    </>
+  );
 
-    const updateProduct = (
-        <>
-            <UpdateProductModal
-                visible={isUpdateModalVisible}
-                onClose={handleUpdateModalClose}
-                onUpdate={handleUpdateProduct}
-            />
-        </>
-    );
-
-    return (
-        <>
-            {createProduct}
-            {updateProduct}
-            <List
-                itemLayout="vertical"
-                dataSource={products}
-                renderItem={(item) => (
-                    <List.Item key={item?.productId}>
-                        <Row justify={'space-between'}>
-                            <Col>
-                                <Row>
-                                    <Col>
-                                        <Image src={item?.imageUrl}></Image>
-
-                                    </Col>
-                                    <Col>
-                                        <h3>{item?.productName}</h3>
-                                        <p>{item?.description}</p>
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col >
-                                <Row justify={'space-between'}>
-                                    <Col>
-
-                                        <Button type="primary" onClick={handleUpdateModalOpen}>
-                                            Cập nhật
-                                        </Button>
-
-                                    </Col>
-                                    <Col>
-                                        <Button type="primary" onClick={handleUpdateModalOpen}>
-                                            Xóa
-                                        </Button>
-                                    </Col>
-                                </Row>
-
-                            </Col>
-                        </Row>
-                    </List.Item>
-                )}
-            />
-            <Pagination
-                current={metadata.page + 1}
-                pageSize={metadata.size}
-                total={metadata.total}
-                onChange={handlePageChange}
-            />
-        </>
-    );
+  const handleDeleteProduct = (id) => {
+    ProductService.deleteProduct(id)
+    setLoading(true);
+  }
+  return (
+    <>
+      {createProduct}
+      {updateProduct}
+      <List
+        itemLayout="vertical"
+        dataSource={products}
+        renderItem={(item) => (
+          <List.Item key={item?.productId}>
+            <Row justify="space-between" align="middle">
+              <Col>
+                <Row gutter={16}>
+                  <Col>
+                    <Image src={item?.imageUrl} />
+                  </Col>
+                  <Col>
+                    <h3>{item?.productName}</h3>
+                    <p>{item?.description}</p>
+                  </Col>
+                </Row>
+              </Col>
+              <Col>
+                <Row justify="space-between" gutter={8}>
+                  <Col>
+                    <Button type="primary" onClick={() => handleUpdateModalOpen(item?.productId)}>
+                      Cập nhật
+                    </Button>
+                  </Col>
+                  <Col>
+                    <Button type="primary" onClick={() => handleDeleteProduct(item?.productId)}>
+                      Xóa
+                    </Button>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </List.Item>
+        )}
+      />
+      <Pagination
+        current={metadata.page + 1}
+        pageSize={metadata.size}
+        total={metadata.total}
+        onChange={handlePageChange}
+      />
+    </>
+  );
 };
 
 export default ProductScreen;
+

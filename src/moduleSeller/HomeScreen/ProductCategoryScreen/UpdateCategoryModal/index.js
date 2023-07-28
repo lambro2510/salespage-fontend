@@ -1,94 +1,59 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Form, Input, Button, Select } from 'antd';
 import ProductService from '../../../../service/ProductService';
+import ProductCategoryService from '../../../../service/ProductCategoryService';
 
 const { Option } = Select;
 
-const UpdateCategoryModal = ({id, visible, onClose, onUpdate }) => {
+const UpdateCategoryModal = ({ id, productTypes, visible, onClose, onUpdate }) => {
   const [updateCategory, setUpdateCategory] = useState({
     id: id,
-    categoryName: "",
-    categoryType: "",
-    description: "",
-    timeType: "",
+    categoryName: '',
+    categoryType: 'SMALL',
+    description: '',
+    timeType: 'MINUTE',
     timeValue: 0,
-    productType: ""
+    productType: '',
   });
 
   const handleUpdateCategory = () => {
     onUpdate(updateCategory);
     setUpdateCategory({
       id: id,
-      categoryName: "",
-      categoryType: "",
-      description: "",
-      timeType: "",
+      categoryName: '',
+      categoryType: 'SMALL',
+      description: '',
+      timeType: 'MINUTE',
       timeValue: 0,
-      productType: ""
+      productType: '',
     });
   };
 
-  const [productTypes, setProductTypes] = useState([]);
-
   useEffect(() => {
-    const fetchProductType = async () => {
-      const productTypes = await ProductService.getProductType();
-      setProductTypes(productTypes);
-    };
-
-    const fetchProductCategory = async () => {
-      const categoryData = await ProductService.getProductDetail(id);
+    const fetchData = async () => {
+      const categoryData = await ProductCategoryService.getDetailProductCategory(id);
       setUpdateCategory(categoryData);
     };
 
-    if(id){
-      fetchProductCategory();
+    if (id) {
+      fetchData();
     }
-    
-    fetchProductType();
-  }, [id])
+  }, [id]);
 
-  const categoriTypes = [
-    {
-      "type": "SMALL",
-      "typeName": "Nhỏ",
-    },
-    {
-      "type": "BIG",
-      "typeName": "Lớn",
-    },
-    {
-      "type": "LARGE",
-      "typeName": "Rất lớn",
-    },
-    {
-      "type": "SUPPER_LARGE",
-      "typeName": "Cực lớn",
-    },
+  const categoryTypes = [
+    { type: 'SMALL', typeName: 'Nhỏ' },
+    { type: 'BIG', typeName: 'Lớn' },
+    { type: 'LARGE', typeName: 'Rất lớn' },
+    { type: 'SUPPER_LARGE', typeName: 'Cực lớn' },
   ];
 
   const timeTypes = [
-    {
-      "type": "MINUTE",
-      "typeName": "Phút",
-    },
-    {
-      "type": "HOUR",
-      "typeName": "Giờ",
-    },
-    {
-      "type": "DAY",
-      "typeName": "Ngày",
-    },
-    {
-      "type": "WEEK",
-      "typeName": "Tuần",
-    },
-    {
-      "type": "MONTH",
-      "typeName": "Tháng",
-    }
-  ]
+    { type: 'MINUTE', typeName: 'Phút' },
+    { type: 'HOUR', typeName: 'Giờ' },
+    { type: 'DAY', typeName: 'Ngày' },
+    { type: 'WEEK', typeName: 'Tuần' },
+    { type: 'MONTH', typeName: 'Tháng' },
+  ];
 
   return (
     <Modal
@@ -99,12 +64,14 @@ const UpdateCategoryModal = ({id, visible, onClose, onUpdate }) => {
         <Button key="cancel" onClick={onClose}>
           Cancel
         </Button>,
-        <Button key="Update" type="primary" onClick={handleUpdateCategory}>
+        <Button key="update" type="primary" onClick={handleUpdateCategory}>
           Update
         </Button>,
       ]}
+      centered 
+      destroyOnClose 
     >
-      <Form>
+      <Form layout="vertical">
         <Form.Item label="Tên danh mục">
           <Input
             value={updateCategory?.categoryName}
@@ -128,9 +95,9 @@ const UpdateCategoryModal = ({id, visible, onClose, onUpdate }) => {
             value={updateCategory?.categoryType}
             onChange={(value) => setUpdateCategory({ ...updateCategory, categoryType: value })}
           >
-            {categoriTypes.map((categoriType) => (
-              <Option key={categoriType.type} value={categoriType.type}>
-                {categoriType.typeName}
+            {categoryTypes.map((categoryType) => (
+              <Option key={categoryType.type} value={categoryType.type}>
+                {categoryType.typeName}
               </Option>
             ))}
           </Select>
@@ -151,6 +118,7 @@ const UpdateCategoryModal = ({id, visible, onClose, onUpdate }) => {
 
         <Form.Item label="Thời gian">
           <Input
+            type="number"
             value={updateCategory?.timeValue}
             onChange={(e) =>
               setUpdateCategory({ ...updateCategory, timeValue: e.target.value })
@@ -160,12 +128,12 @@ const UpdateCategoryModal = ({id, visible, onClose, onUpdate }) => {
 
         <Form.Item label="Loại sản phẩm">
           <Select
-            value={updateCategory?.productType}
-            onChange={(value) => setUpdateCategory({ ...updateCategory, productType: value })}
+            value={updateCategory.productType}
+            onChange={(value) => setUpdateCategory({ ...updateCategory, timeValue: value })}
           >
             {productTypes.map((productType) => (
-              <Option key={productType?.type} value={productType?.productType}>
-                {productType?.typeName}
+              <Option key={productType.productType} value={productType.productType}>
+                {productType.typeName}
               </Option>
             ))}
           </Select>

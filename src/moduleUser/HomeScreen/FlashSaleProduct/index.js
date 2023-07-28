@@ -38,7 +38,7 @@ const FlashSaleProduct = () => {
           'https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/flashsale/fb1088de81e42c4e538967ec12cb5caa.png'
         );
       } catch (error) {
-        console.error(error);
+        setFlsProducts([]);
       }
     };
 
@@ -59,7 +59,7 @@ const FlashSaleProduct = () => {
               <Row>
                 <Col justify="center">
                   <Row>
-                  <Image preview={false} src={flashSaleImg} />
+                    <Image preview={false} src={flashSaleImg} />
                   </Row>
                 </Col>
                 <Col>
