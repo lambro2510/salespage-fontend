@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Form, Input, Button, Select } from 'antd';
 import ProductService from '../../../../service/ProductService';
 import ListImage from '../../../../component/ListImageComponent';
+import { UPLOAD_PRODUCT_URL } from '../../../../constant';
+import { getToken } from '../../../../helper/localStore'
 
 const { Option } = Select;
 
@@ -41,13 +43,15 @@ const UpdateProductModal = ({ stores, productCategory, productId, visible, onClo
     setUpdateProduct(productData);
   };
 
-  const deleteImage = (file) => {
-    ProductService.deleteProductImages(productId, file)
-  }
+  const handleUpdateImage = (image) => {
+    setUpdateProduct({
+      ...updateProduct,
+      imageUrls: [...updateProduct.imageUrls, image],
+    });
+  };
 
-  const uploadImage = (file) => {
-    console.log('123');
-    ProductService.uploadProductImage(productId, file)
+  const handleDeleteImage = (images) => {
+    ProductService.deleteProductImages(productId, images)
   }
 
   return (
@@ -120,10 +124,15 @@ const UpdateProductModal = ({ stores, productCategory, productId, visible, onClo
         </Form.Item>
 
         <Form.Item label="Kho ảnh">
-          <ListImage uploadUrl={`/v1/api/product/upload-images?productId=${productId}`} imageUrls={updateProduct?.imageUrl} handleDelete={deleteImage} handleUpload={uploadImage} size={10}></ListImage>
+          <ListImage
+            fileList={updateProduct?.imageUrls}
+            setFileList={handleUpdateImage}
+            url={`${UPLOAD_PRODUCT_URL}productId=${productId}&token=${getToken()}`}
+            size={10}
+            handleDelete={handleDeleteImage}
+          />
+
         </Form.Item>
-
-
       </Form>
     </Modal>
   );

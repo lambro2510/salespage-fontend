@@ -93,27 +93,20 @@ const ProductService = {
         }
     },
 
-    async uploadProductImage(productId, files) {
+    async uploadProductImage(productId, file) {
         try {
-          const formData = new FormData();
-          files.forEach((file, index) => {
-            formData.append(`file${index}`, file);
-          });
-      
-          const response = await axios.post(
-            URL + '/api/v1/product/upload-images' + `?productId=${productId}`,
-            formData,
-            {
-              headers: { ...Authorization(), 'Content-Type': 'multipart/form-data' }
-            }
-          );
-      
-          return notificationFromResponse(response?.data);
+            const response = await axios.post(
+                URL + '/api/v1/product/upload-images' + `?productId=${productId}`,
+                file,
+                {
+                    headers: { ...Authorization(), 'Content-Type': 'multipart/form-data' }
+                }
+            );
+            return notificationFromResponse(response?.data);
         } catch (error) {
-          getErrorFromResponse(error);
+            getErrorFromResponse(error)
         }
-      },
-      
+    },
 
     async deleteProductImages(productId, images) {
         try {

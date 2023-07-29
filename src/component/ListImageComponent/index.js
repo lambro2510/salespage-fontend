@@ -1,61 +1,58 @@
-import { Upload } from 'antd';
+import React from 'react';
+import { Modal, Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
-import React, { useState, useEffect } from 'react';
-import { URL } from '../../constant';
+import { PlusOutlined } from '@ant-design/icons';
 
-const ListImage = ({ uploadUrl, imageUrls, handleDelete, handleUpload, size }) => {
-  const [fileList, setFileList] = useState([]);
+const {confirm} = Modal;
 
-  useEffect(() => {
-    const newFileList = imageUrls?.map((imageUrl, index) => ({
-      uid: `-${index}`,
-      name: `image-${index}.png`,
-      status: 'done',
-      url: imageUrl,
-    }));
-    setFileList(newFileList);
-  }, [imageUrls]);
+const ListImage = ({ url, fileList, setFileList, handleDelete, size }) => {
 
-  const onChange = (info) => {
-    const { file, fileList } = info;
-    setFileList(fileList);
-    console.log('-----------------');
-    if (file.status === 'done' && handleUpload) {
-      const formData = new FormData();
-      formData.append('file', file.originFileObj);
-      handleUpload(formData);
-    }
-  };
+    const onChange = ({ fileList: newFileList }) => {
+        setFileList(newFileList);
+    };
 
-  const onPreview = async (file) => {
-    let src = file.url;
-    if (!src) {
-      src = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj);
-        reader.onload = () => resolve(reader.result);
-      });
-    }
-    const image = new Image();
-    image.src = src;
-    const imgWindow = window.open(src);
-    imgWindow?.document.write(image.outerHTML);
-  };
+    const onPreview = async file => {
+        let src = file.url;
+        if (!src) {
+            src = await new Promise(resolve => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file.originFileObj);
+                reader.onload = () => resolve(reader.result);
+            });
+        }
+        const image = new Image();
+        image.src = src;
+        const imgWindow = window.open(src);
+        imgWindow.document.write(image.outerHTML);
+    };
 
-  return (
-    <ImgCrop rotationSlider>
-      <Upload
-        action={onChange}
-        listType="picture-card"
-        fileList={fileList}
-        onPreview={onPreview}
-        onChange={onChange}
-        multiple 
-      >
-        {fileList?.length >= 8 ? null : '+ Upload'}
-      </Upload>
-    </ImgCrop>
-  );
+    const handleRemove = file => {
+        confirm({
+            title: 'Xác nhận xoá',
+            content: 'Bạn có chắc muốn xoá ảnh này?',
+            okText: 'Xoá',
+            okType: 'danger',
+            cancelText: 'Hủy',
+            onOk() {
+                handleDelete(file?.url);
+            },
+        });
+    };
+
+    return (
+        <ImgCrop rotate>
+            <Upload
+                action={url}
+                listType="picture-card"
+                fileList={fileList}
+                onChange={onChange}
+                onPreview={onPreview}
+                onRemove={handleRemove} 
+            >
+                {fileList?.length < size && <PlusOutlined />}
+            </Upload>
+        </ImgCrop>
+    );
 };
 
 export default ListImage;
