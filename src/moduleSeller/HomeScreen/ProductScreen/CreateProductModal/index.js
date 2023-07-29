@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Form, Input, Button, Select } from 'antd';
-import ProductService from '../../../../service/ProductService';
 
 const { Option } = Select;
 

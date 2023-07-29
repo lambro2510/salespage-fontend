@@ -3,11 +3,11 @@ import { Modal, Form, Input, Button, Select } from 'antd';
 import ProductService from '../../../../service/ProductService';
 import ListImage from '../../../../component/ListImageComponent';
 import { UPLOAD_PRODUCT_URL } from '../../../../constant';
-import { getToken } from '../../../../helper/localStore'
 
 const { Option } = Select;
 
 const UpdateProductModal = ({ stores, productCategory, productId, visible, onClose, onUpdate }) => {
+  const [fileLoading, setFileLoading] = useState(false);
   const [files, setFiles] = useState();
   const [updateProduct, setUpdateProduct] = useState({
     productId: productId,
@@ -17,26 +17,34 @@ const UpdateProductModal = ({ stores, productCategory, productId, visible, onClo
     productPrice: 0,
     sellingAddress: '',
     storeId: '',
+    imageUrls: []
   });
 
   const handleUpdateProduct = () => {
     onUpdate(updateProduct);
-    setUpdateProduct({
-      productId: '',
-      productName: '',
-      description: '',
-      categoryId: '',
-      productPrice: 0,
-      sellingAddress: '',
-      storeId: '',
-    });
+    // setUpdateProduct({
+    //   productId: '',
+    //   productName: '',
+    //   description: '',
+    //   categoryId: '',
+    //   productPrice: 0,
+    //   sellingAddress: '',
+    //   storeId: '',
+    //   imageUrls: []
+    // });
   };
 
   useEffect(() => {
     if (productId) {
       getProductDetail();
+      console.log(updateProduct);
     }
   }, [productId]);
+
+  useEffect(() => {
+      setUpdateProduct({...updateProduct, storeId: stores[0]?.storeId, categoryId: productCategory[0]?.categoryId })
+      console.log(updateProduct);
+  }, [productCategory, stores]);
 
   const getProductDetail = async () => {
     const productData = await ProductService.getProductDetail(productId);
@@ -46,12 +54,18 @@ const UpdateProductModal = ({ stores, productCategory, productId, visible, onClo
   const handleUpdateImage = (image) => {
     setUpdateProduct({
       ...updateProduct,
-      imageUrls: [...updateProduct.imageUrls, image],
+      imageUrls: [...updateProduct?.imageUrls, image],
     });
   };
 
-  const handleDeleteImage = (images) => {
-    ProductService.deleteProductImages(productId, images)
+  const handleDeleteImage = async (file) => {
+    setFileLoading(true)
+    await ProductService.deleteProductImages(productId, file?.url)
+    setFileLoading(false)
+  }
+
+  const handleUploadImage = async (file) => {
+    return await ProductService.uploadProductImage(productId, file);
   }
 
   return (
@@ -99,7 +113,7 @@ const UpdateProductModal = ({ stores, productCategory, productId, visible, onClo
 
         <Form.Item label="Loại danh mục">
           <Select
-            value={updateProduct.categoryId}
+            value={updateProduct?.categoryId}
             onChange={(value) => setUpdateProduct({ ...updateProduct, categoryId: value })}
           >
             {productCategory.map((category) => (
@@ -125,11 +139,13 @@ const UpdateProductModal = ({ stores, productCategory, productId, visible, onClo
 
         <Form.Item label="Kho ảnh">
           <ListImage
-            fileList={updateProduct?.imageUrls}
+            images={updateProduct?.imageUrls}
             setFileList={handleUpdateImage}
-            url={`${UPLOAD_PRODUCT_URL}productId=${productId}&token=${getToken()}`}
+            url={`${UPLOAD_PRODUCT_URL}productId=${productId}`}
             size={10}
             handleDelete={handleDeleteImage}
+            handleUpload={handleUploadImage}
+            loading={fileLoading}
           />
 
         </Form.Item>

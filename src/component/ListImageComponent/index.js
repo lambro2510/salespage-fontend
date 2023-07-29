@@ -1,20 +1,31 @@
-import React from 'react';
-import { Modal, Upload } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Modal, Upload, Spin } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import { PlusOutlined } from '@ant-design/icons';
+import { Authorization } from '../../utils';
+const { confirm } = Modal;
 
-const {confirm} = Modal;
+const ListImage = ({ url, images, handleDelete, size, loading }) => {
+    const [fileList, setFileList] = useState([
+        {
+            uid: '-1',
+            name: 'image.png',
+            status: 'done',
+            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+        },
+    ]);
 
-const ListImage = ({ url, fileList, setFileList, handleDelete, size }) => {
+    useEffect(() => {
+        setFileList(images);
+    }, [images])
 
     const onChange = ({ fileList: newFileList }) => {
         setFileList(newFileList);
     };
-
-    const onPreview = async file => {
+    const onPreview = async (file) => {
         let src = file.url;
         if (!src) {
-            src = await new Promise(resolve => {
+            src = await new Promise((resolve) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(file.originFileObj);
                 reader.onload = () => resolve(reader.result);
@@ -23,35 +34,26 @@ const ListImage = ({ url, fileList, setFileList, handleDelete, size }) => {
         const image = new Image();
         image.src = src;
         const imgWindow = window.open(src);
-        imgWindow.document.write(image.outerHTML);
-    };
-
-    const handleRemove = file => {
-        confirm({
-            title: 'Xác nhận xoá',
-            content: 'Bạn có chắc muốn xoá ảnh này?',
-            okText: 'Xoá',
-            okType: 'danger',
-            cancelText: 'Hủy',
-            onOk() {
-                handleDelete(file?.url);
-            },
-        });
+        imgWindow?.document.write(image.outerHTML);
     };
 
     return (
-        <ImgCrop rotate>
-            <Upload
-                action={url}
-                listType="picture-card"
-                fileList={fileList}
-                onChange={onChange}
-                onPreview={onPreview}
-                onRemove={handleRemove} 
-            >
-                {fileList?.length < size && <PlusOutlined />}
-            </Upload>
-        </ImgCrop>
+        <Spin spinning={loading}>
+            <ImgCrop rotationSlider>
+
+                <Upload
+                    action={url}
+                    headers={Authorization()}
+                    listType="picture-card"
+                    fileList={fileList}
+                    onChange={onChange}
+                    onPreview={onPreview}
+                    onRemove={handleDelete}
+                >
+                    {fileList?.length < 5 && '+ Upload'}
+                </Upload>
+            </ImgCrop>
+        </Spin>
     );
 };
 

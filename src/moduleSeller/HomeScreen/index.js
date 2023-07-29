@@ -13,6 +13,7 @@ import { Route, Routes } from 'react-router-dom';
 import DashboardScreen from '../DashboardScreen';
 import SellerProductScreen from './ProductScreen'
 import ProductCategoryScreen from './ProductCategoryScreen';
+import StoreScreen from './StoreScreen';
 
 const { Header, Content } = Layout;
 
@@ -52,6 +53,7 @@ const HomeScreen = () => {
                         <Route path="product" element={<SellerProductScreen />} />
                         <Route path="dashboard" element={<DashboardScreen />} />
                         <Route path="product-category" element={<ProductCategoryScreen />} />
+                        <Route path="store" element={<StoreScreen />} />
                     </Routes>
                 </Content>
             </Layout>

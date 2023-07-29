@@ -96,13 +96,13 @@ const ProductService = {
     async uploadProductImage(productId, file) {
         try {
             const response = await axios.post(
-                URL + '/api/v1/product/upload-images' + `?productId=${productId}`,
+                URL + `/api/v1/product/upload?productId=${productId}`,
                 file,
                 {
                     headers: { ...Authorization(), 'Content-Type': 'multipart/form-data' }
                 }
             );
-            return notificationFromResponse(response?.data);
+            return notificationFromResponse(response);
         } catch (error) {
             getErrorFromResponse(error)
         }

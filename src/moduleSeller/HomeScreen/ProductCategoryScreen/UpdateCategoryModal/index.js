@@ -18,15 +18,15 @@ const UpdateCategoryModal = ({ id, productTypes, visible, onClose, onUpdate }) =
 
   const handleUpdateCategory = () => {
     onUpdate(updateCategory);
-    setUpdateCategory({
-      id: id,
-      categoryName: '',
-      categoryType: 'SMALL',
-      description: '',
-      timeType: 'MINUTE',
-      timeValue: 0,
-      productType: '',
-    });
+    // setUpdateCategory({
+    //   id: id,
+    //   categoryName: '',
+    //   categoryType: 'SMALL',
+    //   description: '',
+    //   timeType: 'MINUTE',
+    //   timeValue: 0,
+    //   productType: '',
+    // });
   };
 
   useEffect(() => {

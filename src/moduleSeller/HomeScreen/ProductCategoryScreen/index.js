@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { List, Button, Row, Col } from 'antd';
 import ProductCategoryService from '../../../service/ProductCategoryService';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import CreateCategoryModal from './CreateCategoryModal';
 import UpdateCategoryModal from './UpdateCategoryModal';
 import ProductService from '../../../service/ProductService';
@@ -63,7 +64,7 @@ const ProductCategoryScreen = () => {
     };
 
     const handleUpdateCategory = (updatedCategory) => {
-        if(updateCategory){
+        if (updateCategory) {
             ProductCategoryService.updateProductCategory(updatedCategory);
             setLoading(true);
         }
@@ -72,7 +73,7 @@ const ProductCategoryScreen = () => {
     };
 
     const handleDeleteCategory = (id) => {
-        if(id){
+        if (id) {
             ProductCategoryService.deleteProductCategory(id);
             setLoading(true);
         }
@@ -104,10 +105,10 @@ const ProductCategoryScreen = () => {
                             </Col>
                             <Col>
                                 <Button type="primary" onClick={() => handleUpdateModalOpen(item?.categoryId)}>
-                                    Cập nhật
+                                    <EditOutlined />
                                 </Button>
                                 <Button type="primary" onClick={() => handleDeleteCategory(item?.categoryId)}>
-                                    Xóa
+                                    <DeleteOutlined />
                                 </Button>
                             </Col>
                         </Row>

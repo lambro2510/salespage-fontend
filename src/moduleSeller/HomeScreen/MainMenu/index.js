@@ -61,7 +61,7 @@ const MainMenu = ({ collapsed }) => {
                     </Menu.Item>
                 </SubMenu>
                 <SubMenu key="sub3" icon={<ShopOutlined />} title="Cửa hàng">
-                    <Menu.Item key="8">
+                    <Menu.Item key="8" onClick={() => navigate('store')}>
                         <Tooltip title="Xem danh sách cửa hàng">
                             Danh sách cửa hàng
                         </Tooltip>

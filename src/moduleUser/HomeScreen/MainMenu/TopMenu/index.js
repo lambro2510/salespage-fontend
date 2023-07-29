@@ -125,7 +125,7 @@ const TopMenu = () => {
             <Col span={11}>
                 <Row justify='space-evenly'>
                     <Col>
-                        <span className='hover-text'>
+                        <span className='hover-text' onClick={() => navigate('seller')}>
                             <p>Kênh người bán</p>
                         </span>
                     </Col>

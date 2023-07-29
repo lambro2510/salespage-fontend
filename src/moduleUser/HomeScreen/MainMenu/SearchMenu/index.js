@@ -26,7 +26,7 @@ const SearchMenu = () => {
     const getProduct = async (productName) => {
         let size = 10;
         const productData = await ProductService.findProduct({ productName: productName, size: size });
-        setProducts(productData?.data | []);
+        setProducts(productData?.data);
     };
 
     const handleInputChange = (e) => {
@@ -36,8 +36,8 @@ const SearchMenu = () => {
 
     const SearchProductMenu = (
         <Menu>
-            {products.length === 0 ? null :
-                products.map((product) => (
+            {products?.length === 0 ? null :
+                products?.map((product) => (
                     <Menu.Item key={product?.productId}>
                         {product?.productName}
                     </Menu.Item>

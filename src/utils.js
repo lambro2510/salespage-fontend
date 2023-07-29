@@ -8,6 +8,7 @@ export function getErrorFromResponse(error) {
     store.dispatch(logout());
     localStorage.removeItem('token')
     notification.error({ message: "Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!" });
+    window.location.href = 'https://salepage-fontend-yygsn.appengine.bfcplatform.vn'
   } else {
     notification.error({ message: "Lỗi hệ thống, vui lòng thử lại sau!" })
   }

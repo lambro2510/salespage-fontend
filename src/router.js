@@ -9,6 +9,7 @@ import DashboardScreen from './moduleSeller/DashboardScreen';
 import SellerHomeScreen from './moduleSeller/HomeScreen';
 import SellerProductScreen from './moduleSeller/HomeScreen/ProductScreen';
 import ProductCategoryScreen from './moduleSeller/HomeScreen/ProductCategoryScreen';
+import SellerStoreScreen from './moduleSeller/HomeScreen/StoreScreen';
 const Router = () => {
 
     return (
@@ -21,6 +22,7 @@ const Router = () => {
                 <Route path="dashboard" element={<DashboardScreen />} />
                 <Route path="product" element={<SellerProductScreen />} />
                 <Route path="product-category" element={<ProductCategoryScreen />} />
+                <Route path="store" element={<SellerStoreScreen />} />
             </Route>
             <Route path="/seller/login" element={<SellerLoginScreen />} />
         </Routes>
