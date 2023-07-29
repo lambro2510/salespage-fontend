@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { List, Pagination, Image, Row, Col, Button } from 'antd';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import ProductService from '../../../service/ProductService';
 import ProductCategoryService from '../../../service/ProductCategoryService';
 import StoreService from '../../../service/StoreService';
@@ -121,6 +122,7 @@ const ProductScreen = () => {
     ProductService.deleteProduct(id)
     setLoading(true);
   }
+  
   return (
     <>
       {createProduct}
@@ -146,12 +148,12 @@ const ProductScreen = () => {
                 <Row justify="space-between" gutter={8}>
                   <Col>
                     <Button type="primary" onClick={() => handleUpdateModalOpen(item?.productId)}>
-                      Cập nhật
+                      <EditOutlined />
                     </Button>
                   </Col>
                   <Col>
                     <Button type="primary" onClick={() => handleDeleteProduct(item?.productId)}>
-                      Xóa
+                      <DeleteOutlined />
                     </Button>
                   </Col>
                 </Row>
