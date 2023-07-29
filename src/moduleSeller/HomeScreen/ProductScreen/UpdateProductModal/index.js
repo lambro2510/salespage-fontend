@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Form, Input, Button, Select } from 'antd';
 import ProductService from '../../../../service/ProductService';
+import ListImage from '../../../../component/ListImageComponent';
 
 const { Option } = Select;
 
 const UpdateProductModal = ({ stores, productCategory, productId, visible, onClose, onUpdate }) => {
+  const [files, setFiles] = useState();
   const [updateProduct, setUpdateProduct] = useState({
     productId: productId,
     productName: '',
@@ -38,6 +40,15 @@ const UpdateProductModal = ({ stores, productCategory, productId, visible, onClo
     const productData = await ProductService.getProductDetail(productId);
     setUpdateProduct(productData);
   };
+
+  const deleteImage = (file) => {
+    ProductService.deleteProductImages(productId, file)
+  }
+
+  const uploadImage = (file) => {
+    console.log('123');
+    ProductService.uploadProductImage(productId, file)
+  }
 
   return (
     <Modal
@@ -107,6 +118,12 @@ const UpdateProductModal = ({ stores, productCategory, productId, visible, onClo
             ))}
           </Select>
         </Form.Item>
+
+        <Form.Item label="Kho ảnh">
+          <ListImage uploadUrl={`/v1/api/product/upload-images?productId=${productId}`} imageUrls={updateProduct?.imageUrl} handleDelete={deleteImage} handleUpload={uploadImage} size={10}></ListImage>
+        </Form.Item>
+
+
       </Form>
     </Modal>
   );
