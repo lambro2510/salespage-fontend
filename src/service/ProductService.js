@@ -66,7 +66,7 @@ const ProductService = {
 
     async deleteProduct(id) {
         try {
-            const response = await axios.delete(URL + '/api/v1/product?id=' + id, {}, {
+            const response = await axios.delete(URL + '/api/v1/product?id=' + id,{
                 headers: Authorization()
             });
             return notificationFromResponse(response?.data);
@@ -117,6 +117,19 @@ const ProductService = {
                         productId: productId,
                         imageIds: images
                     }
+                });
+
+                return notificationFromResponse(response?.data);
+            } catch (error) {
+            getErrorFromResponse(error);
+        }
+    },
+
+    async ratingProduct(productId, point) {
+        try {
+            const response = await axios.post(URL + `/api/v1/product/rating?productId=${productId}&point=${point}`,
+                {
+                    headers: Authorization(),
                 });
 
                 return notificationFromResponse(response?.data);
