@@ -50,7 +50,7 @@ const ListImage = ({ url, images, handleDelete, size, loading }) => {
                     onPreview={onPreview}
                     onRemove={handleDelete}
                 >
-                    {fileList?.length < 5 && '+ Upload'}
+                    {fileList?.length < size && '+ Tải ảnh lên'}
                 </Upload>
             </ImgCrop>
         </Spin>

@@ -71,7 +71,7 @@ const FlashSaleProduct = () => {
           extra={<Link to="#">Xem tất cả</Link>}
           className='card-product'
         >
-          <Carousel {...settings}>
+          <Carousel autoplay {...settings}>
             {flsProducts.map((flsProduct) => (
               <ProductCardComponent key={flsProduct.id} product={flsProduct} />
             ))}

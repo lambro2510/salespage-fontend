@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Carousel, Row, Col, Tooltip, Card } from 'antd';
-import {LeftOutlined, RightOutlined} from '@ant-design/icons';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import './style.scss';
 
 const settings = {
@@ -12,7 +12,7 @@ const settings = {
     arrows: true,
     prevArrow: <LeftOutlined />,
     nextArrow: <RightOutlined />,
-  };
+};
 
 const AdsBanner = () => {
     const [banners, setBanners] = React.useState([
@@ -87,27 +87,31 @@ const AdsBanner = () => {
 
 
     return (
-        <Row justify="center" span={24} className='container'>
-            <Col className='main-banner' justify="center" span={20}>
-                <Row justify="center">
-                    <Col className="banner-container">
-                        <Carousel {...settings} >
-                            {banners.map((banner, index) => (
-                                <img className='ads-image' src={banner} alt="Banner" key={index} />
-                            ))}
-                        </Carousel>
-                    </Col>
-                    <Col justify='space-evenly'>
-                        <Row>
-                            <img className='image' src={img1} alt="Banner" key={1} />
-                        </Row>
-                        <Row>
-                            <img className='image' src={img2} alt="Banner" key={2} />
-                        </Row>
-                    </Col>
-                </Row>
-                {SubMenu}
-            </Col>
+        <Row  justify="center">
+            <Col>
+            <Row justify="center" className='container'>
+                <Col className='main-banner'>
+                    <Row justify="center">
+                        <Col className="banner-container">
+                            <Carousel {...settings} >
+                                {banners.map((banner, index) => (
+                                    <img className='ads-image' src={banner} alt="Banner" key={index} />
+                                ))}
+                            </Carousel>
+                        </Col>
+                        <Col justify='space-evenly'>
+                            <Row>
+                                <img className='image' src={img1} alt="Banner" key={1} />
+                            </Row>
+                            <Row>
+                                <img className='image' src={img2} alt="Banner" key={2} />
+                            </Row>
+                        </Col>
+                    </Row>
+                    {SubMenu}
+                </Col>
+            </Row>
+        </Col>
         </Row>
     );
 };

@@ -10,13 +10,17 @@ import SellerHomeScreen from './moduleSeller/HomeScreen';
 import SellerProductScreen from './moduleSeller/HomeScreen/ProductScreen';
 import ProductCategoryScreen from './moduleSeller/HomeScreen/ProductCategoryScreen';
 import SellerStoreScreen from './moduleSeller/HomeScreen/StoreScreen';
+import ProductScreen from './moduleUser/HomeScreen/ProductDetail';
 const Router = () => {
 
     return (
         <Routes>
             <Route path="/login" element={<LoginScreen />} />
-            <Route path="/" element={<HomeScreen />} />
+            <Route path="/" element={<HomeScreen />} >
+                <Route path='/product/:productId' element={<ProductScreen />} />    
+            </Route>
             <Route path="/unauthorize" element={<UnauthorizedPage />} />
+            
 
             <Route path="/seller" element={<SellerHomeScreen />} >
                 <Route path="dashboard" element={<DashboardScreen />} />

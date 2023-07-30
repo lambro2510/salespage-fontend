@@ -8,16 +8,27 @@ import Product from './Product';
 import FoodProduct from './FoodProduct';
 import HomeFooter from './HomeFooter';
 import './style.scss';
+import { Route, Routes } from 'react-router-dom';
+import ProductDetail from './ProductDetail';
 
 const HomeScreen = () => {
-    return (
-        <Col className='home'>
-            <MainMenu></MainMenu>
+    const home = (
+        <>
             <AdsBanner></AdsBanner>
             <ProductCategory></ProductCategory>
             <FlashSaleProduct></FlashSaleProduct>
             <Product></Product>
             <FoodProduct></FoodProduct>
+        </>
+    )
+    return (
+        <Col className='home'>
+            <MainMenu></MainMenu>
+            <Routes>
+                <Route path='/' element={home} />
+                <Route path='/product/:productId' element={<ProductDetail />} />
+            </Routes>
+
             <HomeFooter></HomeFooter>
         </Col>
     )
