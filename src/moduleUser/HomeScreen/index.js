@@ -10,6 +10,7 @@ import HomeFooter from './HomeFooter';
 import './style.scss';
 import { Route, Routes } from 'react-router-dom';
 import ProductDetail from './ProductDetail';
+import LoginErrorComponent from '../../component/LoginErrorComponent';
 
 const HomeScreen = () => {
     const home = (
@@ -21,8 +22,15 @@ const HomeScreen = () => {
             <FoodProduct></FoodProduct>
         </>
     )
+
+    const modal = (
+        <>
+        <LoginErrorComponent></LoginErrorComponent>
+        </>
+    )
     return (
         <Col className='home'>
+            {modal}
             <MainMenu></MainMenu>
             <Routes>
                 <Route path='/' element={home} />

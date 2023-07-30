@@ -1,14 +1,13 @@
 import { notification } from "antd";
 import { store } from "./redux/store";
 import { logout } from "./redux/authSlice";
+import { loginError } from "./redux/modalVisibleSlice";
 import { useNavigate } from "react-router-dom";
 
 export function getErrorFromResponse(error) {
   if (error.response.status === 401) {
-    store.dispatch(logout());
+    store.dispatch(loginError(true));
     localStorage.removeItem('token')
-    notification.error({ message: "Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!" });
-    window.location.href = 'https://salepage-fontend-yygsn.appengine.bfcplatform.vn'
   } else {
     notification.error({ message: "Lỗi hệ thống, vui lòng thử lại sau!" })
   }
