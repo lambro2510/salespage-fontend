@@ -4,7 +4,7 @@ import { Col, Image, Row, Card, List, Carousel, Rate } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import ProductService from '../../../service/ProductService';
 import './style.scss';
-import { point } from 'leaflet';
+import ProductCard from './ProductCard';
 
 const settings = {
   dots: true,
@@ -34,11 +34,6 @@ const ProductDetail = () => {
     }
   };
 
-  const handleRating = async (point) => {
-    const point = await ProductService.ratingProduct(productId, point);
-    
-  }
-
   return (
     <Row justify="center">
       <Col>
@@ -47,24 +42,14 @@ const ProductDetail = () => {
             <Row justify="center">
               <img className="main-image" src={productDetail?.imageUrl} alt={productDetail?.productName} />
             </Row>
-            <Carousel {...settings}>
+            <Carousel {...settings} >
               {productDetail?.imageUrls?.map((image) => (
                 <img className="sub-image" src={image?.url} key={image?.uid} alt={productDetail?.productName} />
               ))}
             </Carousel>
           </Col>
           <Col xs={24} sm={12} md={12} lg={14}>
-            <Card title={productDetail?.productName}>
-              <p>Giá bán: {productDetail?.productPrice} VND</p>
-              <p>Mô tả: {productDetail?.description}</p>
-              <p>Người bán: {productDetail?.sellerUsername}</p>
-              <p>Cửa hàng bán: {productDetail?.storeName}</p>
-              <p>Địa chỉ bán hàng: {productDetail?.sellingAddress}</p>
-              <p>Đánh giá trung bình: <Rate value={productDetail?.productRate?.avgPoint} /></p>
-              <p>Tổng điểm đánh giá: {productDetail?.productRate?.totalPoint}</p>
-              <p>Tổng số đánh giá: {productDetail?.productRate?.totalRate}</p>
-              {/* Add any other product details you want to display */}
-            </Card>
+            <ProductCard productDetail={productDetail} />
           </Col>
         </Row>
       </Col>
