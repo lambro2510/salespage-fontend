@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Form, Input, Button } from 'antd';
-
+import SellerStoreService from '../../../../service/StoreService';
 const UpdateStoreModal = ({ storeId, visible, onClose, onUpdate }) => {
   const [updateStore, setUpdateStore] = useState({
     storeName: '',
