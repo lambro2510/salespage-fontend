@@ -6,8 +6,11 @@ import ProductCategoryService from '../../../service/ProductCategoryService';
 import StoreService from '../../../service/StoreService';
 import CreateProductModal from './CreateProductModal';
 import UpdateProductModal from './UpdateProductModal';
+import { getRole } from '../../../helper/localStore';
+import { useNavigate } from 'react-router-dom';
 
 const ProductScreen = () => {
+  const navigate = useNavigate();
   const [productFilter, setProductFilter] = useState({});
   const [products, setProducts] = useState([]);
   const [stores, setStores] = useState([]);

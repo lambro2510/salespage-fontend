@@ -16,7 +16,7 @@ const Router = () => {
         <Routes>
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/" element={<HomeScreen />} />
-            <Route path="/not-found" element={<UnauthorizedPage />} />
+            <Route path="/unauthorize" element={<UnauthorizedPage />} />
 
             <Route path="/seller" element={<SellerHomeScreen />} >
                 <Route path="dashboard" element={<DashboardScreen />} />
