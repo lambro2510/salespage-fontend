@@ -34,6 +34,9 @@ const ProductDetail = () => {
     }
   };
 
+  const handleUpdatePoint = (rate) => {
+    setProductDetail({...productDetail, productRate : rate})
+  }
   return (
     <Row justify="center">
       <Col>
@@ -49,7 +52,7 @@ const ProductDetail = () => {
             </Carousel>
           </Col>
           <Col xs={24} sm={12} md={12} lg={14}>
-            <ProductCard productDetail={productDetail} />
+            <ProductCard productDetail={productDetail} handleUpdatePoint={handleUpdatePoint}/>
           </Col>
         </Row>
       </Col>

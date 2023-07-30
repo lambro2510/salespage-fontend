@@ -1,7 +1,7 @@
 import { notification } from "antd";
 import { store } from "./redux/store";
 import { logout } from "./redux/authSlice";
-import { loginError } from "./redux/modalVisibleSlice";
+import { loginError, paymentError } from "./redux/modalVisibleSlice";
 import { useNavigate } from "react-router-dom";
 
 export function getErrorFromResponse(error) {
@@ -15,6 +15,10 @@ export function getErrorFromResponse(error) {
 
 export function notificationFromResponse(response) {
   if (response?.error === true) {
+    if (response?.code === 1) {
+      store.dispatch(paymentError(true));
+    }
+
     if (response?.message) {
       notification.error({
         message: response.message,

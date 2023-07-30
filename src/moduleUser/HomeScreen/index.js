@@ -11,6 +11,7 @@ import './style.scss';
 import { Route, Routes } from 'react-router-dom';
 import ProductDetail from './ProductDetail';
 import LoginErrorComponent from '../../component/LoginErrorComponent';
+import PaymentErrorComponent from '../../component/PaymentErrorComponent';
 
 const HomeScreen = () => {
     const home = (
@@ -26,6 +27,7 @@ const HomeScreen = () => {
     const modal = (
         <>
         <LoginErrorComponent></LoginErrorComponent>
+        <PaymentErrorComponent></PaymentErrorComponent>
         </>
     )
     return (

@@ -74,7 +74,7 @@ const MainMenu = ({ collapsed }) => {
                 </SubMenu>
                 <SubMenu key="sub4" icon={<TagsOutlined />} title="Mã giảm giá">
                     <Menu.Item key="10">
-                        <Tooltip title="Xem kho mã giảm giá">
+                        <Tooltip title="Xem kho mã giảm giá" onClick={() => navigate('voucher-store')}>
                             Kho mã giảm giá
                         </Tooltip>
                     </Menu.Item>

@@ -1,41 +1,41 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginError } from '../../redux/modalVisibleSlice';
+import { paymentError } from '../../redux/modalVisibleSlice';
 import { Modal, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
-const LoginErrorComponent = () => {
+const PaymentErrorComponent = () => {
   const dispatch = useDispatch();
-  const isErrorVisible = useSelector((state) => state.modal.loginError);
+  const isErrorVisible = useSelector((state) => state.modal.paymentError);
   const navigate = useNavigate();
 
   const handleConfirm = () => {
-    navigate('/login');
+    navigate('/profile/payment');
   };
 
   const handleCancel = () => {
-    dispatch(loginError(false));
+    dispatch(paymentError(false));
   };
 
   return (
     <Modal
       visible={isErrorVisible}
-      title="Phiên đăng nhập hết hạn"
+      title="Tạo đơn hàng thất bại"
       footer={[
         <Button key="cancel" onClick={handleCancel}>
           Hủy bỏ
         </Button>,
         <Button key="confirm" type="primary"  onClick={handleConfirm}>
-          Đồng ý
+          Nạp thêm tiền vào tài khoản
         </Button>,
       ]}
       onCancel={handleCancel}
       className="custom-modal" 
     >
       <div className="error-message">
-        <p>Bạn chưa đăng nhập, vui lòng đăng nhập để sử dụng chức năng này.</p>
+        <p>Vui lòng nạp thêm tiền để có thể tiếp tục giao dịch.</p>
       </div>
     </Modal>
   );
 };
 
-export default LoginErrorComponent;
+export default PaymentErrorComponent;

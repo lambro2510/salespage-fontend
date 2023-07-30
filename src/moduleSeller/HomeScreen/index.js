@@ -11,6 +11,7 @@ import DashboardScreen from '../DashboardScreen';
 import SellerProductScreen from './ProductScreen'
 import ProductCategoryScreen from './ProductCategoryScreen';
 import StoreScreen from './StoreScreen';
+import VoucherStore from './VoucherStore';
 
 const { Header, Content } = Layout;
 
@@ -51,6 +52,8 @@ const HomeScreen = () => {
                         <Route path="dashboard" element={<DashboardScreen />} />
                         <Route path="product-category" element={<ProductCategoryScreen />} />
                         <Route path="store" element={<StoreScreen />} />
+                        
+                        <Route path="voucher-store" element={<VoucherStore />} />
                     </Routes>
                 </Content>
             </Layout>
