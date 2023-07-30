@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import {
     MenuFoldOutlined,
-    MenuUnfoldOutlined,
-    UploadOutlined,
-    UserOutlined,
-    VideoCameraOutlined,
+    MenuUnfoldOutlined
 } from '@ant-design/icons';
 
 import MainMenu from './MainMenu';

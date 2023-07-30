@@ -18,7 +18,7 @@ const LoginScreen = () => {
     const handleLogin = async () => {
         const loginResponse = await AccountService.signIn(loginForm);
         if(loginResponse?.role !== 'SELLER'){
-            navigate('/not-found');
+            navigate('/unauthorize');
         }else{
             navigate('/seller');
             setToken(loginResponse.token);
