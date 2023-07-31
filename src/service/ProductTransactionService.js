@@ -20,6 +20,24 @@ const ProductTransactionService = {
         }
     },
 
+    async createProductTransaction(productInfo) {
+        try {
+            const response = await axios.post(URL + '/api/v1/product-transaction',
+                {
+                    quantity: productInfo?.quantity,
+                    note: productInfo?.note,
+                    address: productInfo?.address,
+                    productId: productInfo?.productId,
+                    voucherCode: productInfo?.voucherCode
+                },
+                {
+                    headers: Authorization(),
+                });
+            return notificationFromResponse(response?.data);
+        } catch (error) {
+            getErrorFromResponse(error);
+        }
+    }
 }
 
 export default ProductTransactionService;

@@ -9,6 +9,7 @@ const LoginErrorComponent = () => {
   const navigate = useNavigate();
 
   const handleConfirm = () => {
+    dispatch(loginError(false));
     navigate('/login');
   };
 

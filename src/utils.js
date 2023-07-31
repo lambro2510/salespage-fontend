@@ -15,6 +15,7 @@ export function getErrorFromResponse(error) {
 
 export function notificationFromResponse(response) {
   if (response?.error === true) {
+    
     if (response?.code === 1) {
       store.dispatch(paymentError(true));
     }
