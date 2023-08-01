@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button, Input, Form, Space, Select } from "antd";
+import { Modal, Button, Input, Form, Card, Select, Space, Typography } from "antd";
 import VoucherService from "../../../../service/VoucherStoreService";
 import ProductTransactionService from '../../../../service/ProductTransactionService';
+import { getToken } from '../../../../helper/localStore';
+
+const { Text } = Typography;
 
 const PaymentModal = ({ product, visible, setVisible }) => {
     const [isLoading, setLoading] = useState(false);
@@ -15,7 +18,7 @@ const PaymentModal = ({ product, visible, setVisible }) => {
     });
 
     useEffect(() => {
-        if (product?.productId) {
+        if (product?.productId && getToken()) {
             getUserVoucher(product?.productId);
         }
         setTransactionInfo({ ...transactionInfo, productId: product?.productId });
@@ -29,9 +32,15 @@ const PaymentModal = ({ product, visible, setVisible }) => {
 
     const handleCreateProduct = async () => {
         setLoading(true);
-        const productTransactionResponse = await ProductTransactionService.createProductTransaction(transactionInfo);
+        // Assuming createProductTransaction function returns a success status
+        const successStatus = await ProductTransactionService.createProductTransaction(transactionInfo);
         setLoading(false);
-        setVisible(false);
+        if (successStatus) {
+            setVisible(false);
+            // Show a success message to the user, e.g., notification.success("Purchase successful!");
+        } else {
+            // Show an error message to the user, e.g., notification.error("Purchase failed. Please try again.");
+        }
     };
 
     return (
@@ -39,7 +48,6 @@ const PaymentModal = ({ product, visible, setVisible }) => {
             title="Xác nhận mua hàng"
             visible={visible}
             onCancel={() => setVisible(false)}
-            loading={isLoading}
             footer={[
                 <Button key="cancel" onClick={() => setVisible(false)}>
                     Hủy
@@ -69,7 +77,6 @@ const PaymentModal = ({ product, visible, setVisible }) => {
                         onChange={(e) => setTransactionInfo({ ...transactionInfo, address: e.target.value })}
                     />
                 </Form.Item>
-                {/* Add the Voucher Code combobox */}
                 <Form.Item label="Chọn voucher code">
                     <Select
                         value={transactionInfo.voucherCode}
@@ -77,7 +84,15 @@ const PaymentModal = ({ product, visible, setVisible }) => {
                     >
                         {userVoucher.map((voucher) => (
                             <Select.Option key={voucher.voucherCode} value={voucher.voucherCode}>
-                                {voucher.voucherCode} - {voucher.voucherStoreName}
+                                {voucher.voucherStoreName}
+                                <Card style={{ marginBottom: 10, backgroundColor: 'inherit' }}>
+                                    <Space direction="vertical">
+                                        <Text >Mã giảm giá: {voucher.voucherStoreName}</Text>
+                                        <Text >Giảm giá từ {voucher.minPrice} đến {voucher.maxPrice}</Text>
+                                        <Text >Giảm giá: {voucher.discountType === "PERCENT" ? '%' : 'VND'}</Text>
+                                        <Text >Mã hết hạn trong: {voucher.dayToExpireTime} ngày</Text>
+                                    </Space>
+                                </Card>
                             </Select.Option>
                         ))}
                     </Select>

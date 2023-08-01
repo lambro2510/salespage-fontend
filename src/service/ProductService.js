@@ -87,7 +87,6 @@ const ProductService = {
     async getProductDetail(productId) {
         try {
             const response = await axios.get(URL + '/api/v1/public/product/detail' + `?productId=${productId}`,
-             {},
             {
                 headers: Authorization()
             });

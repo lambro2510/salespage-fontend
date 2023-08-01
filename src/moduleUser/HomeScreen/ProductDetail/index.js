@@ -35,7 +35,7 @@ const ProductDetail = () => {
   };
 
   const handleUpdatePoint = (rate) => {
-    setProductDetail({...productDetail, productRate : rate})
+    setProductDetail({...productDetail, productRate : rate?.rate, rate: rate?.yourRate})
   }
   return (
     <Row justify="center">

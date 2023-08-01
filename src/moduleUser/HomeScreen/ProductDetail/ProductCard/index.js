@@ -10,7 +10,7 @@ const ProductCard = ({ productDetail, handleUpdatePoint }) => {
 
     const handleRating = async (point) => {
         const rate = await ProductService.ratingProduct(productDetail?.productId, point);
-        handleUpdatePoint(rate);
+        handleUpdatePoint({rate : rate, yourRate : point});
     };
 
     const handleLike = () => {
@@ -47,7 +47,8 @@ const ProductCard = ({ productDetail, handleUpdatePoint }) => {
       <p>Người bán: {productDetail?.sellerUsername}</p>
       <p>Cửa hàng bán: {productDetail?.storeName}</p>
       <p>Địa chỉ bán hàng: {productDetail?.sellingAddress}</p>
-      <p>Đánh giá trung bình: <Rate value={productDetail?.productRate?.avgPoint} onChange={handleRating} /></p>
+      <p>Đánh giá của bạn: <Rate value={productDetail?.rate} onChange={handleRating} /></p>
+      <p>Đánh giá trung bình: {productDetail?.productRate?.avgPoint} </p>
       <p>Tổng điểm đánh giá: {productDetail?.productRate?.totalPoint}</p>
       <p>Tổng số đánh giá: {productDetail?.productRate?.totalRate}</p>
     </Card>
