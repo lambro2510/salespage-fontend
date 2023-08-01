@@ -21,6 +21,7 @@ const ProductTransactionService = {
     },
 
     async createProductTransaction(productInfo) {
+        console.log(productInfo);
         try {
             const response = await axios.post(URL + '/api/v1/product-transaction',
                 {

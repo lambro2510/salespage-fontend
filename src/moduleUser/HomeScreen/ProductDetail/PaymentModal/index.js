@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button, Input, Form, Space } from "antd";
+import { Modal, Button, Input, Form, Space, Select } from "antd";
 import VoucherService from "../../../../service/VoucherStoreService";
 import ProductTransactionService from '../../../../service/ProductTransactionService';
 
@@ -11,14 +11,14 @@ const PaymentModal = ({ product, visible, setVisible }) => {
         note: "",
         address: "",
         productId: product?.productId,
-        voucherCode: ""
+        voucherCode: null, // Initialize voucherCode as null
     });
 
     useEffect(() => {
-        if(product?.productId){
-            console.log(product?.productId);
+        if (product?.productId) {
             getUserVoucher(product?.productId);
         }
+        setTransactionInfo({ ...transactionInfo, productId: product?.productId });
     }, [product?.productId]);
 
     const getUserVoucher = async (productId) => {
@@ -32,7 +32,6 @@ const PaymentModal = ({ product, visible, setVisible }) => {
         const productTransactionResponse = await ProductTransactionService.createProductTransaction(transactionInfo);
         setLoading(false);
         setVisible(false);
-        // Add any additional handling after the purchase, e.g., displaying a success message or updating the UI.
     };
 
     return (
@@ -40,6 +39,7 @@ const PaymentModal = ({ product, visible, setVisible }) => {
             title="Xác nhận mua hàng"
             visible={visible}
             onCancel={() => setVisible(false)}
+            loading={isLoading}
             footer={[
                 <Button key="cancel" onClick={() => setVisible(false)}>
                     Hủy
@@ -69,14 +69,18 @@ const PaymentModal = ({ product, visible, setVisible }) => {
                         onChange={(e) => setTransactionInfo({ ...transactionInfo, address: e.target.value })}
                     />
                 </Form.Item>
-                {/* You can add more form items for voucher selection, additional information, etc. */}
-                <Form.Item>
-                    <Space>
-                        <Button onClick={() => setVisible(false)}>Hủy</Button>
-                        <Button type="primary" onClick={handleCreateProduct} loading={isLoading}>
-                            Đồng ý
-                        </Button>
-                    </Space>
+                {/* Add the Voucher Code combobox */}
+                <Form.Item label="Chọn voucher code">
+                    <Select
+                        value={transactionInfo.voucherCode}
+                        onChange={(value) => setTransactionInfo({ ...transactionInfo, voucherCode: value })}
+                    >
+                        {userVoucher.map((voucher) => (
+                            <Select.Option key={voucher.voucherCode} value={voucher.voucherCode}>
+                                {voucher.voucherCode} - {voucher.voucherStoreName}
+                            </Select.Option>
+                        ))}
+                    </Select>
                 </Form.Item>
             </Form>
         </Modal>
