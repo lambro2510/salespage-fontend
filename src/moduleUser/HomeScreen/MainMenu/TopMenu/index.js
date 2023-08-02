@@ -54,7 +54,7 @@ const TopMenu = () => {
 
     const profileMenu = (
         <Menu>
-            <Menu.Item key="profile">
+            <Menu.Item key="profile" onClick={() => navigate('profile')}>
                 Thông tin tài khoản
             </Menu.Item>
             <Menu.Item key="order">

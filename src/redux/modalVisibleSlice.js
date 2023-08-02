@@ -3,7 +3,8 @@ export const modalVisibleSlice = createSlice({
   name: 'auth',
   initialState: {
     loginError : false,
-    paymentError : false
+    paymentError : false,
+    payment: true
   },
   reducers: {
     loginError: (state, action) => {
@@ -12,9 +13,12 @@ export const modalVisibleSlice = createSlice({
     paymentError: (state, action) => {
       state.paymentError = action.payload;
     },
+    payment: (state, action) => {
+      state.payment = action.payload;
+    },
   },
 })
 
-export const { loginError, paymentError } = modalVisibleSlice.actions
+export const { loginError, paymentError, payment } = modalVisibleSlice.actions
 
 export default modalVisibleSlice.reducer

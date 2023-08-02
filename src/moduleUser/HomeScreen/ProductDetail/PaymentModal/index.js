@@ -3,10 +3,12 @@ import { Modal, Button, Input, Form, Card, Select, Space, Typography } from "ant
 import VoucherService from "../../../../service/VoucherStoreService";
 import ProductTransactionService from '../../../../service/ProductTransactionService';
 import { getToken } from '../../../../helper/localStore';
+import { useNavigate } from "react-router-dom";
 
 const { Text } = Typography;
 
 const PaymentModal = ({ product, visible, setVisible }) => {
+    const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
     const [userVoucher, setUserVoucher] = useState([]);
     const [transactionInfo, setTransactionInfo] = useState({
@@ -14,7 +16,7 @@ const PaymentModal = ({ product, visible, setVisible }) => {
         note: "",
         address: "",
         productId: product?.productId,
-        voucherCode: null, // Initialize voucherCode as null
+        voucherCode: null,
     });
 
     useEffect(() => {
@@ -30,16 +32,14 @@ const PaymentModal = ({ product, visible, setVisible }) => {
         setUserVoucher(userVoucherData);
     };
 
-    const handleCreateProduct = async () => {
+    const handleCreateProductTransaction = async () => {
         setLoading(true);
-        // Assuming createProductTransaction function returns a success status
         const successStatus = await ProductTransactionService.createProductTransaction(transactionInfo);
         setLoading(false);
         if (successStatus) {
             setVisible(false);
-            // Show a success message to the user, e.g., notification.success("Purchase successful!");
+            navigate('location-map')
         } else {
-            // Show an error message to the user, e.g., notification.error("Purchase failed. Please try again.");
         }
     };
 
@@ -52,7 +52,7 @@ const PaymentModal = ({ product, visible, setVisible }) => {
                 <Button key="cancel" onClick={() => setVisible(false)}>
                     Hủy
                 </Button>,
-                <Button key="buy" type="primary" onClick={handleCreateProduct} loading={isLoading}>
+                <Button key="buy" type="primary" onClick={handleCreateProductTransaction} loading={isLoading}>
                     Đồng ý
                 </Button>,
             ]}
@@ -88,7 +88,7 @@ const PaymentModal = ({ product, visible, setVisible }) => {
                                 <Card style={{ marginBottom: 10, backgroundColor: 'inherit' }}>
                                     <Space direction="vertical">
                                         <Text >Mã giảm giá: {voucher.voucherStoreName}</Text>
-                                        <Text >Giảm giá từ {voucher.minPrice} đến {voucher.maxPrice}</Text>
+                                        <Text >Giảm giá từ cho các sản phẩm từ {voucher.minPrice} đến {voucher.maxPrice}</Text>
                                         <Text >Giảm giá: {voucher.discountType === "PERCENT" ? '%' : 'VND'}</Text>
                                         <Text >Mã hết hạn trong: {voucher.dayToExpireTime} ngày</Text>
                                     </Space>

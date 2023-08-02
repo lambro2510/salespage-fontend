@@ -52,7 +52,6 @@ const HomeScreen = () => {
                         <Route path="dashboard" element={<DashboardScreen />} />
                         <Route path="product-category" element={<ProductCategoryScreen />} />
                         <Route path="store" element={<StoreScreen />} />
-                        
                         <Route path="voucher-store" element={<VoucherStore />} />
                     </Routes>
                 </Content>

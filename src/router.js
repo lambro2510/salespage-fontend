@@ -2,6 +2,10 @@ import * as React from 'react'
 import { Route, Routes } from "react-router-dom";
 import LoginScreen from './moduleUser/LoginScreen';
 import HomeScreen from './moduleUser/HomeScreen';
+import LocationMap from './moduleUser/HomeScreen/LocationMap';
+import UserProfile from './moduleUser/HomeScreen/UserProfile';
+import PaymentTransaction from './moduleUser/HomeScreen/UserProfile/PaymentTransaction';
+
 import UnauthorizedPage from './component/403Error';
 
 import ProductScreen from './moduleUser/HomeScreen/ProductDetail';
@@ -20,7 +24,11 @@ const Router = () => {
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/" element={<HomeScreen />} >
                 <Route path='/product/:productId' element={<ProductScreen />} />    
+                <Route path='profile' element={<UserProfile />} >
+                    <Route path='payment' element={<PaymentTransaction />} />    
+                </Route>
             </Route>
+            <Route path='location-map' element={<LocationMap />} />
             <Route path="/unauthorize" element={<UnauthorizedPage />} />
             
 

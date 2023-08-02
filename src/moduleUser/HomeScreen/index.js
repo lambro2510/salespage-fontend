@@ -12,6 +12,8 @@ import { Route, Routes } from 'react-router-dom';
 import ProductDetail from './ProductDetail';
 import LoginErrorComponent from '../../component/LoginErrorComponent';
 import PaymentErrorComponent from '../../component/PaymentErrorComponent';
+import PaymentComponent from '../../component/PaymentModalComponent';
+import UserProfile from './UserProfile';
 
 const HomeScreen = () => {
     const home = (
@@ -28,6 +30,7 @@ const HomeScreen = () => {
         <>
         <LoginErrorComponent></LoginErrorComponent>
         <PaymentErrorComponent></PaymentErrorComponent>
+        <PaymentComponent/>
         </>
     )
     return (
@@ -37,6 +40,7 @@ const HomeScreen = () => {
             <Routes>
                 <Route path='/' element={home} />
                 <Route path='/product/:productId' element={<ProductDetail />} />
+                <Route path='profile' element={<UserProfile />} />
             </Routes>
 
             <HomeFooter></HomeFooter>
