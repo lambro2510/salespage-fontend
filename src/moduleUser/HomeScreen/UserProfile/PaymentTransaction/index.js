@@ -8,7 +8,6 @@ import QrCodeModal from "./QrCodeModal";
 const PaymentTransaction = () => {
     const [paymentTransaction, setPaymentTransaction] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [qrCode, setQrCode] = useState();
     const [isCreatePaymentModalVisible, setIsCreatePaymentModalVisible] = useState(false);
     const [isQrCodeModalVisible, setIsQrCodeModalVisible] = useState(false);
     const [selectedPaymentId, setSelectedPaymentId] = useState(null);
@@ -26,11 +25,10 @@ const PaymentTransaction = () => {
         await PaymentService.cancelPayment(paymentId);
     };
 
-    const genQrForPayment = async (paymentId) => {
-        const qrData = await BankService.genQrForPayment(paymentId);
-        setQrCode(qrData);
+    const openQrModal = (paymentId) => {
+        setSelectedPaymentId(paymentId);
         setIsQrCodeModalVisible(true);
-    };
+    }
 
     return (
         <div>
@@ -41,7 +39,7 @@ const PaymentTransaction = () => {
             <QrCodeModal
                 isVisible={isQrCodeModalVisible}
                 setIsVisible={setIsQrCodeModalVisible}
-                qrData={qrCode}
+                paymentId={selectedPaymentId}
             />
             <h2>Payment Transactions</h2>
             <List
@@ -56,7 +54,7 @@ const PaymentTransaction = () => {
                         <p>Bank Account Name: {payment.bankAccountName}</p>
                         <p>Amount: {payment.amount}</p>
                         <p>Created: {payment.created}</p>
-                        <Button onClick={() => genQrForPayment(payment.paymentId)}>Generate QR</Button>
+                        <Button onClick={() => openQrModal(payment.paymentId)}>Generate QR</Button>
                         <Button onClick={() => cancelPayment(payment.paymentId)}>Cancel Payment</Button>
                     </List.Item>
                 )}

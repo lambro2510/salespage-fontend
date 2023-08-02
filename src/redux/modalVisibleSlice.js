@@ -4,7 +4,7 @@ export const modalVisibleSlice = createSlice({
   initialState: {
     loginError : false,
     paymentError : false,
-    payment: true
+    payment: false
   },
   reducers: {
     loginError: (state, action) => {
