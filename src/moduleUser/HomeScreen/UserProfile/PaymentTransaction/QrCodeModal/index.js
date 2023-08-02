@@ -5,8 +5,8 @@ const QrCodeModal = ({ isVisible, setIsVisible, qrData }) => {
     const [image, setImage] = useState(qrData?.qrDataURL);
 
     useEffect(() => {
-        console.log(image);
-    })
+        setImage(qrData);
+    }, [qrData])
     return (
         <Modal
             visible={isVisible}
