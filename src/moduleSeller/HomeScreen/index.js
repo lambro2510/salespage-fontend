@@ -12,6 +12,7 @@ import SellerProductScreen from './ProductScreen'
 import ProductCategoryScreen from './ProductCategoryScreen';
 import StoreScreen from './StoreScreen';
 import VoucherStore from './VoucherStore';
+import UserProfile from '../../moduleUser/HomeScreen/UserProfile';
 
 const { Header, Content } = Layout;
 
