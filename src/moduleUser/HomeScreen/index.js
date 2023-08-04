@@ -14,6 +14,7 @@ import LoginErrorComponent from '../../component/LoginErrorComponent';
 import PaymentErrorComponent from '../../component/PaymentErrorComponent';
 import PaymentComponent from '../../component/PaymentModalComponent';
 import UserProfile from './UserProfile';
+import PaymentTransaction from './UserProfile/PaymentTransaction';
 
 const HomeScreen = () => {
     const home = (
@@ -40,7 +41,9 @@ const HomeScreen = () => {
             <Routes>
                 <Route path='/' element={home} />
                 <Route path='/product/:productId' element={<ProductDetail />} />
-                <Route path='profile' element={<UserProfile />} />
+                <Route path='profile' element={<UserProfile />} >
+                    <Route path='payment' element={<PaymentTransaction />} />
+                </Route>
             </Routes>
 
             <HomeFooter></HomeFooter>

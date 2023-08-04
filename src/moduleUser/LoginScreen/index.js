@@ -18,7 +18,7 @@ const LoginScreen = () => {
     const handleLogin = async () => {
         const loginResponse = await AccountService.signIn(loginForm);
         setToken(loginResponse.token);
-        navigate('/');
+        navigate(-1);
     };
 
     return (

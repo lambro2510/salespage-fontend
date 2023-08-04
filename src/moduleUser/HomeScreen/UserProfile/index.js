@@ -36,7 +36,6 @@ const UserProfile = () => {
             </Header>
 
             <Content>
-                <PaymentTransaction />
                 <Routes >
                     <Route path='payment' element={<PaymentTransaction />} />
                 </Routes>

@@ -30,10 +30,21 @@ const BankService = {
         }
     },
 
-    async genQrForPayment(paymentId) {
+    async genQrForPayment(paymentId, bankInfo) {
         try {
-            const response = await axios.post(URL + `/api/v1/bank/gen-qr?paymentId=${paymentId}`,
+            const response = await axios.post(URL + `/api/v1/bank/gen-qr?paymentId=${paymentId}&bin=${bankInfo?.bin}&bankAccountId=${bankInfo?.bankAccount}`,
             {},
+            {
+                headers: Authorization(),
+            });
+            return notificationFromResponse(response?.data);
+        } catch (error) {
+            getErrorFromResponse(error);
+        }
+    },
+    async getPaymentBank() {
+        try {
+            const response = await axios.get(URL + `/api/v1/bank/payment-bank-account`,
             {
                 headers: Authorization(),
             });
