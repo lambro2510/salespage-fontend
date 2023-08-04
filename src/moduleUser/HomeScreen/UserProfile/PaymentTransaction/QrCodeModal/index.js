@@ -11,8 +11,8 @@ const QrCodeModal = ({ isVisible, setIsVisible, paymentId }) => {
     const [paymentBanks, setPaymentBanks] = useState([]);
 
     useEffect(() => {
-        
-        if (selectedPayment ) {
+
+        if (selectedPayment) {
             genQrForPayment();
         }
     }, [selectedPayment]);
@@ -23,6 +23,7 @@ const QrCodeModal = ({ isVisible, setIsVisible, paymentId }) => {
 
     useEffect(() => {
         setQrCode(null)
+        setSelectedPayment(paymentBanks[0])
     }, [paymentId]);
 
     const genQrForPayment = async () => {
@@ -68,15 +69,17 @@ const QrCodeModal = ({ isVisible, setIsVisible, paymentId }) => {
             </Radio.Group>
             {selectedPayment && (
                 <div>
-                    <Text strong>Selected Bank:</Text>
+                    <Text strong>Ngân hàng bạn chọn:</Text>
                     <Text> {selectedPayment?.bankName}</Text>
                 </div>
             )}
-            {loading ? (
-                <Spin size="large" />
-            ) : (
-                qrCode && <Image preview={false} src={qrCode.qrDataURL} alt="QR Code" />
-            )}
+            <div style={{display: 'flex', justifyContent : 'center', paddingTop: '1vh'}}>
+                {loading ? (
+                    <Spin size="large" />
+                ) : (
+                    qrCode && <Image preview={false} src={qrCode.qrDataURL} alt="QR Code" />
+                )}
+            </div>
         </Modal>
     );
 };

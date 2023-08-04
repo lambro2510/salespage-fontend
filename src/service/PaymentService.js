@@ -20,7 +20,8 @@ const PaymentService = {
 
     async cancelPayment(paymentId) {
         try {
-            const response = await axios.put(URL + `/api/v1/payment/create-payment?paymentId=${paymentId}`,
+            const response = await axios.put(URL + `/api/v1/payment/cancel-payment?paymentId=${paymentId}`,
+            {},
             {
                 headers: Authorization(),
             });

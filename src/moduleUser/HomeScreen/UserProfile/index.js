@@ -5,42 +5,43 @@ import { Card, Layout, Menu, Slider } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import { Link, Route, Routes } from "react-router-dom";
+import SubMenu from "antd/es/menu/SubMenu";
+import Profile from "./Profile";
 
 const UserProfile = () => {
 
-    const [profile, setProfile] = useState();
-
-    useEffect(() => {
-        getProfile();
-    }, []);
-
-
-    const getProfile = async () => {
-        const profileData = UserService.getProfile();
-        setProfile(profileData);
-    };
-
-
+    
 
     return (
-        <Layout >
-            <Sider style={{ backgroundColor: "inherit" }}>
-                <Menu title="Giao dịch">
-                    <Menu.Item>
-                        <Link to={'payment'}>Giao dịch</Link>
-                    </Menu.Item>
-                </Menu>
-            </Sider>
-            <Header color="inherit" style={{ backgroundColor: "inherit" }}>
-                123
-            </Header>
+        <Layout>
+            <Profile style={{ width: '100%' }} />
+            <Layout>
+                <Sider style={{ backgroundColor: "#fff" }}>
+                    <Menu mode="inline" defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']}>
+                        <SubMenu key="sub2" title="Tài khoản">
+                            <Menu.Item key="1">
+                                <Link to={'account'}>Thông tin tài khoản</Link>
+                            </Menu.Item>
+                        </SubMenu>
+                        <SubMenu key="sub1" title="Giao dịch">
 
-            <Content>
-                <Routes >
-                    <Route path='payment' element={<PaymentTransaction />} />
-                </Routes>
-            </Content>
+                            <Menu.Item key="2">
+                                <Link to={'bank-account'}>Liên kết tài khoản</Link>
+                            </Menu.Item>
+                            <Menu.Item key="3">
+                                <Link to={'payment'}>Lịch sử giao dịch</Link>
+                            </Menu.Item>
+                        </SubMenu>
 
+                    </Menu>
+                </Sider>
+                <Content>
+                    <Routes >
+                        <Route path='payment' element={<PaymentTransaction />} />
+                    </Routes>
+                </Content>
+
+            </Layout>
         </Layout>
     )
 }

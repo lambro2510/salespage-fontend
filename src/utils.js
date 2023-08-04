@@ -39,6 +39,14 @@ export function notificationFromResponse(response) {
   return response?.data;
 }
 
+export function formatCurrency(number) {
+  const formatter = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND"
+  });
+
+  return formatter.format(number);
+}
 
 export function getMessageFromError(message) {
   const regex = /default message \[(.*?)\]/g;
