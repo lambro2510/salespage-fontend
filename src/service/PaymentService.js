@@ -6,7 +6,7 @@ const PaymentService = {
         try {
             const response = await axios.post(URL + '/api/v1/payment/create-payment',
             {
-                'bankAccountId' : paymentInfo?.paymentInfo,
+                'bankAccountId' : paymentInfo?.bankAccountId,
                 'amount' : paymentInfo?.amount
             },
             {

@@ -15,6 +15,7 @@ import PaymentErrorComponent from '../../component/PaymentErrorComponent';
 import PaymentComponent from '../../component/PaymentModalComponent';
 import UserProfile from './UserProfile';
 import PaymentTransaction from './UserProfile/PaymentTransaction';
+import CreatePayment from './UserProfile/CreatePayment';
 
 const HomeScreen = () => {
     const home = (
@@ -42,7 +43,8 @@ const HomeScreen = () => {
                 <Route path='/' element={home} />
                 <Route path='/product/:productId' element={<ProductDetail />} />
                 <Route path='profile' element={<UserProfile />} >
-                    <Route path='payment' element={<PaymentTransaction />} />
+                    <Route path='payment/transaction' element={<PaymentTransaction />} />
+                    <Route path='payment/create' element={<CreatePayment />} />
                 </Route>
             </Routes>
 

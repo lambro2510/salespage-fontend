@@ -1,4 +1,4 @@
-import { notification } from "antd";
+import { message } from "antd";
 import { store } from "./redux/store";
 import { logout } from "./redux/authSlice";
 import { loginError, paymentError } from "./redux/modalVisibleSlice";
@@ -7,33 +7,26 @@ import { useNavigate } from "react-router-dom";
 export function getErrorFromResponse(error) {
   if (error.response.status === 401) {
     store.dispatch(loginError(true));
-    localStorage.removeItem('token')
+    localStorage.removeItem('token');
   } else {
-    notification.error({ message: "Lỗi hệ thống, vui lòng thử lại sau!" })
+    message.error("Lỗi hệ thống, vui lòng thử lại sau!");
   }
 }
 
 export function notificationFromResponse(response) {
   if (response?.error === true) {
-    
     if (response?.code === 1) {
       store.dispatch(paymentError(true));
     }
 
     if (response?.message) {
-      notification.error({
-        message: response.message,
-      });
+      message.error(response.message);
     } else {
-      notification.error({
-        message: 'Hệ thống đang bảo trì, vui lòng thử lại sau.',
-      });
+      message.error('Hệ thống đang bảo trì, vui lòng thử lại sau.');
     }
   } else {
     if (response?.message) {
-      notification.success({
-        message: response.message,
-      });
+      message.success(response.message);
     }
   }
   return response?.data;
@@ -65,13 +58,3 @@ export function Authorization() {
   };
 }
 
-
-
-export function useLogoutAndNavigate() {
-  const navigate = useNavigate();
-  return () => {
-    store.dispatch(logout());
-    notification.error({ message: "Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!" });
-    navigate('/login');
-  };
-}

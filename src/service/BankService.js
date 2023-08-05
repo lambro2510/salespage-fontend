@@ -14,6 +14,30 @@ const BankService = {
         }
     },
 
+    async getListBankAccount() {
+        try {
+            const response = await axios.get(URL + `/api/v1/bank/link-bank-account`,
+            {
+                headers: Authorization(),
+            });
+            return notificationFromResponse(response?.data);
+        } catch (error) {
+            getErrorFromResponse(error);
+        }
+    },
+
+    async createListBankAccount() {
+        try {
+            const response = await axios.post(URL + `/api/v1/bank/list-bank-account`,
+            {
+                headers: Authorization(),
+            });
+            return notificationFromResponse(response?.data);
+        } catch (error) {
+            getErrorFromResponse(error);
+        }
+    },
+
     async bankAccountInfo(bankAccountInfo) {
         try {
             const response = await axios.get(URL + `/api/v1/bank/list-bank`,

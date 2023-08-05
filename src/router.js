@@ -5,6 +5,7 @@ import HomeScreen from './moduleUser/HomeScreen';
 import LocationMap from './moduleUser/HomeScreen/LocationMap';
 import UserProfile from './moduleUser/HomeScreen/UserProfile';
 import PaymentTransaction from './moduleUser/HomeScreen/UserProfile/PaymentTransaction';
+import CreatePayment from './moduleUser/HomeScreen/UserProfile/CreatePayment';
 
 import UnauthorizedPage from './component/403Error';
 
@@ -25,7 +26,8 @@ const Router = () => {
             <Route path="/" element={<HomeScreen />} >
                 <Route path='/product/:productId' element={<ProductScreen />} />    
                 <Route path='profile' element={<UserProfile />} >
-                    <Route path='payment' element={<PaymentTransaction />} />    
+                    <Route path='payment/transaction' element={<PaymentTransaction />} />    
+                    <Route path='payment/create' element={<CreatePayment />} />    
                 </Route>
             </Route>
             <Route path='location-map' element={<LocationMap />} />

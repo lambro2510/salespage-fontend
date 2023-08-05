@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { List, Button, Space, Layout, Typography, Modal, Card, Row } from "antd";
 import PaymentService from "../../../../service/PaymentService";
-import BankService from "../../../../service/BankService";
 import CreatePaymentModal from "./CreatePaymentModal";
 import QrCodeModal from "./QrCodeModal";
 import { formatCurrency } from "../../../../utils";
