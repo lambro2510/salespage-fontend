@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button, Input, Form, Card, Select, Space, Typography } from "antd";
+import { Modal, Button, Input, Form, Card, Select, Space, Typography, message } from "antd";
 import VoucherService from "../../../../service/VoucherStoreService";
 import ProductTransactionService from '../../../../service/ProductTransactionService';
 import { getToken } from '../../../../helper/localStore';
@@ -27,19 +27,34 @@ const PaymentModal = ({ product, visible, setVisible }) => {
     }, [product?.productId]);
 
     const getUserVoucher = async (productId) => {
-        console.log(productId);
-        const userVoucherData = await VoucherService.getUserVoucherForProduct(productId);
-        setUserVoucher(userVoucherData);
+        try {
+            const userVoucherData = await VoucherService.getUserVoucherForProduct(productId);
+            setUserVoucher(userVoucherData);
+        } catch (error) {
+            // Handle error (e.g., show error message)
+        }
     };
 
     const handleCreateProductTransaction = async () => {
+        // Check if all required fields are filled
+        if (!transactionInfo.quantity || !transactionInfo.address) {
+            message.error("Please fill in all required fields.");
+            return;
+        }
+
         setLoading(true);
-        const successStatus = await ProductTransactionService.createProductTransaction(transactionInfo);
-        setLoading(false);
-        if (successStatus) {
-            setVisible(false);
-            navigate('location-map')
-        } else {
+        try {
+            const successStatus = await ProductTransactionService.createProductTransaction(transactionInfo);
+            if (successStatus) {
+                setVisible(false);
+                navigate('location-map');
+            } else {
+                // Handle error (e.g., show error message)
+            }
+        } catch (error) {
+            // Handle error (e.g., show error message)
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -88,8 +103,7 @@ const PaymentModal = ({ product, visible, setVisible }) => {
                                 <Card style={{ marginBottom: 10, backgroundColor: 'inherit' }}>
                                     <Space direction="vertical">
                                         <Text >Mã giảm giá: {voucher.voucherStoreName}</Text>
-                                        <Text >Giảm giá từ cho các sản phẩm từ {voucher.minPrice} đến {voucher.maxPrice}</Text>
-                                        <Text >Giảm giá: {voucher.discountType === "PERCENT" ? '%' : 'VND'}</Text>
+                                        <Text >Giảm giá: {voucher.discountType === "PERCENT" ? '%' : 'VND'} cho các sản phẩm từ {voucher.minPrice} đến {voucher.maxPrice}</Text>
                                         <Text >Mã hết hạn trong: {voucher.dayToExpireTime} ngày</Text>
                                     </Space>
                                 </Card>
