@@ -1,4 +1,4 @@
-import { Card, Image } from 'antd';
+import { Card, Image, Space } from 'antd';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './style.scss';
@@ -14,9 +14,13 @@ const ProductCardComponent = ({ product }) => {
   };
 
   return (
-    <div className='card' onClick={handleCardClick}>
-      <Card className='card-container' cover={mainImage(product?.imageUrl)} hoverable>
-        <Card.Meta title={product?.productName} description={product?.description} />
+    <div className='card' onClick={handleCardClick} >
+      <Card  bordered="1px" className='card-container' cover={mainImage(product?.imageUrl)} hoverable>
+        <Space className='card-meta'>
+        <Card.Meta  title={product?.productName} description={product?.description} >
+          
+          </Card.Meta>
+        </Space>
       </Card>
     </div>
   );
