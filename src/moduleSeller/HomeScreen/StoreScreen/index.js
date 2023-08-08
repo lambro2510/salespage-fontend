@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SellerStoreService from '../../../service/StoreService';
-import { List, Pagination, Image, Row, Col, Button } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { List, Pagination, Image, Row, Col, Button, Spin } from 'antd';
+import { EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import CreateStoreModal from './CreateStoreModal';
 import UpdateStoreModal from './UpdateStoreModal';
 
@@ -13,14 +13,17 @@ const StoreScreen = () => {
     size: 10,
     total: 0,
   });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getStore();
   }, []);
 
   const getStore = async () => {
+    setLoading(true);
     const storeData = await SellerStoreService.getSellerStore();
     setStores(storeData?.data);
+    setLoading(false);
   };
 
   const handlePageChange = (page, pageSize) => {
@@ -49,7 +52,7 @@ const StoreScreen = () => {
   const createStore = (
     <>
       <Button type="primary" onClick={handleCreateModalOpen}>
-        Create Product
+        <PlusOutlined /> Create Store
       </Button>
       <CreateStoreModal
         visible={isCreateModalVisible}
@@ -94,41 +97,43 @@ const StoreScreen = () => {
     <>
       {createStore}
       {updateStore}
-      <List
-        itemLayout="vertical"
-        dataSource={store}
-        renderItem={(item) => (
-          <List.Item key={item?.storeId}>
-            <Row justify="space-between" align="middle">
-              <Col>
-                <Row gutter={16}>
-                  <Col>
-                    <Image src={item?.imageUrl} />
-                  </Col>
-                  <Col>
-                    <h3>{item?.storeName}</h3>
-                    <p>{item?.description}</p>
-                  </Col>
-                </Row>
-              </Col>
-              <Col>
-                <Row justify="space-between" gutter={8}>
-                  <Col>
-                    <Button type="primary" onClick={() => handleUpdateModalOpen(item?.storeId)}>
-                      <EditOutlined />
-                    </Button>
-                  </Col>
-                  <Col>
-                    <Button type="primary" onClick={() => handleDeleteStore(item?.storeId)}>
-                      <DeleteOutlined />
-                    </Button>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          </List.Item>
-        )}
-      />
+      <Spin spinning={loading}>
+        <List
+          itemLayout="vertical"
+          dataSource={store}
+          renderItem={(item) => (
+            <List.Item key={item?.storeId}>
+              <Row justify="space-between" align="middle">
+                <Col>
+                  <Row gutter={16}>
+                    <Col>
+                      <Image src={item?.imageUrl} />
+                    </Col>
+                    <Col>
+                      <h3>{item?.storeName}</h3>
+                      <p>{item?.description}</p>
+                    </Col>
+                  </Row>
+                </Col>
+                <Col>
+                  <Row justify="space-between" gutter={8}>
+                    <Col>
+                      <Button type="primary" onClick={() => handleUpdateModalOpen(item?.storeId)}>
+                        <EditOutlined /> Edit
+                      </Button>
+                    </Col>
+                    <Col>
+                      <Button type="primary" onClick={() => handleDeleteStore(item?.storeId)}>
+                        <DeleteOutlined /> Delete
+                      </Button>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </List.Item>
+          )}
+        />
+      </Spin>
       <Pagination
         current={metadata.page + 1}
         pageSize={metadata.size}

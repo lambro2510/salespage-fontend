@@ -14,14 +14,17 @@ const VoucherStore = () => {
     size: 10,
     total: 0,
   });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getVoucherStore();
   }, []);
 
   const getVoucherStore = async () => {
+    setLoading(true);
     const storeData = await VoucherStoreService.getVoucherStore();
     setVoucherStores(storeData?.data);
+    setLoading(false);
   };
 
   const handlePageChange = (page, pageSize) => {

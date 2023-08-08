@@ -68,8 +68,8 @@ const UpdateCategoryModal = ({ id, productTypes, visible, onClose, onUpdate }) =
           Update
         </Button>,
       ]}
-      centered 
-      destroyOnClose 
+      centered
+      destroyOnClose
     >
       <Form layout="vertical">
         <Form.Item label="Tên danh mục">
@@ -95,9 +95,9 @@ const UpdateCategoryModal = ({ id, productTypes, visible, onClose, onUpdate }) =
             value={updateCategory?.categoryType}
             onChange={(value) => setUpdateCategory({ ...updateCategory, categoryType: value })}
           >
-            {categoryTypes.map((categoryType) => (
-              <Option key={categoryType.type} value={categoryType.type}>
-                {categoryType.typeName}
+            {categoryTypes?.map((categoryType) => (
+              <Option key={categoryType?.type} value={categoryType?.type}>
+                {categoryType?.typeName}
               </Option>
             ))}
           </Select>
@@ -108,9 +108,9 @@ const UpdateCategoryModal = ({ id, productTypes, visible, onClose, onUpdate }) =
             value={updateCategory?.timeType}
             onChange={(value) => setUpdateCategory({ ...updateCategory, timeType: value })}
           >
-            {timeTypes.map((timeType) => (
-              <Option key={timeType.type} value={timeType.type}>
-                {timeType.typeName}
+            {timeTypes?.map((timeType) => (
+              <Option key={timeType?.type} value={timeType?.type}>
+                {timeType?.typeName}
               </Option>
             ))}
           </Select>
@@ -128,17 +128,16 @@ const UpdateCategoryModal = ({ id, productTypes, visible, onClose, onUpdate }) =
 
         <Form.Item label="Loại sản phẩm">
           <Select
-            value={updateCategory.productType}
-            onChange={(value) => setUpdateCategory({ ...updateCategory, timeValue: value })}
+            value={updateCategory?.productType}
+            onChange={(value) => setUpdateCategory({ ...updateCategory, productType: value })}
           >
-            {productTypes.map((productType) => (
-              <Option key={productType.productType} value={productType.productType}>
-                {productType.typeName}
+            {productTypes?.map((productType) => (
+              <Option key={productType?.productType} value={productType?.productType}>
+                {productType?.typeName}
               </Option>
             ))}
           </Select>
         </Form.Item>
-
       </Form>
     </Modal>
   );

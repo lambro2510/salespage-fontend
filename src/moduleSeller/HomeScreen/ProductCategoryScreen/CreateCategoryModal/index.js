@@ -57,26 +57,26 @@ const CreateCategoryModal = ({ productTypes, visible, onClose, onCreate }) => {
       <Form layout="vertical">
         <Form.Item label="Tên danh mục">
           <Input
-            value={formData.categoryName}
+            value={formData?.categoryName}
             onChange={(e) => setFormData({ ...formData, categoryName: e.target.value })}
           />
         </Form.Item>
 
         <Form.Item label="Mô tả">
           <Input.TextArea
-            value={formData.description}
+            value={formData?.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
           />
         </Form.Item>
 
         <Form.Item label="Loại sản phẩm">
           <Select
-            value={formData.categoryType}
+            value={formData?.categoryType}
             onChange={(value) => setFormData({ ...formData, categoryType: value })}
           >
-            {categoryTypes.map((categoryType) => (
-              <Option key={categoryType.categoryType} value={categoryType.type}>
-                {categoryType.typeName}
+            {categoryTypes?.map((categoryType) => (
+              <Option key={categoryType?.type} value={categoryType?.type}>
+                {categoryType?.typeName}
               </Option>
             ))}
           </Select>
@@ -84,12 +84,12 @@ const CreateCategoryModal = ({ productTypes, visible, onClose, onCreate }) => {
 
         <Form.Item label="Loại thời gian">
           <Select
-            value={formData.timeType}
+            value={formData?.timeType}
             onChange={(value) => setFormData({ ...formData, timeType: value })}
           >
-            {timeTypes.map((timeType) => (
-              <Option key={timeType.type} value={timeType.type}>
-                {timeType.typeName}
+            {timeTypes?.map((timeType) => (
+              <Option key={timeType?.type} value={timeType?.type}>
+                {timeType?.typeName}
               </Option>
             ))}
           </Select>
@@ -98,19 +98,19 @@ const CreateCategoryModal = ({ productTypes, visible, onClose, onCreate }) => {
         <Form.Item label="Thời gian">
           <Input
             type="number"
-            value={formData.timeValue}
+            value={formData?.timeValue}
             onChange={(e) => setFormData({ ...formData, timeValue: e.target.value })}
           />
         </Form.Item>
 
         <Form.Item label="Loại sản phẩm">
           <Select
-            value={formData.productType}
+            value={formData?.productType}
             onChange={(value) => setFormData({ ...formData, productType: value })}
           >
-            {productTypes.map((productType) => (
-              <Option key={productType.productType} value={productType.productType}>
-                {productType.typeName}
+            {productTypes?.map((productType) => (
+              <Option key={productType?.productType} value={productType?.productType}>
+                {productType?.typeName}
               </Option>
             ))}
           </Select>

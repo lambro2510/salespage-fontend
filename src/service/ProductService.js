@@ -87,9 +87,9 @@ const ProductService = {
     async getProductDetail(productId) {
         try {
             const response = await axios.get(URL + '/api/v1/public/product/detail' + `?productId=${productId}`,
-            {
-                headers: Authorization()
-            });
+                {
+                    headers: Authorization()
+                });
             return notificationFromResponse(response?.data);
         } catch (error) {
             getErrorFromResponse(error)
@@ -108,6 +108,20 @@ const ProductService = {
             return notificationFromResponse(response);
         } catch (error) {
             getErrorFromResponse(error)
+        }
+    },
+
+    async updateProductImage(productId, imageUrl) {
+        try {
+            const response = await axios.put(URL + `/api/v1/product/image?productId=${productId}&imageUrl=${imageUrl}`,
+                {},
+                {
+                    headers: Authorization(),
+                });
+
+            return notificationFromResponse(response?.data);
+        } catch (error) {
+            getErrorFromResponse(error);
         }
     },
 

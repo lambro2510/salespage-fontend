@@ -1,37 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Form, Input, Button } from 'antd';
 import SellerStoreService from '../../../../service/StoreService';
+
 const UpdateStoreModal = ({ storeId, visible, onClose, onUpdate }) => {
+  const [form] = Form.useForm();
   const [updateStore, setUpdateStore] = useState({
     storeName: '',
     description: '',
     address: '',
   });
+  const [loading, setLoading] = useState(false);
 
-  const handleUpdateStore = () => {
-    // Check if all required fields are filled
-    if (!updateStore.storeName || !updateStore.description || !updateStore.address) {
-      // You can add a notification or validation message here
-      return;
+  const handleUpdateStore = async () => {
+    try {
+      const values = await form.validateFields();
+      onUpdate(values);
+    } catch (error) {
+      console.error('Form validation failed:', error);
     }
-    onUpdate(updateStore);
   };
 
   useEffect(() => {
     if (storeId) {
+      setLoading(true);
       getProductDetail();
     }
   }, [storeId]);
 
   const getProductDetail = async () => {
-    const storeData = await SellerStoreService.getStoreDetail(storeId);
-    setUpdateStore(storeData);
+    try {
+      const storeData = await SellerStoreService.getStoreDetail(storeId);
+      setUpdateStore(storeData);
+    } catch (error) {
+      console.error('Error fetching store data:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <Modal
       title="Update Product"
-      open={visible}
+      visible={visible}
       onCancel={onClose}
       footer={[
         <Button key="cancel" onClick={onClose}>
@@ -41,27 +51,46 @@ const UpdateStoreModal = ({ storeId, visible, onClose, onUpdate }) => {
           Update
         </Button>,
       ]}
+      confirmLoading={loading}
     >
-      <Form layout="vertical">
-        <Form.Item label="Tên cửa hàng">
-          <Input
-            value={updateStore.storeName}
-            onChange={(e) => setUpdateStore({ ...updateStore, storeName: e.target.value })}
-          />
+      <Form form={form} layout="vertical" initialValues={updateStore}>
+        <Form.Item
+          label="Tên cửa hàng"
+          name="storeName"
+          rules={[
+            {
+              required: true,
+              message: 'Vui lòng nhập tên cửa hàng',
+            },
+          ]}
+        >
+          <Input />
         </Form.Item>
 
-        <Form.Item label="Mô tả">
-          <Input
-            value={updateStore.description}
-            onChange={(e) => setUpdateStore({ ...updateStore, description: e.target.value })}
-          />
+        <Form.Item
+          label="Mô tả"
+          name="description"
+          rules={[
+            {
+              required: true,
+              message: 'Vui lòng nhập mô tả',
+            },
+          ]}
+        >
+          <Input />
         </Form.Item>
 
-        <Form.Item label="Địa chỉ bán hàng">
-          <Input
-            value={updateStore.address}
-            onChange={(e) => setUpdateStore({ ...updateStore, address: e.target.value })}
-          />
+        <Form.Item
+          label="Địa chỉ bán hàng"
+          name="address"
+          rules={[
+            {
+              required: true,
+              message: 'Vui lòng nhập địa chỉ bán hàng',
+            },
+          ]}
+        >
+          <Input />
         </Form.Item>
       </Form>
     </Modal>

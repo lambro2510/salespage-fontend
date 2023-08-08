@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Upload, Spin } from 'antd';
+import { Modal, Upload, Spin, Button } from 'antd';
 import ImgCrop from 'antd-img-crop';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, CheckOutlined } from '@ant-design/icons';
 import { Authorization } from '../../utils';
 const { confirm } = Modal;
 
-const ListImage = ({ url, images, handleDelete, size, loading }) => {
+const ListImage = ({ url, images, handleDelete, size, loading, handleUpdateImage }) => {
     const [fileList, setFileList] = useState([
         {
             uid: '-1',
@@ -17,32 +17,24 @@ const ListImage = ({ url, images, handleDelete, size, loading }) => {
 
     useEffect(() => {
         setFileList(images);
-    }, [images])
+    }, [images]);
 
     const onChange = ({ fileList: newFileList }) => {
         setFileList(newFileList);
         console.log(fileList);
-        
     };
+
     const onPreview = async (file) => {
-        let src = file.url;
-        if (!src) {
-            src = await new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file.originFileObj);
-                reader.onload = () => resolve(reader.result);
-            });
-        }
-        const image = new Image();
-        image.src = src;
-        const imgWindow = window.open(src);
-        imgWindow?.document.write(image.outerHTML);
+        await handleUpdateImage(file.url);
+    };
+
+    const handleUpdateImageUrl = (url) => {
+        // Implement the functionality if needed
     };
 
     return (
         <Spin spinning={loading}>
             <ImgCrop rotationSlider>
-
                 <Upload
                     action={url}
                     headers={Authorization()}
@@ -51,6 +43,10 @@ const ListImage = ({ url, images, handleDelete, size, loading }) => {
                     onChange={onChange}
                     onPreview={onPreview}
                     onRemove={handleDelete}
+                    showUploadList={{
+                        showPreviewIcon: true,
+                        previewIcon: () => <CheckOutlined style={{ color : '#f6f6f6' }} />,
+                    }}
                 >
                     {fileList?.length < size && '+ Tải ảnh lên'}
                 </Upload>

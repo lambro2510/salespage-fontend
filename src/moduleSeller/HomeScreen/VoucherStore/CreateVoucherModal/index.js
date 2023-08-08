@@ -1,31 +1,25 @@
 import React, { useState } from 'react';
-import { Modal, Form, Input, Button } from 'antd';
+import { Modal, Form, Input, Button, message } from 'antd';
 
 const CreateStoreModal = ({ visible, onClose, onCreate }) => {
-  const [createStore, setCreateStore] = useState({
-    storeName: '',
-    description: '',
-    address: '',
-  });
+  const [form] = Form.useForm();
 
-  const handleCreateStore = () => {
-    // Check if all required fields are filled
-    if (!createStore.storeName || !createStore.description || !createStore.address) {
-      // You can add a notification or validation message here
-      return;
+  const handleCreateStore = async () => {
+    try {
+      const values = await form.validateFields();
+      onCreate(values);
+      form.resetFields();
+      onClose();
+    } catch (error) {
+      // Validation error occurred, show a message or handle the error as needed
+      message.error('Please fill in all required fields.');
     }
-    onCreate(createStore);
-    setCreateStore({
-      storeName: '',
-      description: '',
-      address: '',
-    });
   };
 
   return (
     <Modal
-      title="Tạo mới cửa hàng"
-      open={visible}
+      title="Tạo mới kho mã giảm giá"
+      visible={visible}
       onCancel={onClose}
       footer={[
         <Button key="cancel" onClick={onClose}>
@@ -36,26 +30,29 @@ const CreateStoreModal = ({ visible, onClose, onCreate }) => {
         </Button>,
       ]}
     >
-      <Form layout="vertical">
-        <Form.Item label="Tên cửa hàng">
-          <Input
-            value={createStore.storeName}
-            onChange={(e) => setCreateStore({ ...createStore, storeName: e.target.value })}
-          />
+      <Form layout="vertical" form={form}>
+        <Form.Item
+          label="Tên cửa hàng"
+          name="storeName"
+          rules={[{ required: true, message: 'Please enter the store name' }]}
+        >
+          <Input />
         </Form.Item>
 
-        <Form.Item label="Mô tả">
-          <Input
-            value={createStore.description}
-            onChange={(e) => setCreateStore({ ...createStore, description: e.target.value })}
-          />
+        <Form.Item
+          label="Mô tả"
+          name="description"
+          rules={[{ required: true, message: 'Please enter a description' }]}
+        >
+          <Input />
         </Form.Item>
 
-        <Form.Item label="Địa chỉ bán hàng">
-          <Input
-            value={createStore.address}
-            onChange={(e) => setCreateStore({ ...createStore, address: e.target.value })}
-          />
+        <Form.Item
+          label="Địa chỉ bán hàng"
+          name="address"
+          rules={[{ required: true, message: 'Please enter the selling address' }]}
+        >
+          <Input />
         </Form.Item>
       </Form>
     </Modal>

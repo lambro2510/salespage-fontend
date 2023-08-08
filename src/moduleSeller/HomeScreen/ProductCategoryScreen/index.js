@@ -64,12 +64,12 @@ const ProductCategoryScreen = () => {
     };
 
     const handleUpdateCategory = (updatedCategory) => {
-        if (updateCategory) {
+        if (updatedCategory) {
             ProductCategoryService.updateProductCategory(updatedCategory);
             setLoading(true);
         }
         setUpdateModalVisible(false);
-        setCategoryId()
+        setCategoryId('');
     };
 
     const handleDeleteCategory = (id) => {

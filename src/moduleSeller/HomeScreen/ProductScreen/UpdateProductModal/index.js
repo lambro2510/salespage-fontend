@@ -42,8 +42,12 @@ const UpdateProductModal = ({ stores, productCategory, productId, visible, onClo
   }, [productId]);
 
   useEffect(() => {
-      setUpdateProduct({...updateProduct, storeId: stores[0]?.storeId, categoryId: productCategory[0]?.categoryId })
-      console.log(updateProduct);
+    setUpdateProduct({
+      ...updateProduct,
+      storeId: stores[0]?.storeId,
+      categoryId: productCategory[0]?.categoryId
+    });
+    console.log(updateProduct);
   }, [productCategory, stores]);
 
   const getProductDetail = async () => {
@@ -59,14 +63,18 @@ const UpdateProductModal = ({ stores, productCategory, productId, visible, onClo
   };
 
   const handleDeleteImage = async (file) => {
-    setFileLoading(true)
-    await ProductService.deleteProductImages(productId, file?.url)
-    setFileLoading(false)
-  }
+    setFileLoading(true);
+    await ProductService.deleteProductImages(productId, file?.url);
+    setFileLoading(false);
+  };
 
   const handleUploadImage = async (file) => {
     return await ProductService.uploadProductImage(productId, file);
-  }
+  };
+
+  const updateDefaultImage = async (imageUrl) => {
+    await ProductService.updateProductImage(productId, imageUrl);
+  };
 
   return (
     <Modal
@@ -116,9 +124,9 @@ const UpdateProductModal = ({ stores, productCategory, productId, visible, onClo
             value={updateProduct?.categoryId}
             onChange={(value) => setUpdateProduct({ ...updateProduct, categoryId: value })}
           >
-            {productCategory.map((category) => (
-              <Option key={category.categoryId} value={category.categoryId}>
-                {category.categoryName}
+            {productCategory?.map((category) => (
+              <Option key={category?.categoryId} value={category?.categoryId}>
+                {category?.categoryName}
               </Option>
             ))}
           </Select>
@@ -126,11 +134,11 @@ const UpdateProductModal = ({ stores, productCategory, productId, visible, onClo
 
         <Form.Item label="Cửa hàng bán">
           <Select
-            value={updateProduct.storeId}
+            value={updateProduct?.storeId}
             onChange={(value) => setUpdateProduct({ ...updateProduct, storeId: value })}
           >
-            {stores.map((store) => (
-              <Option key={store.storeId} value={store.storeId}>
+            {stores?.map((store) => (
+              <Option key={store?.storeId} value={store?.storeId}>
                 {store?.storeName}
               </Option>
             ))}
@@ -146,8 +154,8 @@ const UpdateProductModal = ({ stores, productCategory, productId, visible, onClo
             handleDelete={handleDeleteImage}
             handleUpload={handleUploadImage}
             loading={fileLoading}
+            handleUpdateImage={updateDefaultImage}
           />
-
         </Form.Item>
       </Form>
     </Modal>

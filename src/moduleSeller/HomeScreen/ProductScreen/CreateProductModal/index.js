@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Modal, Form, Input, Button, Select } from 'antd';
 
 const { Option } = Select;
@@ -8,13 +8,15 @@ const CreateProductModal = ({ stores, productCategory, visible, onClose, onCreat
     productName: '',
     description: '',
     categoryId: '',
-    productPrice: 0,
+    productPrice: 0, // Updated to be a number instead of a string
     sellingAddress: '',
     storeId: '',
   });
 
   const handleCreateProduct = () => {
-    onCreate(newProduct);
+    // Convert productPrice to a number before saving it
+    const productPriceAsNumber = parseFloat(newProduct.productPrice);
+    onCreate({ ...newProduct, productPrice: productPriceAsNumber });
     setNewProduct({
       productName: '',
       description: '',
@@ -27,7 +29,7 @@ const CreateProductModal = ({ stores, productCategory, visible, onClose, onCreat
 
   return (
     <Modal
-      title="Create Product"
+      title="Tạo mới sản phẩm"
       visible={visible}
       onCancel={onClose}
       footer={[
