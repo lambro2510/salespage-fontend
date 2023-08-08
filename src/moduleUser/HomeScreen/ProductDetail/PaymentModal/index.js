@@ -97,7 +97,7 @@ const PaymentModal = ({ product, visible, setVisible }) => {
                         value={transactionInfo.voucherCode}
                         onChange={(value) => setTransactionInfo({ ...transactionInfo, voucherCode: value })}
                     >
-                        {userVoucher.map((voucher) => (
+                        {userVoucher?.map((voucher) => (
                             <Select.Option key={voucher.voucherCode} value={voucher.voucherCode}>
                                 {voucher.voucherStoreName}
                                 <Card style={{ marginBottom: 10, backgroundColor: 'inherit' }}>
