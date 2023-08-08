@@ -12,8 +12,9 @@ const settings = {
   dots: true,
   infinite: true,
   speed: 500,
-  slidesToShow: 9,
+  slidesToShow: 5,
   slidesToScroll: 1,
+  row : 1,
   arrows: true,
   prevArrow: <LeftOutlined />,
   nextArrow: <RightOutlined />,
@@ -71,7 +72,7 @@ const FlashSaleProduct = () => {
           extra={<Link to="#">Xem tất cả</Link>}
           className='card-product'
         >
-          <Carousel autoplay {...settings}>
+          <Carousel {...settings}>
             {flsProducts.map((flsProduct) => (
               <ProductCardComponent key={flsProduct.id} product={flsProduct} />
             ))}

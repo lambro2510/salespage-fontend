@@ -21,6 +21,8 @@ const ListImage = ({ url, images, handleDelete, size, loading }) => {
 
     const onChange = ({ fileList: newFileList }) => {
         setFileList(newFileList);
+        console.log(fileList);
+        
     };
     const onPreview = async (file) => {
         let src = file.url;

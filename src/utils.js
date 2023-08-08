@@ -1,9 +1,6 @@
 import { message } from "antd";
 import { store } from "./redux/store";
-import { logout } from "./redux/authSlice";
 import { loginError, paymentError } from "./redux/modalVisibleSlice";
-import { useNavigate } from "react-router-dom";
-
 export function getErrorFromResponse(error) {
   if (error.response.status === 401) {
     store.dispatch(loginError(true));
