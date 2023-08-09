@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Form, Input, Button, Select } from 'antd';
-import ProductService from '../../../../service/ProductService';
+import ProductService from '../../../../service/seller/ProductService';
 import ListImage from '../../../../component/ListImageComponent';
 import { UPLOAD_PRODUCT_URL } from '../../../../constant';
 

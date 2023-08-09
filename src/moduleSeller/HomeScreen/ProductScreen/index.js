@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { List, Pagination, Image, Row, Col, Button, Spin } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import ProductService from '../../../service/ProductService';
-import ProductCategoryService from '../../../service/ProductCategoryService';
-import StoreService from '../../../service/StoreService';
+import ProductService from '../../../service/seller/ProductService';
+import ProductCategoryService from '../../../service/seller/ProductCategoryService';
+import StoreService from '../../../service/seller/StoreService';
 import CreateProductModal from './CreateProductModal';
 import UpdateProductModal from './UpdateProductModal';
-import { getRole } from '../../../helper/localStore';
 import { useNavigate } from 'react-router-dom';
 
 const ProductScreen = () => {
@@ -16,6 +15,7 @@ const ProductScreen = () => {
   const [stores, setStores] = useState([]);
   const [productCategory, setProductCategory] = useState([]);
   const [isLoading, setLoading] = useState(false);
+  const [updated, setUpdated] = useState(false);
   const [selectProductId, setSelectProductId] = useState();
   const [metadata, setMetadata] = useState({
     page: 0,
@@ -24,16 +24,18 @@ const ProductScreen = () => {
   });
 
   useEffect(() => {
-    getProductCategory();
-    getSellerStore();
     getSellerProduct();
     setLoading(false);
-  }, [isLoading]);
+  }, [updated]);
+
+  useEffect(() => {
+    getProductCategory();
+    getSellerStore();
+  }, []);
 
   const getSellerProduct = async () => {
     try {
-      setLoading(true);
-      const productInfo = await ProductService.findProduct({
+      const productInfo = await ProductService.getAllProduct({
         ...productFilter,
         page: metadata.page,
         size: metadata.size,
@@ -46,31 +48,26 @@ const ProductScreen = () => {
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {
-      setLoading(false);
     }
   };
 
   const getProductCategory = async () => {
     try {
-      setLoading(true);
       const categoryInfo = await ProductCategoryService.getProductCategory();
       setProductCategory(categoryInfo);
     } catch (error) {
       console.error('Error fetching product categories:', error);
     } finally {
-      setLoading(false);
     }
   };
 
   const getSellerStore = async () => {
     try {
-      setLoading(true);
       const storeData = await StoreService.getSellerStore();
       setStores(storeData?.data);
     } catch (error) {
       console.error('Error fetching seller stores:', error);
     } finally {
-      setLoading(false);
     }
   };
 
@@ -99,6 +96,7 @@ const ProductScreen = () => {
       console.error('Error creating product:', error);
     } finally {
       setCreateModalVisible(false);
+      setUpdated(!updated)
       setLoading(false);
     }
   };
@@ -160,6 +158,7 @@ const ProductScreen = () => {
     } catch (error) {
       console.error('Error deleting product:', error);
     } finally {
+      setUpdated(!updated)
       setLoading(false);
     }
   };

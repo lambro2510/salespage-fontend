@@ -1,10 +1,10 @@
 import axios from "axios";
-import { URL } from "../constant";
-import { Authorization, getErrorFromResponse, notificationFromResponse } from "../utils";
+import { URL } from "../../constant";
+import { Authorization, getErrorFromResponse, notificationFromResponse } from "../../utils";
 const ProductCategoryService = {
     async getProductCategory() {
         try {
-            const response = await axios.get(URL + '/api/v1/product-category',
+            const response = await axios.get(URL + '/api/v1/seller/product-category',
                 {
                     headers: Authorization()
                 },
@@ -18,7 +18,7 @@ const ProductCategoryService = {
 
     async getDetailProductCategory(id) {
         try {
-            const response = await axios.get(URL + '/api/v1/product-category/detail?id=' + id,
+            const response = await axios.get(URL + '/api/v1/seller/product-category/detail?id=' + id,
                 {
                     headers: Authorization()
                 },
@@ -32,7 +32,7 @@ const ProductCategoryService = {
 
     async deleteProductCategory(id) {
         try {
-            const response = await axios.delete(URL + '/api/v1/product-category?id=' + id,
+            const response = await axios.delete(URL + '/api/v1/seller/product-category?id=' + id,
                 {
                     headers: Authorization()
                 },
@@ -46,7 +46,7 @@ const ProductCategoryService = {
 
     async createProductCategory(category) {
         try {
-            const response = await axios.post(URL + '/api/v1/product-category',
+            const response = await axios.post(URL + '/api/v1/seller/product-category',
                 {
                     categoryName: category?.categoryName,
                     categoryType: category?.categoryType,
@@ -67,7 +67,7 @@ const ProductCategoryService = {
     },
     async updateProductCategory(category) {
         try {
-            const response = await axios.put(URL + '/api/v1/product-category',
+            const response = await axios.put(URL + '/api/v1/seller/product-category',
                 {
                     id: category?.categoryId,
                     categoryName: category?.categoryName,

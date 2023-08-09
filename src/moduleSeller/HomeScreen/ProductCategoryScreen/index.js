@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { List, Button, Row, Col } from 'antd';
-import ProductCategoryService from '../../../service/ProductCategoryService';
+import ProductCategoryService from '../../../service/seller/ProductCategoryService';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import CreateCategoryModal from './CreateCategoryModal';
 import UpdateCategoryModal from './UpdateCategoryModal';
@@ -13,7 +13,7 @@ const ProductCategoryScreen = () => {
     const [isUpdateModalVisible, setUpdateModalVisible] = useState(false);
     const [categoryId, setCategoryId] = useState('');
     const [isLoading, setLoading] = useState(false);
-
+    const [updated, setUpdated] = useState(false);
     useEffect(() => {
         const fetchProductCategories = async () => {
             const categoryData = await ProductCategoryService.getProductCategory();
@@ -24,7 +24,7 @@ const ProductCategoryScreen = () => {
 
         fetchProductCategories();
         setLoading(false);
-    }, [isLoading]);
+    }, []);
 
     const handleCreateModalOpen = () => {
         setCreateModalVisible(true);

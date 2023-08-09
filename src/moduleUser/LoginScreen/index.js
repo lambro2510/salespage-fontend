@@ -3,13 +3,14 @@ import { Card, Input, Button, Checkbox, Row, Col, Spin } from 'antd';
 import { UserOutlined, LockOutlined, FacebookOutlined, GoogleOutlined, PhoneOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import AccountService from '../../service/AccountService';
+
 import './style.scss';
 import { getToken, setToken } from '../../helper/localStore';
 
 const LoginScreen = () => {
   const navigate = useNavigate();
   const [loginForm, setLoginForm] = React.useState({});
-  const [loading, setLoading] = React.useState(false); // Added loading state
+  const [loading, setLoading] = React.useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,7 +18,7 @@ const LoginScreen = () => {
   };
 
   const handleLogin = async () => {
-    setLoading(true); // Set loading to true when login request starts
+    setLoading(true); 
 
     try {
       const loginResponse = await AccountService.signIn(loginForm);
@@ -26,7 +27,7 @@ const LoginScreen = () => {
     } catch (error) {
       console.error('Login failed:', error);
     } finally {
-      setLoading(false); // Set loading back to false after login request completes
+      setLoading(false);
     }
   };
 
