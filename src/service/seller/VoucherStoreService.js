@@ -1,10 +1,10 @@
 import axios from "axios";
 import { URL } from "../../constant";
 import { Authorization, getErrorFromResponse, notificationFromResponse } from "../../utils";
-const SellerStoreService = {
-    async getSellerStore() {
+const VoucherService = {
+    async getVoucherStoreOnSeller() {
         try {
-            const response = await axios.get(URL + '/api/v1/seller/store',
+            const response = await axios.get(URL + `/api/v1/seller/voucher/voucher-store`,
                 {
                     headers: Authorization()
                 },
@@ -15,9 +15,9 @@ const SellerStoreService = {
             getErrorFromResponse(error);
         }
     },
-    async deleteStore(storeId) {
+    async getUserVoucherForProduct(productId) {
         try {
-            const response = await axios.delete(URL + `/api/v1/seller/store?storeId=${storeId}`,
+            const response = await axios.get(URL + `/api/v1/voucher/user/voucher?productId=${productId}`,
                 {
                     headers: Authorization()
                 },
@@ -28,24 +28,10 @@ const SellerStoreService = {
             getErrorFromResponse(error);
         }
     },
-    async updateStore(store) {
-        try {
-            const response = await axios.put(URL + `/api/v1/seller/store`,
-                store,
-                {
-                    headers: Authorization()
-                },
 
-            );
-            return notificationFromResponse(response?.data);
-        } catch (error) {
-            getErrorFromResponse(error);
-        }
-    },
-    async createStore(store) {
+    async getVoucherStore() {
         try {
-            const response = await axios.post(URL + `/api/v1/seller/store`,
-                store,
+            const response = await axios.get(URL + `/api/v1/voucher/voucher-store`,
                 {
                     headers: Authorization()
                 },
@@ -58,4 +44,4 @@ const SellerStoreService = {
     },
 }
 
-export default SellerStoreService;
+export default VoucherService;

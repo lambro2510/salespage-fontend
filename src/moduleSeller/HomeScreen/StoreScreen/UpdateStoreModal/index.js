@@ -3,34 +3,37 @@ import { Modal, Form, Input, Button } from 'antd';
 import SellerStoreService from '../../../../service/StoreService';
 
 const UpdateStoreModal = ({ storeId, visible, onClose, onUpdate }) => {
-  const [form] = Form.useForm();
-  const [updateStore, setUpdateStore] = useState({
+  const [updatedStore, setUpdatedStore] = useState({
     storeName: '',
     description: '',
     address: '',
+    state : '', //ACTIVE, INACTIVE
   });
   const [loading, setLoading] = useState(false);
 
   const handleUpdateStore = async () => {
     try {
-      const values = await form.validateFields();
-      onUpdate(values);
+      setLoading(true);
+      onUpdate(updatedStore);
     } catch (error) {
-      console.error('Form validation failed:', error);
+      console.error('Error updating store:', error);
+    } finally {
+      setLoading(false);
+      onClose();
     }
   };
 
   useEffect(() => {
     if (storeId) {
       setLoading(true);
-      getProductDetail();
+      getStoreDetail();
     }
   }, [storeId]);
 
-  const getProductDetail = async () => {
+  const getStoreDetail = async () => {
     try {
       const storeData = await SellerStoreService.getStoreDetail(storeId);
-      setUpdateStore(storeData);
+      setUpdatedStore(storeData);
     } catch (error) {
       console.error('Error fetching store data:', error);
     } finally {
@@ -40,57 +43,38 @@ const UpdateStoreModal = ({ storeId, visible, onClose, onUpdate }) => {
 
   return (
     <Modal
-      title="Update Product"
+      title="Update Store"
       visible={visible}
       onCancel={onClose}
       footer={[
         <Button key="cancel" onClick={onClose}>
           Cancel
         </Button>,
-        <Button key="update" type="primary" onClick={handleUpdateStore}>
+        <Button key="update" type="primary" onClick={handleUpdateStore} loading={loading}>
           Update
         </Button>,
       ]}
-      confirmLoading={loading}
     >
-      <Form form={form} layout="vertical" initialValues={updateStore}>
-        <Form.Item
-          label="Tên cửa hàng"
-          name="storeName"
-          rules={[
-            {
-              required: true,
-              message: 'Vui lòng nhập tên cửa hàng',
-            },
-          ]}
-        >
-          <Input />
+      <Form layout="vertical">
+        <Form.Item label="Store Name">
+          <Input
+            value={updatedStore.storeName}
+            onChange={(e) => setUpdatedStore({ ...updatedStore, storeName: e.target.value })}
+          />
         </Form.Item>
 
-        <Form.Item
-          label="Mô tả"
-          name="description"
-          rules={[
-            {
-              required: true,
-              message: 'Vui lòng nhập mô tả',
-            },
-          ]}
-        >
-          <Input />
+        <Form.Item label="Description">
+          <Input
+            value={updatedStore.description}
+            onChange={(e) => setUpdatedStore({ ...updatedStore, description: e.target.value })}
+          />
         </Form.Item>
 
-        <Form.Item
-          label="Địa chỉ bán hàng"
-          name="address"
-          rules={[
-            {
-              required: true,
-              message: 'Vui lòng nhập địa chỉ bán hàng',
-            },
-          ]}
-        >
-          <Input />
+        <Form.Item label="Address">
+          <Input
+            value={updatedStore.address}
+            onChange={(e) => setUpdatedStore({ ...updatedStore, address: e.target.value })}
+          />
         </Form.Item>
       </Form>
     </Modal>

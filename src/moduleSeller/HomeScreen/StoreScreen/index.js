@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import SellerStoreService from '../../../service/StoreService';
+import SellerStoreService from '../../../service/seller/StoreService';
 import { List, Pagination, Image, Row, Col, Button, Spin } from 'antd';
 import { EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import CreateStoreModal from './CreateStoreModal';
@@ -14,10 +14,11 @@ const StoreScreen = () => {
     total: 0,
   });
   const [loading, setLoading] = useState(false);
+  const [updated, setUpdated] = useState(false);
 
   useEffect(() => {
     getStore();
-  }, []);
+  }, [updated]);
 
   const getStore = async () => {
     setLoading(true);
@@ -44,9 +45,10 @@ const StoreScreen = () => {
     setCreateModalVisible(false);
   };
 
-  const handleCreateStore = (newStore) => {
-    SellerStoreService.createStore(newStore);
+  const handleCreateStore = async (newStore) => {
+    await SellerStoreService.createStore(newStore);
     setCreateModalVisible(false);
+    setUpdated(!updated)
   };
 
   const createStore = (
@@ -62,8 +64,9 @@ const StoreScreen = () => {
     </>
   );
 
-  const handleDeleteStore = (storeId) => {
-    SellerStoreService.deleteStore(storeId);
+  const handleDeleteStore = async (storeId) => {
+    await SellerStoreService.deleteStore(storeId);
+    setUpdated(!updated)
   };
 
   const [isUpdateModalVisible, setUpdateModalVisible] = useState(false);
@@ -77,9 +80,10 @@ const StoreScreen = () => {
     setUpdateModalVisible(false);
   };
 
-  const handleUpdateStore = (updatedStore) => {
-    SellerStoreService.updateStore(updatedStore);
+  const handleUpdateStore = async (updatedStore) => {
+    await SellerStoreService.updateStore(updatedStore);
     setUpdateModalVisible(false);
+    setUpdated(!updated)
   };
 
   const updateStore = (

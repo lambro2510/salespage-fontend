@@ -1,10 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import SellerStoreService from '../../../service/StoreService';
-import { List, Pagination, Image, Row, Col, Button } from 'antd';
+import { List, Pagination, Image, Row, Col, Button, Typography, Tag } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import CreateVoucherModal from './CreateVoucherModal';
 import UpdateVoucherModal from './UpdateVoucherModal';
-import VoucherStoreService from '../../../service/VoucherStoreService';
+import VoucherStoreService from '../../../service/seller/VoucherStoreService';
+
+const voucherStoreType = [
+  {
+    'voucherStoreType': 'PRODUCT',
+    'type': 'sản phẩm'
+  },
+  {
+    'voucherStoreType': 'STORE',
+    'type': 'cửa hàng'
+  },
+]
+
+const voucherStatus = [
+  {
+    'status': 'ACTIVE',
+    'name': 'Đang sử dụng'
+  },
+  {
+    'status': 'INACTIVE',
+    'name': 'Chưa sử dụng'
+  }
+]
+
+const voucherType = [
+  {
+    'discountType': 'PERCENT',
+    'name' : 'Phần trăm sản phẩm'
+  },
+  {
+    'discountType': 'TOTAL',
+    'name' : 'Tổng giá trị sản phẩm'
+  }
+]
+
+const { Text } = Typography;
 
 const VoucherStore = () => {
   const [voucherStores, setVoucherStores] = useState([]);
@@ -22,7 +57,7 @@ const VoucherStore = () => {
 
   const getVoucherStore = async () => {
     setLoading(true);
-    const storeData = await VoucherStoreService.getVoucherStore();
+    const storeData = await VoucherStoreService.getVoucherStoreOnSeller();
     setVoucherStores(storeData?.data);
     setLoading(false);
   };
@@ -34,6 +69,22 @@ const VoucherStore = () => {
       size: pageSize,
     });
   };
+
+  const getVoucherTypeName = (type) => {
+    const matchedType = voucherStoreType.find((item) => item?.voucherStoreType === type);
+    return matchedType ? matchedType.type : type;
+  };
+
+  const getVoucherStatusName = (status) => {
+    const matchedStatus = voucherStatus.find((item) => item?.status === status);
+    return matchedStatus ? matchedStatus.name : status;
+  };
+
+  const getDiscountTypeName = (type) => {
+    const matchedDiscountType = voucherType.find((item) => item?.discountType === type);
+    return matchedDiscountType ? matchedDiscountType.name : type;
+  };
+
 
   const [isCreateModalVisible, setCreateModalVisible] = useState(false);
 
@@ -102,32 +153,48 @@ const VoucherStore = () => {
         itemLayout="vertical"
         dataSource={voucherStores}
         renderItem={(item) => (
-          <List.Item key={item?.storeId}>
-            <Row justify="space-between" align="middle">
-              <Col>
-                <Row gutter={16}>
-                  <Col>
-                    <Image src={item?.imageUrl} />
-                  </Col>
-                  <Col>
-                    <h3>{item?.storeName}</h3>
-                    <p>{item?.description}</p>
+          <List.Item key={item?.voucherStoreId}>
+            <Row gutter={16} align="middle">
+              <Col span={16}>
+                <Row gutter={8} align="middle">
+                  <Col span={12}>
+                    <div>
+                      <h3>{item?.voucherStoreName}</h3>
+                      <Text type="secondary">Áp dụng cho: {getVoucherTypeName(item?.voucherStoreType)}</Text>
+                      <Tag color={item?.voucherStoreStatus === 'ACTIVE' ? 'success' : 'default'}>
+                        {getVoucherStatusName(item?.voucherStoreStatus)}
+                      </Tag>
+                    </div>
                   </Col>
                 </Row>
               </Col>
-              <Col>
-                <Row justify="space-between" gutter={8}>
+              <Col span={8}>
+                <Row justify="end" gutter={8}>
                   <Col>
                     <Button type="primary" onClick={() => handleUpdateModalOpen(item?.storeId)}>
                       <EditOutlined />
                     </Button>
                   </Col>
                   <Col>
-                    <Button type="primary" onClick={() => handleDeleteStore(item?.storeId)}>
+                    <Button type="danger" onClick={() => handleDeleteStore(item?.storeId)}>
                       <DeleteOutlined />
                     </Button>
                   </Col>
                 </Row>
+              </Col>
+            </Row>
+            <Row gutter={16} align="middle">
+              <Col span={6}>
+                <div>
+                  <p>Tổng số voucher: {item?.totalQuantity}</p>
+                  <p>Số voucher đã được sử dụng: {item?.totalUsed}</p>
+                </div>
+              </Col>
+              <Col span={6}>
+                <div>
+                  <p>Loại giảm giá: {getDiscountTypeName(item?.discountType)}</p>
+                  <p>Giá trị giảm giá: {item?.value} {item?.discountType === 'PERCENT' ? '%' : 'đ'}</p>
+                </div>
               </Col>
             </Row>
           </List.Item>
