@@ -13,7 +13,10 @@ const PaymentTransaction = () => {
     const [isCreatePaymentModalVisible, setIsCreatePaymentModalVisible] = useState(false);
     const [isQrCodeModalVisible, setIsQrCodeModalVisible] = useState(false);
     const [selectedPaymentId, setSelectedPaymentId] = useState(null);
-
+    const [metaData, setMetaData] = React.useState({
+        page: 0,
+        size: 10
+      })
     useEffect(() => {
         getPaymentTransaction();
     }, []);
@@ -22,7 +25,8 @@ const PaymentTransaction = () => {
         try {
             setLoading(true);
             const paymentData = await PaymentService.getPaymentTransaction();
-            setPaymentTransaction(paymentData);
+            setPaymentTransaction(paymentData?.data);
+            setMetaData(paymentData?.metadata);
         } catch (error) {
             console.error("Error fetching payment transactions:", error);
         } finally {
