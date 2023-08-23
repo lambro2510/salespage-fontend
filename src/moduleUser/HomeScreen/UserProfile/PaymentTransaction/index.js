@@ -55,23 +55,28 @@ const PaymentTransaction = () => {
 
     const paymentStatus = [
         {
-            status: "PENDING",
+            status: "WAITING",
             name: "Đang chờ xác nhận giao dịch"
+        },
+        {
+            status: "PENDING",
+            name: "Giao dịch quá hạn"
         },
         {
             status: "CANCEL",
             name: "Giao dịch đã bị hủy bỏ"
         },
         {
-            status: "SUCCESS",
+            status: "RESOLVE",
             name: "Giao dịch thành công"
         }
     ];
 
     const statusColors = {
-        PENDING: "orange",
+        WAITING: "orange",
+        PENDING: "gray",
         CANCEL: "red",
-        SUCCESS: "green"
+        RESOLVE: "green"
     };
 
     return (
