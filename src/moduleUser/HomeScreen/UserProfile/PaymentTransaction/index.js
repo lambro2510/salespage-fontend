@@ -60,7 +60,7 @@ const PaymentTransaction = () => {
         },
         {
             status: "PENDING",
-            name: "Giao dịch quá hạn"
+            name: "Giao dịch quá hạn thanh toán"
         },
         {
             status: "CANCEL",
