@@ -1,70 +1,113 @@
-# Getting Started with Create React App
+<br/>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<p align="center">
+  
+  <h1 align="center">
+    <img src="https://user-images.githubusercontent.com/45073703/225269899-d0d3b91c-b09b-4835-ac78-c0e0be4632fe.png" width="30%">
+  </h1>
+  <h4 align="center">An out-of-box UI solution for enterprise applications as a React boilerplate.</h4>
 
-## Available Scripts
+  <p align="center">
+    <a href="https://reforge.netlify.app"><b>Demo</b></a>
+    ·
+    <a href="https://github.com/arifszn/reforge/issues"><b>Report Bug</b></a>
+    ·
+    <a href="https://github.com/arifszn/reforge/discussions/categories/ideas"><b>Request Feature</b></a>
+  </p>
+</p>
 
-In the project directory, you can run:
+<p align="center">
+  <a href="https://reforge.netlify.app">
+    <img src="https://user-images.githubusercontent.com/45073703/235440010-065d07a1-f387-4f0b-a3a2-879b2d62d1d4.gif" alt="Preview" width="60%"/>
+  </a>
+  <br/>
+  <a href="#arifszn"><img src="https://arifszn.netlify.app/assets/img/drop-shadow.png" width="50%" alt="Shadow"/></a>
+</p>
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Elegant and customizable UI using `Tailwindcss` and `Ant Design`.
+- Single page application using `React Router`.
+- Mock API request using `reqres`.
+- Powerful layout and table using `@ant-design/pro-components`.
+- Code splitting and lazy loading component using `@loadable/component`.
+- State management using `react-redux` and `@reduxjs/toolkit`.
+- Persistent redux state using `redux-persist`.
+- Loading progress bar using `nprogress`.
+- `ESLint` and `Prettier` enabled.
+- Option to enable Progressive Web App (PWA). (Only available in production build)
+- Axios interceptor enabled to handle API authorization.
+- Automated workflow for checking new Pull Request.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Demo
 
-### `npm test`
+https://reforge.netlify.app
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Credentials
 
-### `npm run build`
+- **Email:** `eve.holt@reqres.in`
+- **Password:** `password`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Usage
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Clone the project and change directory.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  ```shell
+  git clone https://github.com/arifszn/reforge.git
+  cd reforge
+  ```
 
-### `npm run eject`
+- Install dependencies.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+  ```shell
+  npm install
+  ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Run dev server.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+  ```shell
+  npm run dev
+  ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Finally, visit [`http://localhost:5173`](http://localhost:5173) from your browser. Credentials can be found above.
 
-## Learn More
+## Config
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Settings including app name, theme color, meta tags, etc. can be controlled from one single file **`config.ts`** located at the project's root.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```ts
+//config.ts
+const CONFIG = {
+  appName: 'Reforge',
+  helpLink: 'https://github.com/arifszn/reforge',
+  enablePWA: true,
+  theme: {
+    accentColor: '#818cf8',
+    sidebarLayout: 'mix',
+    showBreadcrumb: true,
+  },
+  metaTags: {
+    title: 'Reforge',
+    description:
+      'An out-of-box UI solution for enterprise applications as a React boilerplate.',
+    imageURL: 'logo.svg',
+  },
+};
 
-### Code Splitting
+export default CONFIG;
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Support
 
-### Analyzing the Bundle Size
+<p>You can show your support by starring this project. ★</p>
+<a href="https://github.com/arifszn/reforge/stargazers">
+  <img src="https://img.shields.io/github/stars/arifszn/reforge?style=social" alt="Github Star">
+</a>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Contribute
 
-### Making a Progressive Web App
+To contribute, see the [Contributing guide](https://github.com/arifszn/reforge/blob/main/CONTRIBUTING.md).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## License
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[MIT](https://github.com/arifszn/reforge/blob/main/LICENSE)
