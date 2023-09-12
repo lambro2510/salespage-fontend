@@ -21,12 +21,14 @@ const Register = () => {
 
 
     const handleFinish = async (value: RegisterForm) => {
+        setLoading(true);
         http.post(apiRoutes.register, {
             ...value
         }).then((response) => {
-            setLoading(false)
+            setLoading(false);
         }).catch((error) => {
             handleErrorResponse(error);
+            setLoading(false);
         })
     }
     return (
@@ -35,6 +37,7 @@ const Register = () => {
                 Đăng ký tài khoản
             </h1>
             <ProForm
+                loading={loading}
                 onFinish={(value: RegisterForm) => handleFinish(value)}
                 onReset={() => navigate(-1)}
                 submitter={
