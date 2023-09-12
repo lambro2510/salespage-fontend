@@ -6,6 +6,7 @@ import { RoleType } from "../../interfaces/enum/RoleType";
 import http from "../../utils/http";
 import { apiRoutes } from "../../routes/api";
 import { handleErrorResponse } from "../../utils";
+import { webRoutes } from "../../routes/web";
 
 interface RegisterForm {
     username: string,
@@ -15,7 +16,7 @@ interface RegisterForm {
     userRole: RoleType
 }
 const Register = () => {
-
+    
     const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -25,6 +26,7 @@ const Register = () => {
         http.post(apiRoutes.register, {
             ...value
         }).then((response) => {
+            navigate(`${webRoutes.register}/${value.username}`)
             setLoading(false);
         }).catch((error) => {
             handleErrorResponse(error);

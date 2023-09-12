@@ -1,5 +1,4 @@
 import { Button, Form, Input } from "antd";
-import { values } from "lodash";
 import { Fragment, useState } from "react"
 import http from "../../../utils/http";
 import { apiRoutes } from "../../../routes/api";
@@ -8,13 +7,17 @@ import { handleErrorResponse, showNotification } from "../../../utils";
 import { webRoutes } from "../../../routes/web";
 
 const Verify = () => {
+    const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const {username} = useParams();
+    const [code, setCode] = useState("")
     const handleFinish = (value : any) => {
+        console.log(value);
+        
         http.get(apiRoutes.verify, {
             params : {
-                code : value,
+                ...value,
                 username : username
             }
         }).then((response) => {
@@ -29,9 +32,9 @@ const Verify = () => {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl text-left text-opacity-30 tracking-wide">
                 Xác nhận mã OTP
             </h1>
-            <Form onFinish={(value) => handleFinish(value)}>
-                <Form.Item>
-                    <Input name="otp">
+            <Form onFinish={handleFinish} form={form}>
+                <Form.Item name="code">
+                    <Input placeholder="Mã otp">
 
                     </Input>
                 </Form.Item>
