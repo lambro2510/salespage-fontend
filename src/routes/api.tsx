@@ -2,10 +2,15 @@ import { API_URL } from '../utils';
 
 export const apiRoutes = {
   login: `${API_URL}/account/sign-in`,
+
   register: `${API_URL}/account/sign-up`,
+
   logout: `${API_URL}/logout`,
+
   verify: `${API_URL}/account/verify`,
-  users: `${API_URL}/users`,
+
+  user: `${API_URL}/user`,
+
   reviews: `${API_URL}/unknown`,
 
   orderHistories: `${API_URL}/seller/product-transaction`,
@@ -17,4 +22,6 @@ export const apiRoutes = {
   categories: `${API_URL}/seller/product-category`,
 
   maps : `${API_URL}/public/map`,
+
+  payment : `${API_URL}/payment`,
 };

@@ -44,11 +44,13 @@ const Login = () => {
         password: values.password,
       })
       .then((response) => {
-        const auth: Auth = response?.data?.data;
-        if (auth.role != RoleType.USER) {
-          throw Error("Vui lòng đăng nhập trang quản trị viên để sử dụng");
+        if (!response?.data?.error) {
+          const auth: Auth = response?.data?.data;
+          if (response?.data?.data?.role!= 'USER') {
+            throw Error("Vui lòng đăng nhập trang quản trị viên để sử dụng");
+          }
+          dispatch(login(auth));
         }
-        dispatch(login(auth));
       })
       .catch((error) => {
         handleErrorResponse(error);

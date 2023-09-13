@@ -36,7 +36,7 @@ const Layout = () => {
             icon: <LogoutOutlined />,
             label: 'Thông tin tài khoản',
             onClick: () => {
-              logoutAdmin();
+              navigate(webRoutes.profile);
             },
           },
           {
