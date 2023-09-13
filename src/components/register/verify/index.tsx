@@ -11,10 +11,17 @@ const Verify = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const {username} = useParams();
-    const [code, setCode] = useState("")
+
+    const sendMessageOtp = () => {
+        http.post(apiRoutes.verify, {
+            params : {
+                username : username
+            }
+        })
+    };
+
     const handleFinish = (value : any) => {
-        console.log(value);
-        
+    
         http.get(apiRoutes.verify, {
             params : {
                 ...value,
@@ -26,7 +33,8 @@ const Verify = () => {
         }).catch((error) => {
             handleErrorResponse(error)
         })
-    }
+    };
+    
     return (
         <Fragment>
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl text-left text-opacity-30 tracking-wide">

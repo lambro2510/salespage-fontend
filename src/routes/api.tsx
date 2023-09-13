@@ -10,7 +10,7 @@ export const apiRoutes = {
 
   orderHistories: `${API_URL}/seller/product-transaction`,
 
-  products: `${API_URL}/seller/product`,
+  products: `${API_URL}/public/product`,
 
   stores: `${API_URL}/seller/store`,
 
