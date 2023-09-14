@@ -1,4 +1,4 @@
-import { ActionType, ProColumns, ProDescriptions, ProList, ProTable, RequestData } from "@ant-design/pro-components";
+import { ActionType, ProColumns, ProDescriptions, ProForm, ProFormSelect, ProList, ProTable, RequestData } from "@ant-design/pro-components";
 import { Button, Modal, Space, Tag } from "antd";
 import http from "../../utils/http";
 import { apiRoutes } from "../../routes/api";
@@ -8,11 +8,17 @@ import { RiPaypalFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useRef } from "react";
+import { BiPlus } from "react-icons/bi";
+
 
 const PaymentStatus: any = {
-    PENDING: {
+    WAITING: {
         text: "Đang chờ thanh toán",
         color: "yellow",
+    },
+    PENDING: {
+        text: "Giao dịch quá thời gian chờ",
+        color: "gray",
     },
     RESOLVE: {
         text: "Giao dịch hoàn tất",
@@ -29,6 +35,7 @@ const PaymentType: any = {
     IN: {
         text: "+",
         color: "green",
+
     },
     OUT: {
         text: "-",
@@ -36,7 +43,7 @@ const PaymentType: any = {
     },
     null: {
         text: "",
-        color : 'inherit'
+        color: 'inherit'
     }
 };
 
@@ -55,6 +62,41 @@ const PaymentCard = () => {
     const actionRef = useRef<ActionType>();
     const auth = useSelector((state: RootState) => state.auth)
     const [modal, modalContextHolder] = Modal.useModal();
+
+    const loadDetail = (row: Payment) => {
+
+    }
+
+    const generatePayment = (row: Payment) => {
+
+    }
+
+    const renderActionButtons = (row: Payment) => {
+        if (row.status === 'PENDING') {
+            return (
+                <Space>
+                    <Button type="default" onClick={() => generatePayment(row)}>Tạo mã thanh toán</Button>
+                </Space>
+            );
+        } else if (row.status === 'RESOLVE') {
+            return (
+                <Space>
+                    <Button type="default" onClick={() => loadDetail(row)}>Xem chi tiết giao dịch</Button>
+                </Space>
+            );
+        } else if (row.status === 'CANCEL') {
+            return (
+                <Space>
+
+                </Space>
+            );
+        }
+
+        // Nếu không có trạng thái nào phù hợp, bạn có thể trả về null hoặc hiển thị thông tin khác.
+        return null;
+    };
+
+
     const showFormCreateTransaction = () => {
         modal.confirm({
             title: 'Tao thanh toán nạp tiền vào tài khoản',
@@ -64,6 +106,11 @@ const PaymentCard = () => {
                     <ProDescriptions.Item valueType="segmented" label="Tài khoản">
                         {auth?.username}
                     </ProDescriptions.Item>
+                    <ProForm>
+                        <ProFormSelect
+
+                        />
+                    </ProForm>
                 </ProDescriptions>
             ),
             okButtonProps: {
@@ -173,10 +220,33 @@ const PaymentCard = () => {
             search: false,
             render: (_, row: Payment) => <p color={PaymentType[row.type]?.color}>{PaymentType[row.type]?.text}{row.amount}</p>,
         },
+        {
+            title: 'Chức năng',
+            dataIndex: 'function',
+            sorter: false,
+            align: 'center',
+            ellipsis: true,
+            search: false,
+            render: (_, row: Payment) => renderActionButtons(row)
+        },
     ]
     return (
         <Space>
             <ProTable
+                toolBarRender={(action, { selectedRowKeys, selectedRows }) => {
+                    return [
+                        <Button key="create" onClick={showFormCreateTransaction} type="primary">
+                            <BiPlus />
+                            Nạp tiền vào tài khoản
+                        </Button>,
+                    ];
+                }}
+
+                search={{
+                    filterType: 'light',
+                    searchText: 'TÌm kiếm',
+                    resetText: 'Xóa bộ lọc'
+                }}
                 columns={columns}
                 request={(params) => {
                     return loadPayments(params);

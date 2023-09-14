@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { UserDetail } from "../../../interfaces/models/user";
-import http from "../../../utils/http";
-import { apiRoutes } from "../../../routes/api";
-import { handleErrorResponse } from "../../../utils";
+import { UserDetail } from "../../interfaces/models/user";
+import http from "../../utils/http";
+import { apiRoutes } from "../../routes/api";
+import { handleErrorResponse } from "../../utils";
 import { Button } from "antd";
 
 const ProfileCard = () => {
@@ -26,7 +26,7 @@ const ProfileCard = () => {
     }, [])
 
     return(
-        <Button onClick={loadProfile}>
+        <Button onClick={loadProfile} className="w-full">
             click
         </Button>
     )

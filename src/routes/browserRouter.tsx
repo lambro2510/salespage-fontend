@@ -19,15 +19,6 @@ const Home = loadable(() => import('../components/home'), {
 const Profile = loadable(() => import('../components/profile'), {
   fallback: fallbackElement,
 });
-const ProfileCard = loadable(() => import('../components/profile/profile-card'), {
-  fallback: fallbackElement,
-});
-const OrderCard = loadable(() => import('../components/profile/order-card'), {
-  fallback: fallbackElement,
-});
-const Payment = loadable(() => import('../components/profile/PaymentCard'), {
-  fallback: fallbackElement,
-});
 
 
 const Register = loadable(() => import('../components/register'), {
@@ -84,22 +75,6 @@ export const browserRouter = createBrowserRouter([
         element: <Profile />,
         errorElement: errorElement,
         children: [
-          {
-            path: `${webRoutes.profile}/:id`,
-            element: <ProfileCard />,
-            errorElement: errorElement,
-
-          },
-          {
-            path: `${webRoutes.profile}/order`,
-            element: <OrderCard />,
-            errorElement: errorElement,
-          },
-          {
-            path: `${webRoutes.profile}/payment`,
-            element: <Payment />,
-            errorElement: errorElement,
-          },
         ]
       }
     ],

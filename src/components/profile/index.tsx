@@ -1,40 +1,35 @@
 import React from 'react';
-import { useNavigate, Route, Routes, NavLink } from 'react-router-dom';
-import ProfileCard from "./profile-card";
-import OrderCard from "./order-card";
-import { webRoutes } from '../../routes/web';
-import { Outlet } from "react-router-dom"
-import { useOutletContext } from "react-router-dom"
+import { useNavigate, NavLink, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { Tabs } from 'antd';
 import BasePageContainer from '../layout/PageContainer';
+import ProfileCard from "./ProfileCard";
+import OrderCard from "./OrderCard";
+import PaymentCard from './PaymentCard';
 
+const { TabPane } = Tabs;
 
 const Profile = () => {
-
     const auth = useSelector((state: RootState) => state.auth);
     const navigate = useNavigate();
 
-    const navigateToProfileCard = (id: string) => {
-        navigate(`${id}`);
-    };
-
-    const navigateToOrderCard = () => {
-        navigate(`order`);
-    };
 
     return (
         <div className=''>
             <BasePageContainer>
-                <NavLink to={`${auth?.username}`}>
-                    Go to Profile Card by link
-                </NavLink>
-                <button onClick={() => navigateToProfileCard('123')}>Go to Profile Card</button>
-                <button onClick={navigateToOrderCard}>Go to Order Card</button>
-                <div className=' flex justify-center'>
-
-                    <Outlet />
+                <div className=' w-full'>
+                    <Tabs tabPosition="left" defaultActiveKey="profile">
+                        <TabPane tab="Tài khoản" key="profile" className='w-full'>
+                            <ProfileCard />
+                        </TabPane>
+                        <TabPane className="w-full" tab="Đơn hàng" key="order">
+                            <OrderCard />
+                        </TabPane>
+                        <TabPane tab="Thanh toán" key="payment">
+                            <PaymentCard />
+                        </TabPane>
+                    </Tabs>
                 </div>
             </BasePageContainer>
         </div>

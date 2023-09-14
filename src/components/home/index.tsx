@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ProfileCard from "../profile/profile-card";
+import ProfileCard from "../profile/ProfileCard";
 import http from "../../utils/http";
 import { apiRoutes } from "../../routes/api";
 import { handleErrorResponse } from "../../utils";
