@@ -3,7 +3,7 @@ import ProfileCard from "../profile/ProfileCard";
 import http from "../../utils/http";
 import { apiRoutes } from "../../routes/api";
 import { handleErrorResponse } from "../../utils";
-import ListProduct from "./listProduct";
+import ListProduct from "./ListProduct";
 import { Product } from "../../interfaces/models/product";
 
 const Home = () => {
@@ -12,10 +12,15 @@ const Home = () => {
     const [saleProducts, setSaleProducts] = useState<[]>([]);
     const [suggestProduct, setSuggestProduct] = useState<[]>([]);
 
-    const loadHotProduct = () => {
-        http.get(apiRoutes.products)
+    const loadHotProduct = async () => {
+        await http.get(apiRoutes.products)
         .then((response) => {
-            setHotProducts(response?.data?.data);
+            console.log(response?.data?.data?.data as Product[]);
+            
+            setHotProducts(response?.data?.data?.data as Product[]);
+        })
+        .catch((err) => {
+            handleErrorResponse(err);
         })
     }
 
@@ -32,7 +37,9 @@ const Home = () => {
     }, []);
 
     return(
-        <ListProduct product={hotProducts} />
+        <div>
+            <ListProduct products={hotProducts} />
+        </div>
     )
 }
 

@@ -1,0 +1,11 @@
+.slick-prev,
+.slick-next {
+    color: rgba(129, 111, 111, 0.342);
+    background-color: transparent;
+}
+
+.slick-prev:hover,
+.slick-next:hover {
+    color: rgba(41, 19, 139, 0.342);
+    background-color: transparent;
+}
