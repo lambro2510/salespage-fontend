@@ -25,10 +25,25 @@ const PaymentStatus: any = {
 };
 
 
+const PaymentType: any = {
+    IN: {
+        text: "+",
+        color: "green",
+    },
+    OUT: {
+        text: "-",
+        color: "red",
+    },
+    null: {
+        text: "",
+        color : 'inherit'
+    }
+};
 
 interface Payment {
     paymentId: string,
     status: string,
+    type: string,
     bankName: string,
     bankAccountNo: string,
     bankAccountName: string,
@@ -78,10 +93,11 @@ const PaymentCard = () => {
         return http
             .get(apiRoutes.payment, {
                 params: {
+                    ...params,
                     status: params.status,
                     page: params.current - 1,
                     size: params.pageSize
-                },
+                } as Payment,
             })
             .then((response) => {
                 const payments: [any] = response.data.data.data;
@@ -103,61 +119,71 @@ const PaymentCard = () => {
     };
 
 
+    const columns: ProColumns[] = [
+        {
+            title: 'Mã giao dịch',
+            dataIndex: 'paymentId',
+            sorter: false,
+            align: 'center',
+            ellipsis: true,
+            render: (_, row: Payment) => `${row.paymentId}`,
+        },
+        {
+            title: 'Tài khoản nạp tiền',
+            dataIndex: 'bankAccountNo',
+            sorter: false,
+            align: 'center',
+            ellipsis: true,
+            render: (_, row: Payment) => `${row.bankAccountNo}`,
+        },
+
+        {
+            title: 'Tên tài khoản',
+            dataIndex: 'bankAccountName',
+            sorter: false,
+            align: 'center',
+            ellipsis: true,
+            search: false,
+            render: (_, row: Payment) => `${row.bankAccountName}`,
+        },
+        {
+            title: 'Trạng thái giao dịch',
+            dataIndex: 'status',
+            sorter: false,
+            align: 'center',
+            ellipsis: true,
+            search: false,
+            render: (_, row: Payment) => <Tag color={PaymentStatus[row.status].color}>{PaymentStatus[row.status].text}</Tag>,
+        },
+        {
+            title: 'Thời gian tạo giao dịch',
+            dataIndex: 'createdAt',
+            sorter: false,
+            align: 'center',
+            ellipsis: true,
+            search: false,
+            render: (_, row: Payment) => row.created,
+        },
+        {
+            title: 'Số tiền thanh toán',
+            dataIndex: 'amount',
+            sorter: false,
+            align: 'center',
+            ellipsis: true,
+            search: false,
+            render: (_, row: Payment) => <p color={PaymentType[row.type]?.color}>{PaymentType[row.type]?.text}{row.amount}</p>,
+        },
+    ]
     return (
         <Space>
-            <ProList
-                toolBarRender={() => {
-                    return [
-                        <Button key="create" type="primary" onClick={showFormCreateTransaction}>
-                            Tạo giao dịch mới
-                        </Button>,
-                    ];
+            <ProTable
+                columns={columns}
+                request={(params) => {
+                    return loadPayments(params);
                 }}
-                search={{
-                    filterType: 'light',
-                }}
-                request={(param: any) => {
-                    return loadPayments(param);
-                }}
-                pagination={{
-                    pageSize: 10,
-                }}
-                metas={
-                    {
-                        description: {
-                            dataIndex: 'description',
-                            render: (_, row: Payment) => {
-                                return (
-                                    <p>{`Bạn đã tạo yêu cầu giao dịch thanh toán đến tài khoản 
-                                    ${row.bankAccountNo} của anh ${row.bankAccountName} 
-                                    vào lúc ${row.created}`}</p>
-                                )
-                            },
-                            search: false,
-                        },
+                actionRef={actionRef}
+            />
 
-                        subTitle: {
-                            dataIndex: 'tittle',
-                            render: (_, row: Payment) => {
-                                return (
-                                    <Space size={0}>
-                                        <Tag color={PaymentStatus[row.status]?.color}>
-                                            {PaymentStatus[row.status]?.text}
-                                        </Tag>
-                                    </Space>
-                                );
-                            },
-                            search: false,
-                        },
-                        status: {
-                            title: 'Trạng thái giao dịch',
-                            valueEnum: PaymentStatus,
-                        }
-                    }
-                }
-            >
-
-            </ProList>
             {modalContextHolder}
         </Space>
     )
