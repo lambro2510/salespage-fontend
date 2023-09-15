@@ -11,7 +11,7 @@ const CONFIG = {
   helpLink: 'https://github.com/lambro2510/salepage-fontend.git',
   enablePWA: true,
   theme: {
-    accentColor: '#818cf8',
+    accentColor: '#FF3333',
     sidebarLayout: LayoutType.TOP,
     showBreadcrumb: true,
   },

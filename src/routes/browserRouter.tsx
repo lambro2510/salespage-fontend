@@ -27,6 +27,10 @@ const Register = loadable(() => import('../components/register'), {
 const Verify = loadable(() => import('../components/register/verify'), {
   fallback: fallbackElement,
 });
+
+const ProductDetailView = loadable(() => import('../components/product'), {
+  fallback: fallbackElement,
+});
 export const browserRouter = createBrowserRouter([
   {
     path: webRoutes.home,
@@ -76,7 +80,12 @@ export const browserRouter = createBrowserRouter([
         errorElement: errorElement,
         children: [
         ]
-      }
+      },
+      {
+        path: `${webRoutes.products}/:productId`,
+        element: <ProductDetailView />,
+        errorElement: errorElement,
+      },
     ],
   },
 

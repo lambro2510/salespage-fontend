@@ -1,19 +1,35 @@
 import React from "react";
-import { Card } from "antd";
+import { Button, Card, Rate } from "antd";
 import { Product } from "../../interfaces/models/product";
+import Meta from "antd/es/card/Meta";
+import defaultImage from '../../assets/img/default-image.png';
+import { BiCart, BiCartAdd, BiPlus } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
+import { webRoutes } from "../../routes/web";
+import LazyImage from "../lazy-image";
 
 const ProductCard = ({ product }: { product: Product }) => {
+    const navigate = useNavigate();
+    const imageUrl = product.imageUrl || defaultImage;
+
     return (
-        <Card
-            hoverable
-            className="h-1/3 w-auto flex flex-col justify-center items-center" // Căn chỉnh và căn giữa các thành phần
-        >
-            <img alt={product.productName} src={product.imageUrl} className="h-48" />
-            <div className="text-center mt-4">
-                <h3 className="text-lg font-semibold">{product.productName}</h3>
-                <p className="text-sm text-gray-500">{product.description}</p>
-            </div>
-        </Card>
+        <div className="">
+            <Card
+                cover={<LazyImage placeholder={product.productName} src={imageUrl}/>}
+            >
+                <Meta
+                    title={<div className="text-sm">{product.productName}</div>}
+                    description={
+                        <div >
+                            <Rate defaultValue={product.productRate.avgPoint} disabled />
+                            <p className="">{product.productPrice}</p>
+                                <Button className="w-full" type="primary" onClick={() => {navigate(`${webRoutes.products}/${product.productId}`)}}><BiCartAdd /></Button>
+                        
+                        </div>
+                    }
+                />
+            </Card>
+        </div>
     );
 };
 

@@ -14,20 +14,28 @@ const ListProduct = ({ products }: { products: Product[] }) => {
 
     useEffect(() => {
         const handleResize = () => {
-            if (window.innerWidth >= 1200) {
+            const windowWidth = window.innerWidth;
+
+            if (windowWidth >= 1920) {
+                setSlidesToShow(8);
+            } else if (windowWidth >= 1680) {
+                setSlidesToShow(7);
+            } else if (windowWidth >= 1280) {
+                setSlidesToShow(5);
+            } else if (windowWidth >= 1024) {
                 setSlidesToShow(4);
-            } else if (window.innerWidth >= 992) {
-                setSlidesToShow(3);
-            } else if (window.innerWidth >= 768) {
+            } else if (windowWidth >= 768) {
                 setSlidesToShow(2);
+            } else if (windowWidth >= 320) {
+                setSlidesToShow(1);
             } else {
                 setSlidesToShow(1);
             }
         };
 
-        handleResize(); 
+        handleResize();
 
-        window.addEventListener("resize", handleResize); 
+        window.addEventListener("resize", handleResize);
 
         return () => {
             window.removeEventListener("resize", handleResize);
@@ -35,7 +43,7 @@ const ListProduct = ({ products }: { products: Product[] }) => {
     }, []);
 
     const settings = {
-        dots: true,
+        dots: false,
         infinite: true,
         arrows: true,
         speed: 500,
@@ -50,7 +58,9 @@ const ListProduct = ({ products }: { products: Product[] }) => {
             <Slider {...settings}>
                 {products?.map((product) => (
                     <div key={product.productId} className="product-slide">
-                        <ProductCard product={product} />
+                        <div className="slide-item">
+                            <ProductCard product={product} />
+                        </div>
                     </div>
                 ))}
             </Slider>

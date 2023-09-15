@@ -9,3 +9,7 @@
     color: rgba(41, 19, 139, 0.342);
     background-color: transparent;
 }
+
+.slide-item {
+    padding: 5%; 
+}
