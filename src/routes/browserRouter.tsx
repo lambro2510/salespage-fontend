@@ -82,7 +82,7 @@ export const browserRouter = createBrowserRouter([
         ]
       },
       {
-        path: `${webRoutes.products}/:productId`,
+        path: `${webRoutes.products}/:productId/:productName`,
         element: <ProductDetailView />,
         errorElement: errorElement,
       },

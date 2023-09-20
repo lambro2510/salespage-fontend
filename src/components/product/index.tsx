@@ -2,14 +2,24 @@ import { PageContainer } from "@ant-design/pro-components";
 import { webRoutes } from "../../routes/web";
 import { BreadcrumbProps } from "antd";
 import { Link, useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProductDetail } from "../../interfaces/models/product";
-
+import http from "../../utils/http";
+import { apiRoutes } from "../../routes/api";
 
 
 const ProductDetailView = () => {
-    const {productId} = useParams();
+    const {productId, productName} = useParams();
     const [product, setProduct] = useState<ProductDetail>();
+
+    const getProductDetail = async () => {
+        await http.get(`${apiRoutes.products}/detail?productId=${productId}`)
+    }
+
+    useEffect(() => {
+        getProductDetail()
+    }, [])
+
     const breadcrumb: BreadcrumbProps = {
         items: [
             {
@@ -22,7 +32,7 @@ const ProductDetailView = () => {
             },
             {
                 key: `${webRoutes.products}/${productId}`,
-                title: product?.productName,
+                title: productName,
             }
         ],
     };

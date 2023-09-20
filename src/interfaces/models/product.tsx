@@ -17,6 +17,8 @@ export interface Product {
     storeId: string;
     categoryId: string;
     isHot: boolean;
+    sellPrice : number;
+    discountPercent : number;
   }
 
 export interface ProductDetail {
