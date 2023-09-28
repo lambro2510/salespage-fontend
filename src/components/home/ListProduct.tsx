@@ -9,7 +9,7 @@ import ProductCard from "./ProductCard";
 
 import "./ListProduct.css";
 
-const ListProduct = ({ products }: { products: Product[] }) => {
+const ListProduct = ({ products, loading, title }: { products: Product[], loading : boolean, title : string }) => {
     const [slidesToShow, setSlidesToShow] = useState(4);
 
     useEffect(() => {
@@ -17,15 +17,15 @@ const ListProduct = ({ products }: { products: Product[] }) => {
             const windowWidth = window.innerWidth;
 
             if (windowWidth >= 1920) {
-                setSlidesToShow(8);
-            } else if (windowWidth >= 1680) {
-                setSlidesToShow(7);
-            } else if (windowWidth >= 1280) {
-                setSlidesToShow(5);
-            } else if (windowWidth >= 1024) {
                 setSlidesToShow(4);
-            } else if (windowWidth >= 768) {
+            } else if (windowWidth >= 1680) {
+                setSlidesToShow(4);
+            } else if (windowWidth >= 1280) {
+                setSlidesToShow(3);
+            } else if (windowWidth >= 1024) {
                 setSlidesToShow(2);
+            } else if (windowWidth >= 768) {
+                setSlidesToShow(1);
             } else if (windowWidth >= 320) {
                 setSlidesToShow(1);
             } else {
@@ -54,11 +54,12 @@ const ListProduct = ({ products }: { products: Product[] }) => {
     };
 
     return (
-        <BasePageContainer>
+        <BasePageContainer loading={loading}>
+            <h3>{title}</h3>
             <Slider {...settings}>
                 {products?.map((product) => (
-                    <div key={product.productId} className="product-slide">
-                        <div className="slide-item">
+                    <div key={product.productId}>
+                        <div >
                             <ProductCard product={product} />
                         </div>
                     </div>

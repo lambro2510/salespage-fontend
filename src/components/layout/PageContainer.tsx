@@ -18,31 +18,34 @@ const BasePageContainer = (props: BasePageContainerProps) => {
   const isMobile = useBreakpoint();
 
   return (
-    <PageContainer
-      header={{
-        title: props.title,
-        breadcrumb: CONFIG.theme.showBreadcrumb ? props.breadcrumb : undefined,
-        extra: props.extra,
-      }}
-      childrenContentStyle={isMobile ? { paddingInline: 15 } : {}}
-      subTitle={props.subTitle}
-    >
-      <ProCard
-        className={`mb-10 ${!props.transparent ? 'shadow-lg' : ''}`}
-        size="small"
-        style={{ minHeight: 500 }}
-        ghost={props.transparent}
-        loading={
-          props.loading ? (
-            <Loader text={''} spinner={<Spin size="large" />} />
-          ) : (
-            false
-          )
-        }
+    <div className='flex justify-center'>
+      <PageContainer
+        className='w-2/3 '
+        header={{
+          title: props.title,
+          breadcrumb: CONFIG.theme.showBreadcrumb ? props.breadcrumb : undefined,
+          extra: props.extra,
+        }}
+        childrenContentStyle={isMobile ? { paddingInline: 15 } : {}}
+        subTitle={props.subTitle}
       >
-        {props.children}
-      </ProCard>
-    </PageContainer>
+        <ProCard
+          className={`mb-10 ${!props.transparent ? 'shadow-lg' : ''}`}
+          size="small"
+          style={{ minHeight: 500 }}
+          ghost={props.transparent}
+          loading={
+            props.loading ? (
+              <Loader text={''} spinner={<Spin size="large" />} />
+            ) : (
+              false
+            )
+          }
+        >
+          {props.children}
+        </ProCard>
+      </PageContainer>
+    </div>
   );
 };
 

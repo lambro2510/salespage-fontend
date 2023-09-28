@@ -8,16 +8,15 @@ import { Product } from "../../interfaces/models/product";
 
 const Home = () => {
 
+    const [loading, setLoading] = useState<boolean>(true);
     const [hotProducts, setHotProducts] = useState<Product[]>([]);
     const [saleProducts, setSaleProducts] = useState<[]>([]);
     const [suggestProduct, setSuggestProduct] = useState<[]>([]);
 
     const loadHotProduct = async () => {
-        await http.get(apiRoutes.products)
+        await http.get(`${apiRoutes.products}/hot-product`)
         .then((response) => {
-            console.log(response?.data?.data?.data as Product[]);
-            
-            setHotProducts(response?.data?.data?.data as Product[]);
+            setHotProducts(response?.data?.data as Product[]);
         })
         .catch((err) => {
             handleErrorResponse(err);
@@ -25,11 +24,9 @@ const Home = () => {
     }
 
     useEffect(() => {
-        console.log("---eff");
-        
         Promise.all([loadHotProduct()])
             .then(() => {
-                
+                setLoading(false)
             })
             .catch((error) => {
                 handleErrorResponse(error);
@@ -38,7 +35,7 @@ const Home = () => {
 
     return(
         <div>
-            <ListProduct products={hotProducts} />
+            <ListProduct products={hotProducts} loading={loading} title={"Sản phẩm xem nhiều hôm nay"}/>
         </div>
     )
 }

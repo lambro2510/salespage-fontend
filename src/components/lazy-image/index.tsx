@@ -1,12 +1,12 @@
 import { useState, Fragment, useEffect } from 'react';
+import defaultImage from '../../assets/img/product-default-image.png'
 
 export interface LazyImageProps {
-  placeholder: React.ReactNode;
   src: string;
   [key: string]: string | React.ReactNode | undefined;
 }
 
-const LazyImage = ({ placeholder, src, ...rest }: LazyImageProps) => {
+const LazyImage = ({ src, ...rest }: LazyImageProps) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const LazyImage = ({ placeholder, src, ...rest }: LazyImageProps) => {
   }, [src]);
 
   return (
-    <Fragment>{loading ? placeholder : <img src={src} {...rest} />}</Fragment>
+    <Fragment>{loading ? <img src={defaultImage} /> : <img src={src} {...rest}/>}</Fragment>
   );
 };
 
