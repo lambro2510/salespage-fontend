@@ -24,7 +24,7 @@ export interface Product {
 export interface ProductDetailResponse {
   productId: string;
   productName: string;
-  productPrice: number;
+  productPrice: number ;
   sellProductPrice: number;
   discountPercent: number;
   imageUrls: UploadImageData[];
@@ -45,6 +45,8 @@ export interface ProductDetailResponse {
   quantity: number;
   isLike: boolean;
   is_hot: boolean;
+  totalSell: number;
+  totalView: number;
 }
   
 interface UploadImageData {

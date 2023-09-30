@@ -25,6 +25,18 @@
   animation: icon-spin 1s infinite linear;
 }
 
+.ant-input-number-input-wrap > input.ant-input-number-input {
+  text-align: center;
+}
+
+.ant-btn{
+  border-radius: 0%;
+}
+
+.ant-btn-primary{
+  background-color: #ee4d2d;
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;

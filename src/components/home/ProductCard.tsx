@@ -56,7 +56,6 @@ const ProductCard = ({ product }: { product: Product }) => {
                 </div>
                 <div className="mt-4 text-center">
                     <Button
-                        className="rounded-full"
                         icon={<BiSolidCartAdd />}
                     >
                         Mua ngay

@@ -58,9 +58,11 @@ export const handleErrorResponse = (
   }
 };
 
-export function formatCurrency(amount : number, currencyCode = 'đ') {
-  return new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: currencyCode,
-  }).format(amount);
+export function formatCurrency(amount: number | undefined, currencyCode = 'VND') {
+  if (amount) {
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: currencyCode,
+    }).format(amount);
+  }
 }
