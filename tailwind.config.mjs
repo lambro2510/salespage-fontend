@@ -7,7 +7,8 @@ export default {
     extend: {
       colors: {
         primary: CONFIG.theme.accentColor,
-        red : '#ee4d2d'
+        red : '#ee4d2d',
+        lightWhite : '#ffffff'
       },
     },
   },

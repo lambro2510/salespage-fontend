@@ -9,9 +9,10 @@ import { webRoutes } from "../../routes/web";
 import ListCarousel from "../listCarousel";
 import BasePageContainer from "../layout/PageContainer";
 import LazyImage from "../lazy-image";
-import { formatCurrency } from '../../utils/index'
+import { formatCurrency, handleErrorResponse, showNotification } from '../../utils/index'
 import { RiAddLine, RiSubtractFill } from "react-icons/ri";
 import { BiCartAdd } from "react-icons/bi";
+import QuantityInput from "../quantityInput";
 const { Text } = Typography;
 
 const ProductDetailView = () => {
@@ -19,7 +20,7 @@ const ProductDetailView = () => {
     const [product, setProduct] = useState<ProductDetailResponse>();
     const [currentImage, setCurrentImage] = useState<string>();
     const [quantity, setQuantity] = useState<any>(1);
-
+    const [storeId, setStoreId] = useState<string>();
     const getProductDetail = async () => {
         try {
             const response = await http.get(
@@ -37,6 +38,19 @@ const ProductDetailView = () => {
         getProductDetail();
     }, []);
 
+    const addToCart = async () => {
+        try {
+            let res = await http.post(`${apiRoutes.productTransaction}/cart`, {
+                productId: product?.productId,
+                storeId: storeId,
+                quantity: quantity,
+            })
+            showNotification(res?.data?.message)
+        } catch (error) {
+            handleErrorResponse(error);
+        }
+
+    }
     const ListImage = product?.imageUrls?.map((image: UploadImageData, index) => (
         <LazyImage key={index} src={image.url} className="w-full h-auto p-1" />
     )) || [];
@@ -73,7 +87,7 @@ const ProductDetailView = () => {
             }
             else if (value > product?.quantity) {
                 setQuantity(product?.quantity)
-            }else{
+            } else {
                 setQuantity(value)
             }
         }
@@ -84,6 +98,10 @@ const ProductDetailView = () => {
         if (quantity > 1) {
             setQuantity(quantity - 1);
         }
+    };
+
+    const handleStoreClick = (storeId: string) => {
+        setStoreId(storeId);
     };
 
     const renderPrice = () => {
@@ -190,6 +208,26 @@ const ProductDetailView = () => {
                 </Row>
                 <Row gutter={16} className="pt-4">
                     <Col span={5}>
+                        <span>Cửa hàng bán sản phẩm</span>
+                    </Col>
+                    {product?.size ? (
+                        <>
+                            <Col >
+                                {product.stores.map((store, index) => (
+                                    <Tag className={store.storeId === storeId ? 'bg-rose-200' : ''} key={index} onClick={() => handleStoreClick(store.storeId)}>
+                                        {store.storeName}
+                                    </Tag>
+                                ))}
+                            </Col>
+                        </>
+                    ) : <>
+                        <Col >
+                            <span>Không rõ</span>
+                        </Col>
+                    </>}
+                </Row>
+                <Row gutter={16} className="pt-4">
+                    <Col span={5}>
                         <span>Trọng lượng sản phẩm:</span>
                     </Col>
                     {product?.size ? (
@@ -253,17 +291,17 @@ const ProductDetailView = () => {
                             <div className="mt-5">
                                 {renderPrice()}
                                 {renderProductInfo()}
-                                <Row className="pt-5" >
-                                    <Col span={4} >Số lượng: </Col>
-                                    <Col span={15} className="flex items-center">
-                                        <Button className="rounded-none" icon={<RiSubtractFill />} onClick={handleDecrement}></Button>
-                                        <InputNumber className="rounded-none" min={1} defaultValue={1} value={quantity} onChange={(value) => onQuantityChange(value)} />
-                                        <Button className="rounded-none" icon={<RiAddLine />} onClick={handleIncrement}></Button>
-                                        <Text className="text-gray-500">&nbsp;{product.quantity} sản phẩm có sẵn</Text>
+                                <Row className="flex items-center mt-5">
+                                    <Col span={5}>
+                                        Số lượng
+                                    </Col>
+                                    <Col span={19}>
+                                        {<QuantityInput quantity={quantity} setQuantity={setQuantity} limit={product.quantity} description={'sản phẩm có sẵn'} />}
                                     </Col>
                                 </Row>
+
                                 <Row className="pt-5 flex justify-around">
-                                    <Button type="default" icon={<BiCartAdd />}>Thêm vào giỏ hàng</Button>
+                                    <Button type="default" icon={<BiCartAdd />} onClick={() => addToCart()}>Thêm vào giỏ hàng</Button>
                                     <Button type="primary">Mua ngay</Button>
                                 </Row>
                             </div>

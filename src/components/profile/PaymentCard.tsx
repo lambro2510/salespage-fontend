@@ -2,7 +2,7 @@ import { ActionType, ProColumns, ProDescriptions, ProForm, ProFormSelect, ProLis
 import { Button, Modal, Space, Tag } from "antd";
 import http from "../../utils/http";
 import { apiRoutes } from "../../routes/api";
-import { NotificationType, handleErrorResponse, showNotification } from "../../utils";
+import { NotificationType, formatCurrency, handleErrorResponse, showNotification } from "../../utils";
 import { icon } from "@fortawesome/fontawesome-svg-core";
 import { RiPaypalFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
@@ -91,8 +91,6 @@ const PaymentCard = () => {
                 </Space>
             );
         }
-
-        // Nếu không có trạng thái nào phù hợp, bạn có thể trả về null hoặc hiển thị thông tin khác.
         return null;
     };
 
@@ -175,24 +173,24 @@ const PaymentCard = () => {
             ellipsis: true,
             render: (_, row: Payment) => `${row.paymentId}`,
         },
-        {
-            title: 'Tài khoản nạp tiền',
-            dataIndex: 'bankAccountNo',
-            sorter: false,
-            align: 'center',
-            ellipsis: true,
-            render: (_, row: Payment) => `${row.bankAccountNo}`,
-        },
+        // {
+        //     title: 'Tài khoản nạp tiền',
+        //     dataIndex: 'bankAccountNo',
+        //     sorter: false,
+        //     align: 'center',
+        //     ellipsis: true,
+        //     render: (_, row: Payment) => `${row.bankAccountNo}`,
+        // },
 
-        {
-            title: 'Tên tài khoản',
-            dataIndex: 'bankAccountName',
-            sorter: false,
-            align: 'center',
-            ellipsis: true,
-            search: false,
-            render: (_, row: Payment) => `${row.bankAccountName}`,
-        },
+        // {
+        //     title: 'Tên tài khoản',
+        //     dataIndex: 'bankAccountName',
+        //     sorter: false,
+        //     align: 'center',
+        //     ellipsis: true,
+        //     search: false,
+        //     render: (_, row: Payment) => `${row.bankAccountName}`,
+        // },
         {
             title: 'Trạng thái giao dịch',
             dataIndex: 'status',
@@ -218,7 +216,7 @@ const PaymentCard = () => {
             align: 'center',
             ellipsis: true,
             search: false,
-            render: (_, row: Payment) => <p color={PaymentType[row.type]?.color}>{PaymentType[row.type]?.text}{row.amount}</p>,
+            render: (_, row: Payment) => <p color={PaymentType[row.type]?.color}>{PaymentType[row.type]?.text}{formatCurrency(row.amount)}</p>,
         },
         {
             title: 'Chức năng',
@@ -235,9 +233,8 @@ const PaymentCard = () => {
             <ProTable
                 toolBarRender={(action, { selectedRowKeys, selectedRows }) => {
                     return [
-                        <Button key="create" onClick={showFormCreateTransaction} type="primary">
-                            <BiPlus />
-                            Nạp tiền vào tài khoản
+                        <Button key="create" icon={<BiPlus />} onClick={showFormCreateTransaction} type="primary">
+                            Nạp tiền
                         </Button>,
                     ];
                 }}
@@ -252,6 +249,9 @@ const PaymentCard = () => {
                     return loadPayments(params);
                 }}
                 actionRef={actionRef}
+                scroll={{
+                    scrollToFirstRowOnChange : true
+                }}
             />
 
             {modalContextHolder}

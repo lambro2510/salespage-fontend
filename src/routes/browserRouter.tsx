@@ -31,6 +31,10 @@ const Verify = loadable(() => import('../components/register/verify'), {
 const ProductDetailView = loadable(() => import('../components/product'), {
   fallback: fallbackElement,
 });
+
+const CartView = loadable(() => import('../components/cart'), {
+  fallback: fallbackElement,
+});
 export const browserRouter = createBrowserRouter([
   {
     path: webRoutes.home,
@@ -41,7 +45,12 @@ export const browserRouter = createBrowserRouter([
         path: webRoutes.home,
         element: <Home />,
         errorElement: errorElement,
-      }
+      },
+      {
+        path: `${webRoutes.products}/:productId/:productName`,
+        element: <ProductDetailView />,
+        errorElement: errorElement,
+      },
     ]
   },
 
@@ -82,9 +91,11 @@ export const browserRouter = createBrowserRouter([
         ]
       },
       {
-        path: `${webRoutes.products}/:productId/:productName`,
-        element: <ProductDetailView />,
+        path: webRoutes.cart,
+        element: <CartView />,
         errorElement: errorElement,
+        children: [
+        ]
       },
     ],
   },

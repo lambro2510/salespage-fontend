@@ -17,6 +17,8 @@ export const apiRoutes = {
 
   products: `${API_URL}/public/product`,
 
+  productTransaction: `${API_URL}/product-transaction`,
+
   stores: `${API_URL}/seller/store`,
 
   categories: `${API_URL}/seller/product-category`,

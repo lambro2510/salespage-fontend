@@ -2,6 +2,7 @@ import { Store } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { RootState } from '../store';
 import { logout } from '../store/slices/authSlice';
+import { webRoutes } from '../routes/web';
 
 let store: Store;
 
@@ -37,6 +38,7 @@ http.interceptors.response.use(
   (error) => {
     if (error?.response?.status === 401) {
       store.dispatch(logout());
+      window.location.href = webRoutes.login
     }
     return Promise.reject(error);
   }

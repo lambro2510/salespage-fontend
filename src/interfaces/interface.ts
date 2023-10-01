@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2023-09-28 23:03:24.
+// Generated using typescript-generator version 3.2.1263 on 2023-10-01 19:50:31.
 
 interface CreatePaymentDto {
     bankAccountId: string;
@@ -14,9 +14,9 @@ interface UserFavoriteDto {
 }
 
 interface CheckInDto {
-    status: boolean;
     longitude: string;
     latitude: string;
+    username: string;
 }
 
 interface LoginDto {
@@ -135,6 +135,16 @@ interface UpdateProductCategoryTypeDto extends CreateProductCategoryTypeDto {
 interface UpdateTypeDetailStatusDto {
     id: string;
     status: ProductTypeDetailStatus;
+}
+
+interface ListTransactionDto {
+    selected: boolean;
+    price: number
+    transactionId: string;
+    note: string;
+    address: string;
+    voucherCode: string;
+    quantity : number;
 }
 
 interface ProductTransactionDto extends ProductTransactionInfoDto {
@@ -307,9 +317,12 @@ interface ProductDataResponse {
     sellerUsername: string;
     discountPercent: number;
     sellPrice: number;
+    totalSell: number;
+    totalView: number;
     imageUrl: string;
     stores: SellerStoreResponse[];
     categoryId: string;
+    createdAt: number;
     isHot: boolean;
 }
 
@@ -326,6 +339,8 @@ interface ProductDetailResponse {
     stores: SellerStoreResponse[];
     categoryId: string;
     categoryName: string;
+    totalSell: number;
+    totalView: number;
     origin: string;
     isForeign: boolean;
     size: number;
@@ -402,6 +417,7 @@ interface PaymentTransactionResponse {
 }
 
 interface ProductTransactionResponse {
+    selected: boolean;
     transactionId: string;
     productId: string;
     productName: string;
@@ -417,6 +433,7 @@ interface ProductTransactionResponse {
     productTransactionState: ProductTransactionState;
     voucherInfo: VoucherInfo;
     total_price: number;
+    price: number;
     created_at: Date;
 }
 
@@ -538,6 +555,6 @@ type PaymentStatus = "WAITING" | "RESOLVE" | "PENDING" | "CANCEL";
 
 type PaymentType = "IN" | "OUT";
 
-type ProductTransactionState = "WAITING_STORE" | "ACCEPT_STORE" | "WAITING_SHIPPER" | "SHIPPER_PROCESSING" | "SHIPPER_COMPLETE" | "ALL_COMPLETE" | "CANCEL";
+type ProductTransactionState = "IN_CART" | "WAITING_STORE" | "ACCEPT_STORE" | "WAITING_SHIPPER" | "SHIPPER_PROCESSING" | "SHIPPER_COMPLETE" | "ALL_COMPLETE" | "CANCEL";
 
 type VoucherCodeStatus = "NEW" | "OWNER" | "USED" | "EXPIRE";

@@ -5,6 +5,7 @@ export const webRoutes = {
   logout: '/logout',
   profile: '/profile',
   orders: '/orders',
+  cart: '/cart',
   products: '/products',
   vouchers : '/vouchers',
   stores : '/stores',

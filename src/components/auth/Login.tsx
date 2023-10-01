@@ -20,7 +20,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || webRoutes.home;
+  const from = location.state?.from?.pathname || -1;
   const auth = useSelector((state: RootState) => state.auth);
   const [loading, setLoading] = useState<boolean>(false);
   const [form] = Form.useForm();

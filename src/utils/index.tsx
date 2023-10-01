@@ -49,7 +49,7 @@ export const handleErrorResponse = (
 
   showNotification(
     errorMessage &&
-      errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1),
+    errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1),
     NotificationType.ERROR
   );
 
@@ -59,10 +59,11 @@ export const handleErrorResponse = (
 };
 
 export function formatCurrency(amount: number | undefined, currencyCode = 'VND') {
-  if (amount) {
+  if (typeof amount === 'number') {
     return new Intl.NumberFormat('vi-VN', {
       style: 'currency',
       currency: currencyCode,
     }).format(amount);
   }
+
 }

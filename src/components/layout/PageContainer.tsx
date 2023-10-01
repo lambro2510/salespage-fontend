@@ -36,7 +36,7 @@ const BasePageContainer = (props: BasePageContainerProps) => {
           ghost={props.transparent}
           loading={
             props.loading ? (
-              <Loader text={''} spinner={<Spin size="large" />} />
+              <Loader text={'Đang tải'} spinner={<Spin size="large" />} />
             ) : (
               false
             )
