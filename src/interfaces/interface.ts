@@ -1,6 +1,24 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2023-10-01 19:50:31.
+// Generated using typescript-generator version 3.2.1263 on 2023-10-22 04:35:06.
+
+interface CartDto {
+    productDetailId: string;
+    quantity: number;
+    storeId: string;
+    voucherId: string;
+}
+
+interface CartPaymentDto {
+    comboId: string;
+    note: string;
+    transaction: ProductTransactionDto[];
+}
+
+interface ConfigDto {
+    key: string;
+    value: string;
+}
 
 interface CreatePaymentDto {
     bankAccountId: string;
@@ -80,6 +98,15 @@ interface TransactionData {
     benAccountNo: string;
 }
 
+interface ComboDto {
+    comboName: string;
+    type: DiscountType;
+    state: ActiveState;
+    value: number;
+    quantityToUse: number;
+    maxDiscount: number;
+}
+
 interface CreateProductCategoryTypeDto {
     categoryName: string;
     categoryType: CategoryType;
@@ -92,22 +119,23 @@ interface CreateProductInfoDto {
     productName: string;
     description: string;
     categoryId: string;
-    productPrice: number;
     storeIds: string[];
-    origin: string;
-    isForeign: boolean;
-    size: number;
-    sizeType: SizeType;
-    weight: number;
-    weightType: WeightType;
-    colors: string[];
-    isGuarantee: boolean;
+}
+
+interface ProductDetailDto {
+    productId: string;
+    type: ProductDetailType;
     quantity: number;
+    originPrice: number;
     discountPercent: number;
 }
 
-interface ProductDto extends ProductInfoDto {
-    productId: string;
+interface ProductDto {
+    productName: string;
+    description: string;
+    categoryId: string;
+    sellerStoreIds: string[];
+    productInfos: ProductInfo[];
 }
 
 interface ProductInfoDto extends CreateProductInfoDto {
@@ -138,19 +166,17 @@ interface UpdateTypeDetailStatusDto {
 }
 
 interface ListTransactionDto {
-    selected: boolean;
-    price: number
     transactionId: string;
     note: string;
+    quantity: number;
     address: string;
     voucherCode: string;
-    quantity : number;
 }
 
 interface ProductTransactionDto extends ProductTransactionInfoDto {
-    productId: string;
+    productDetailId: string;
     storeId: string;
-    voucherCode: string;
+    voucherCodeId: string;
 }
 
 interface ProductTransactionInfoDto {
@@ -163,8 +189,8 @@ interface SellerStoreDto {
     storeName: string;
     address: string;
     description: string;
-    status: StoreStatus;
     location: string;
+    status: StoreStatus;
 }
 
 interface UpdateSellerStoreDto extends SellerStoreDto {
@@ -261,6 +287,34 @@ interface BaseResponse<T> {
     data: T;
 }
 
+interface CartByStoreResponse {
+    storeId: string;
+    storeName: string;
+    cartResponses: CartResponse[];
+    combos: ProductComboDetailResponse[];
+    bestCombo: ProductComboDetailResponse;
+}
+
+interface CartResponse {
+    cartId: string;
+    canPayment: boolean;
+    productId: string;
+    storeId: string;
+    storeName: string;
+    categoryId: string;
+    categoryName: string;
+    price: number;
+    sellPrice: number;
+    discountPercent: number;
+    imageUrl: string;
+    productName: string;
+    quantity: number;
+    productNote: string;
+    voucherNote: string;
+    voucherInfo: VoucherInfo;
+    totalPrice: number;
+}
+
 interface FavoriteResponse {
     type: FavoriteType;
     refId: string;
@@ -297,33 +351,41 @@ interface PaymentResponse {
 }
 
 interface ProductCategoryResponse {
-    categoryId: string;
+    id: string;
     categoryName: string;
-    categoryType: CategoryType;
     description: string;
-    timeType: TimeType;
-    timeValue: number;
+    categoryType: CategoryType;
+    productTypeId: string;
     productType: string;
+    productTypeName: string;
+    rangeAge: string;
 }
 
 interface ProductDataResponse {
     productId: string;
     productName: string;
-    productPrice: number;
-    categoryName: string;
-    description: string;
-    productTypes: string[];
     productRate: Rate;
     sellerUsername: string;
-    discountPercent: number;
-    sellPrice: number;
+    minSellPrice: number;
+    maxSellPrice: number;
+    minOriginPrice: number;
+    maxOriginPrice: number;
     totalSell: number;
     totalView: number;
     imageUrl: string;
-    stores: SellerStoreResponse[];
     categoryId: string;
     createdAt: number;
     isHot: boolean;
+}
+
+interface ProductDetailInfoResponse {
+    productDetailId: string;
+    productId: string;
+    type: ProductDetailType;
+    quantity: number;
+    originPrice: number;
+    sellPrice: number;
+    discountPercent: number;
 }
 
 interface ProductDetailResponse {
@@ -341,15 +403,7 @@ interface ProductDetailResponse {
     categoryName: string;
     totalSell: number;
     totalView: number;
-    origin: string;
-    isForeign: boolean;
-    size: number;
-    sizeType: SizeType;
-    weight: number;
-    weightType: WeightType;
-    colors: string[];
-    isGuarantee: boolean;
-    quantity: number;
+    productInfos: ProductInfo[];
     isLike: boolean;
     is_hot: boolean;
 }
@@ -357,6 +411,37 @@ interface ProductDetailResponse {
 interface ProductTypeResponse {
     value: string;
     label: string;
+}
+
+interface SellerProductDetailResponse {
+    id: string;
+    productName: string;
+    defaultImageUrl: string;
+    rate: Rate;
+    productInfos: ProductInfo[];
+    categoryId: string;
+    productCategory: ProductCategoryResponse;
+    sellerStoreIds: string[];
+    stores: SellerStoreResponse[];
+    typeDetails: TypeDetailResponse[];
+    isHot: boolean;
+}
+
+interface SellerProductResponse {
+    id: string;
+    productName: string;
+    defaultImageUrl: string;
+    rate: Rate;
+    productInfos: ProductInfo[];
+    categoryId: string;
+    productCategory: ProductCategoryResponse;
+    sellerStoreIds: string[];
+    stores: SellerStoreResponse[];
+    isHot: boolean;
+}
+
+interface TypeDetailResponse {
+    typeName: string;
 }
 
 interface TotalProductStatisticResponse {
@@ -367,7 +452,7 @@ interface TotalProductStatisticResponse {
     totalView: number;
     totalBuy: number;
     totalShipCod: number;
-    dailies: Daily[];
+    productDetails: ProductDetailStatistic[];
 }
 
 interface UploadImageData {
@@ -393,10 +478,11 @@ interface NotificationResponse {
 }
 
 interface SellerStoreResponse {
-    storeId: string;
+    id: string;
     storeName: string;
     address: string;
     description: string;
+    location: string;
     status: StoreStatus;
     imageUrl: string;
 }
@@ -417,7 +503,6 @@ interface PaymentTransactionResponse {
 }
 
 interface ProductTransactionResponse {
-    selected: boolean;
     transactionId: string;
     productId: string;
     productName: string;
@@ -451,6 +536,7 @@ interface ListVoucherCodeResponse {
 
 interface UserVoucherResponse {
     voucherStoreName: string;
+    voucherCodeId: string;
     voucherCode: string;
     minPrice: number;
     maxPrice: number;
@@ -480,6 +566,16 @@ interface VoucherStoreResponse {
     value: number;
 }
 
+interface ProductDetailType {
+    type: string;
+    color: string;
+}
+
+interface ProductInfo {
+    label: string;
+    value: string;
+}
+
 interface Transaction {
     postingDate: string;
     transactionDate: string;
@@ -499,10 +595,44 @@ interface Transaction {
     docId: string;
 }
 
+interface ProductComboDetailResponse {
+    id: string;
+    canUse: boolean;
+    totalPrice: number;
+    comboName: string;
+    type: DiscountType;
+    value: number;
+    quantityToUse: number;
+    maxDiscount: number;
+}
+
+interface VoucherInfo {
+    code: string;
+    voucherStoreType: VoucherStoreType;
+    discountType: DiscountType;
+    totalDiscount: number;
+    priceBefore: number;
+    priceAfter: number;
+    value: number;
+    voucherName: string;
+    isUse: boolean;
+}
+
 interface Rate {
     totalPoint: number;
     totalRate: number;
     avgPoint: number;
+}
+
+interface ProductDetailStatistic {
+    productDetailId: string;
+    daily: Date;
+    totalUser: number;
+    totalPurchase: number;
+    totalView: number;
+    totalBuy: number;
+    totalShipCod: number;
+    dailies: Daily[];
 }
 
 interface Daily {
@@ -514,24 +644,15 @@ interface Daily {
     totalShipCod: number;
 }
 
-interface VoucherInfo {
-    voucherCode: string;
-    voucherStoreType: VoucherStoreType;
-    discountType: DiscountType;
-    totalDiscount: number;
-    priceBefore: number;
-    priceAfter: number;
-}
-
 type FavoriteType = "PRODUCT" | "STORE" | "SELLER" | "SHIPPER";
 
 type UserRole = "ADMIN" | "OPERATOR" | "SHIPPER" | "USER" | "SELLER";
 
+type DiscountType = "PERCENT" | "TOTAL" | "PER_PRODUCT";
+
+type ActiveState = "ACTIVE" | "INACTIVE";
+
 type CategoryType = "VERY_SMALL" | "SMALL" | "BIG" | "LARGE" | "SUPPER_LARGE";
-
-type SizeType = "CENTIMES" | "MES";
-
-type WeightType = "KILOGRAM" | "GRAM";
 
 type ProductTypeStatus = "ACTIVE" | "INACTIVE";
 
@@ -541,13 +662,9 @@ type StoreStatus = "ACTIVE" | "INACTIVE";
 
 type VoucherStoreType = "PRODUCT" | "STORE";
 
-type DiscountType = "PERCENT" | "TOTAL" | "PER_PRODUCT";
-
 type VoucherStoreStatus = "ACTIVE" | "INACTIVE";
 
 type BankStatus = "ACTIVE" | "INACTIVE" | "DISCONNECT";
-
-type TimeType = "MINUTE" | "HOUR" | "DAY" | "WEEK" | "MONTH";
 
 type NotificationStatus = "SEEN" | "NOT_SEEN";
 

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { PageContainer } from "@ant-design/pro-components";
 import { BreadcrumbProps, Button, Col, Input, InputNumber, Rate, Row, Tag, Typography } from "antd";
 import { Link, NavLink, useParams } from "react-router-dom";
-import { ProductDetailResponse } from "../../interfaces/models/product";
 import http from "../../utils/http";
 import { apiRoutes } from "../../routes/api";
 import { webRoutes } from "../../routes/web";
@@ -20,7 +19,7 @@ const ProductDetailView = () => {
     const [product, setProduct] = useState<ProductDetailResponse>();
     const [currentImage, setCurrentImage] = useState<string>();
     const [quantity, setQuantity] = useState<any>(1);
-    const [storeId, setStoreId] = useState<string>();
+    const [selectedStoreId, setSelectedStoreId] = useState<string>();
     const getProductDetail = async () => {
         try {
             const response = await http.get(
@@ -42,7 +41,7 @@ const ProductDetailView = () => {
         try {
             let res = await http.post(`${apiRoutes.productTransaction}/cart`, {
                 productId: product?.productId,
-                storeId: storeId,
+                storeId: selectedStoreId,
                 quantity: quantity,
             })
             showNotification(res?.data?.message)
@@ -72,36 +71,9 @@ const ProductDetailView = () => {
         ],
     };
 
-    const handleIncrement = () => {
-        if (product) {
-            if (quantity < product?.quantity) {
-                setQuantity(quantity + 1);
-            }
-        }
-    };
-
-    const onQuantityChange = (value: any) => {
-        if (product) {
-            if (value < 1) {
-                setQuantity(1);
-            }
-            else if (value > product?.quantity) {
-                setQuantity(product?.quantity)
-            } else {
-                setQuantity(value)
-            }
-        }
-
-    };
-
-    const handleDecrement = () => {
-        if (quantity > 1) {
-            setQuantity(quantity - 1);
-        }
-    };
 
     const handleStoreClick = (storeId: string) => {
-        setStoreId(storeId);
+        setSelectedStoreId(storeId);
     };
 
     const renderPrice = () => {
@@ -130,121 +102,45 @@ const ProductDetailView = () => {
 
     const renderProductInfo = () => {
         return (
-            <div >
-                <Row gutter={16} className="pt-4">
-                    {product?.colors ? (
-                        <>
-                            <Col span={5}>
-                                <span>Màu sắc:</span>
+            <div>
+                {product?.productInfos.map((productInfo) => {
+                    return (
+                        <Row className="mb-8 mt-8">
+                            <Col span={6} >
+                                {productInfo.label} :
                             </Col>
-                            <Col >
-                                {product.colors.map((color, index) => (
-                                    <Tag key={index}>{color}</Tag>
-                                ))}
+                            <Col span={18} >
+                                {productInfo.value}
                             </Col>
-                        </>
-                    ) : null}
-                </Row>
-                <Row gutter={16} className="pt-4">
-                    {product?.isForeign ? (
-                        <>
-                            <Col span={24}>
-                                <span>Cần nhập khẩu</span>
-                            </Col>
-                        </>
-                    ) : <>
-                        <Col span={24}>
-                            <span>Có sẵn trong nước</span>
-                        </Col>
-                    </>}
-                </Row>
-                <Row gutter={16} className="pt-4">
-                    <Col span={5}>
-                        <span>Bảo hành:</span>
+                        </Row>
+                    )
+                })}
+            </div>
+
+        );
+    }
+
+    const renderStores = () => {
+        return (
+            <div>
+                <Row>
+                    <Col span={6}>
+                        Cửa hàng bán :
                     </Col>
-                    {product?.isGuarantee ? (
-                        <>
-                            <Col>
-                                <span>Không</span>
-                            </Col>
-                        </>
-                    ) : <>
-                        <Col >
-                            <span>Có</span>
-                        </Col>
-                    </>}
-                </Row>
-                <Row gutter={16} className="pt-4">
-                    <Col span={5}>
-                        <span>Nguồn gốc:</span>
+                    <Col span={18}>
+                        {product?.stores.map((store) => {
+                            if (store.id === selectedStoreId) {
+                                return <Tag color="red" >{store.storeName}</Tag>;
+                            } else {
+                                return <Tag color="magenta" onClick={() => handleStoreClick(store.id)}>{store.storeName}</Tag>;
+                            }
+                        })}
                     </Col>
-                    {product?.origin ? (
-                        <>
-                            <Col>
-                                <span>{product.origin}</span>
-                            </Col>
-                        </>
-                    ) : <>
-                        <Col >
-                            <span>Không rõ</span>
-                        </Col>
-                    </>}
-                </Row>
-                <Row gutter={16} className="pt-4">
-                    <Col span={5}>
-                        <span>Kích thước sản phẩm:</span>
-                    </Col>
-                    {product?.size ? (
-                        <>
-                            <Col>
-                                <span>{product.size} {product.sizeType}</span>
-                            </Col>
-                        </>
-                    ) : <>
-                        <Col >
-                            <span>Không rõ</span>
-                        </Col>
-                    </>}
-                </Row>
-                <Row gutter={16} className="pt-4">
-                    <Col span={5}>
-                        <span>Cửa hàng bán sản phẩm</span>
-                    </Col>
-                    {product?.size ? (
-                        <>
-                            <Col >
-                                {product.stores.map((store, index) => (
-                                    <Tag className={store.storeId === storeId ? 'bg-rose-200' : ''} key={index} onClick={() => handleStoreClick(store.storeId)}>
-                                        {store.storeName}
-                                    </Tag>
-                                ))}
-                            </Col>
-                        </>
-                    ) : <>
-                        <Col >
-                            <span>Không rõ</span>
-                        </Col>
-                    </>}
-                </Row>
-                <Row gutter={16} className="pt-4">
-                    <Col span={5}>
-                        <span>Trọng lượng sản phẩm:</span>
-                    </Col>
-                    {product?.size ? (
-                        <>
-                            <Col>
-                                <span>{product.weight} {product.weightType}</span>
-                            </Col>
-                        </>
-                    ) : <>
-                        <Col >
-                            <span>Không rõ</span>
-                        </Col>
-                    </>}
                 </Row>
             </div>
         );
-    }
+    };
+
 
     return (
         <BasePageContainer breadcrumb={breadcrumb}>
@@ -291,13 +187,12 @@ const ProductDetailView = () => {
                             <div className="mt-5">
                                 {renderPrice()}
                                 {renderProductInfo()}
+                                {renderStores()}
                                 <Row className="flex items-center mt-5">
-                                    <Col span={5}>
+                                    <Col span={6}>
                                         Số lượng
                                     </Col>
-                                    <Col span={19}>
-                                        {<QuantityInput quantity={quantity} setQuantity={setQuantity} limit={product.quantity} description={'sản phẩm có sẵn'} />}
-                                    </Col>
+                                    
                                 </Row>
 
                                 <Row className="pt-5 flex justify-around">

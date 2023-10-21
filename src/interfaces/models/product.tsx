@@ -21,33 +21,6 @@ export interface Product {
     discountPercent : number;
   }
 
-export interface ProductDetailResponse {
-  productId: string;
-  productName: string;
-  productPrice: number ;
-  sellProductPrice: number;
-  discountPercent: number;
-  imageUrls: UploadImageData[];
-  description: string;
-  rate : Rate;
-  yourRate: number;
-  stores: SellerStoreResponse[];
-  categoryId: string;
-  categoryName: string;
-  origin: string;
-  isForeign: boolean;
-  size: number;
-  sizeType: SizeType;
-  weight: number;
-  weightType: WeightType;
-  colors: string[];
-  isGuarantee: boolean;
-  quantity: number;
-  isLike: boolean;
-  is_hot: boolean;
-  totalSell: number;
-  totalView: number;
-}
   
 interface UploadImageData {
   uid: string;

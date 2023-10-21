@@ -9,7 +9,7 @@ import ProductCard from "./ProductCard";
 
 import "./ListProduct.css";
 
-const ListProduct = ({ products, loading, title }: { products: Product[], loading : boolean, title : string }) => {
+const ListProduct = ({ products, loading, title }: { products: ProductDataResponse[], loading : boolean, title : string }) => {
     const [slidesToShow, setSlidesToShow] = useState(4);
 
     useEffect(() => {
