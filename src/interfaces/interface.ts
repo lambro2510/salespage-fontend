@@ -173,10 +173,12 @@ interface ListTransactionDto {
     voucherCode: string;
 }
 
-interface ProductTransactionDto extends ProductTransactionInfoDto {
+interface ProductTransactionDto{
     productDetailId: string;
     storeId: string;
     voucherCodeId: string;
+    note : string;
+    address : string;
 }
 
 interface ProductTransactionInfoDto {
@@ -304,6 +306,7 @@ interface CartResponse {
     categoryId: string;
     categoryName: string;
     price: number;
+    limit : number;
     sellPrice: number;
     discountPercent: number;
     imageUrl: string;
@@ -379,7 +382,7 @@ interface ProductDataResponse {
 }
 
 interface ProductDetailInfoResponse {
-    productDetailId: string;
+    id: string;
     productId: string;
     type: ProductDetailType;
     quantity: number;
@@ -404,6 +407,7 @@ interface ProductDetailResponse {
     totalSell: number;
     totalView: number;
     productInfos: ProductInfo[];
+    productDetails : ProductDetailInfoResponse[];
     isLike: boolean;
     is_hot: boolean;
 }

@@ -17,7 +17,11 @@ export const apiRoutes = {
 
   products: `${API_URL}/public/product`,
 
+  products_detail: `${API_URL}/public/product-detail`,
+
   productTransaction: `${API_URL}/product-transaction`,
+
+  cart: `${API_URL}/cart`,
 
   stores: `${API_URL}/seller/store`,
 

@@ -58,12 +58,14 @@ export const handleErrorResponse = (
   }
 };
 
-export function formatCurrency(amount: number | undefined, currencyCode = 'VND') {
+export function formatCurrency(amount: any | undefined, currencyCode = 'VND') {
   if (typeof amount === 'number') {
     return new Intl.NumberFormat('vi-VN', {
       style: 'currency',
       currency: currencyCode,
     }).format(amount);
+  }else{
+    return amount;
   }
 
 }

@@ -8,8 +8,7 @@ import { webRoutes } from "../../routes/web";
 import ListCarousel from "../listCarousel";
 import BasePageContainer from "../layout/PageContainer";
 import LazyImage from "../lazy-image";
-import { formatCurrency, handleErrorResponse, showNotification } from '../../utils/index'
-import { RiAddLine, RiSubtractFill } from "react-icons/ri";
+import { NotificationType, formatCurrency, handleErrorResponse, showNotification } from '../../utils/index'
 import { BiCartAdd } from "react-icons/bi";
 import QuantityInput from "../quantityInput";
 const { Text } = Typography;
@@ -18,8 +17,10 @@ const ProductDetailView = () => {
     const { productId, productName } = useParams();
     const [product, setProduct] = useState<ProductDetailResponse>();
     const [currentImage, setCurrentImage] = useState<string>();
+    const [selectedProductDetail, setSelectedProductDetail] = useState<ProductDetailInfoResponse>();
     const [quantity, setQuantity] = useState<any>(1);
     const [selectedStoreId, setSelectedStoreId] = useState<string>();
+
     const getProductDetail = async () => {
         try {
             const response = await http.get(
@@ -39,12 +40,17 @@ const ProductDetailView = () => {
 
     const addToCart = async () => {
         try {
-            let res = await http.post(`${apiRoutes.productTransaction}/cart`, {
-                productId: product?.productId,
-                storeId: selectedStoreId,
-                quantity: quantity,
-            })
-            showNotification(res?.data?.message)
+            if (!selectedStoreId) {
+                showNotification("Chưa chọn cửa hàng bán", NotificationType.ERROR)
+            } else {
+                let res = await http.post(`${apiRoutes.cart}`, {
+                    productDetailId: selectedProductDetail?.id,
+                    storeId: selectedStoreId,
+                    quantity: quantity,
+                })
+                showNotification(res?.data?.message)
+            }
+
         } catch (error) {
             handleErrorResponse(error);
         }
@@ -73,27 +79,46 @@ const ProductDetailView = () => {
 
 
     const handleStoreClick = (storeId: string) => {
-        setSelectedStoreId(storeId);
+        if (selectedStoreId === storeId) {
+            {
+                setSelectedStoreId(undefined)
+            }
+        } else {
+            setSelectedStoreId(storeId);
+        }
+
     };
 
+    const handleProductDetail = (productDetail: ProductDetailInfoResponse) => {
+        console.log(productDetail);
+
+        if (selectedProductDetail === productDetail) {
+            {
+                setSelectedProductDetail(undefined)
+            }
+        } else {
+            setSelectedProductDetail(productDetail);
+        }
+        console.log(selectedProductDetail);
+    }
     const renderPrice = () => {
         return (
-            <div className="mt-5 flex items-center bg-slate-200">
-                {product?.discountPercent ? (
+            <div className="mt-5 flex items-center bg-slate-100">
+                {selectedProductDetail?.discountPercent ? (
                     <>
                         <Text delete className="text-2xs text-gray-500 pr-2">
-                            {formatCurrency(product.productPrice)}
+                            {formatCurrency(selectedProductDetail.originPrice)}
                         </Text>
                         <Text className="text-2xl text-red pr-2">
-                            {formatCurrency(product.sellProductPrice)}
+                            {formatCurrency(selectedProductDetail.sellPrice)}
                         </Text>
                         <Tag color="red" className="flex items-center">
-                            <span className="pr-1">{product.discountPercent}% giảm</span>
+                            <span className="pr-1">{selectedProductDetail.discountPercent}% giảm</span>
                         </Tag>
                     </>
                 ) : (
                     <Text className="text-2xl text-red">
-                        {formatCurrency(product?.sellProductPrice)}
+                        {formatCurrency(selectedProductDetail?.sellPrice)}
                     </Text>
                 )}
             </div>
@@ -130,9 +155,9 @@ const ProductDetailView = () => {
                     <Col span={18}>
                         {product?.stores.map((store) => {
                             if (store.id === selectedStoreId) {
-                                return <Tag color="red" >{store.storeName}</Tag>;
+                                return <Tag color="red" className="cursor-pointer" onClick={() => handleStoreClick(store.id)}>{store.storeName}</Tag>;
                             } else {
-                                return <Tag color="magenta" onClick={() => handleStoreClick(store.id)}>{store.storeName}</Tag>;
+                                return <Tag color="default" className="cursor-pointer" onClick={() => handleStoreClick(store.id)}>{store.storeName}</Tag>;
                             }
                         })}
                     </Col>
@@ -141,6 +166,36 @@ const ProductDetailView = () => {
         );
     };
 
+    const renderProductDetail = () => {
+        return (
+            <Row className="mt-8 mb-8">
+                <Col span={6}>
+                    Loại sản phẩm:
+                </Col>
+                <Col span={18}>
+                    <Row>
+                        {
+                            product?.productDetails.map((productDetail) => (
+                                <Col
+                                    className="mt-1 mb-1"
+                                >
+                                    <Tag
+                                        className="cursor-pointer"
+                                        color={productDetail.id === selectedProductDetail?.id ? productDetail.type.color : 'default'}
+                                        onClick={() => handleProductDetail(productDetail)}
+                                    >
+                                        {productDetail.type.type}
+                                    </Tag>
+
+                                </Col>
+                            ))
+                        }
+
+                    </Row>
+                </Col>
+            </Row>
+        )
+    }
 
     return (
         <BasePageContainer breadcrumb={breadcrumb}>
@@ -158,7 +213,6 @@ const ProductDetailView = () => {
                         <div>
                             <div className="flex justify-between items-center">
                                 <h1 className="text-xl font-semibold">{product?.productName}</h1>
-
                             </div>
                             <div className="mt-3 h-6 text-sm">
                                 <Row>
@@ -182,17 +236,20 @@ const ProductDetailView = () => {
                                         <NavLink to="#">Tố cáo</NavLink>
                                     </Col>
                                 </Row>
-
                             </div>
                             <div className="mt-5">
                                 {renderPrice()}
                                 {renderProductInfo()}
                                 {renderStores()}
+                                {renderProductDetail()}
+
                                 <Row className="flex items-center mt-5">
                                     <Col span={6}>
-                                        Số lượng
+                                        Số lượng:
                                     </Col>
-                                    
+                                    <Col span={18}>
+                                        <QuantityInput quantity={quantity} setQuantity={setQuantity} limit={selectedProductDetail?.quantity} />
+                                    </Col>
                                 </Row>
 
                                 <Row className="pt-5 flex justify-around">
