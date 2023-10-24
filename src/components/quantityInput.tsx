@@ -4,7 +4,7 @@ import { RiAddLine, RiSubtractFill } from "react-icons/ri";
 
 const { Text } = Typography;
 
-const QuantityInput = ({ quantity, setQuantity, limit }: { quantity: number, setQuantity: any, limit: number | undefined}) => {
+const QuantityInput = ({ quantity, setQuantity, limit, disable }: { quantity: number, setQuantity: any, limit: number | undefined, disable: boolean }) => {
 
     const handleIncrement = () => {
         if (!limit) {
@@ -43,29 +43,37 @@ const QuantityInput = ({ quantity, setQuantity, limit }: { quantity: number, set
     };
 
     return (
-            <Row>
-                <Col className="flex items-center">
-                    <Tooltip title={`Tối thiểu: ${'1'}`} placement="top">
-                        <Button
-                            className="rounded-none"
-                            icon={<RiSubtractFill />}
-                            onClick={handleDecrement}
-                            style={{ borderRight: 'none' }}
-                        ></Button>
-                    </Tooltip>
-                    <Tooltip title={`Tối thiểu: ${'1'} - tối đa: ${limit || 'Unlimited'}`} placement="top">
-                        <InputNumber className="rounded-none" min={1} defaultValue={1} value={quantity} onChange={(value) => onQuantityChange(value)} />
-                    </Tooltip>
-                    <Tooltip title={`Tối đa: ${limit || 'Unlimited'}`} placement="top">
-                        <Button
-                            className="rounded-none"
-                            icon={<RiAddLine />}
-                            onClick={handleIncrement}
-                            style={{ borderLeft: 'none' }}
-                        ></Button>
-                    </Tooltip>
-                </Col>
-            </Row>
+        <Row>
+            <Col className="flex items-center">
+                <Tooltip title={`Tối thiểu: ${'1'}`} placement="top">
+                    <Button
+                        disabled={disable}
+                        className="rounded-none"
+                        icon={<RiSubtractFill />}
+                        onClick={handleDecrement}
+                        style={{ borderRight: 'none' }}
+                    ></Button>
+                </Tooltip>
+                <Tooltip title={`Tối thiểu: ${'1'} - tối đa: ${limit || 'Unlimited'}`} placement="top">
+                    <InputNumber
+                        disabled={disable}
+                        className="rounded-none"
+                        min={1}
+                        defaultValue={1}
+                        value={quantity}
+                        onChange={(value) => onQuantityChange(value)} />
+                </Tooltip>
+                <Tooltip title={`Tối đa: ${limit || 'Unlimited'}`} placement="top">
+                    <Button
+                        disabled={disable}
+                        className="rounded-none"
+                        icon={<RiAddLine />}
+                        onClick={handleIncrement}
+                        style={{ borderLeft: 'none' }}
+                    ></Button>
+                </Tooltip>
+            </Col>
+        </Row>
     );
 }
 

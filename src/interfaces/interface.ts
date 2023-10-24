@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2023-10-22 04:35:06.
+// Generated using typescript-generator version 3.2.1263 on 2023-10-24 20:01:05.
 
 interface CartDto {
     productDetailId: string;
@@ -173,12 +173,12 @@ interface ListTransactionDto {
     voucherCode: string;
 }
 
-interface ProductTransactionDto{
+interface ProductTransactionDto {
     productDetailId: string;
     storeId: string;
     voucherCodeId: string;
-    note : string;
-    address : string;
+    note: string;
+    address: string;
 }
 
 interface ProductTransactionInfoDto {
@@ -300,18 +300,19 @@ interface CartByStoreResponse {
 interface CartResponse {
     cartId: string;
     canPayment: boolean;
+    productDetailId: string;
     productId: string;
     storeId: string;
     storeName: string;
     categoryId: string;
     categoryName: string;
     price: number;
-    limit : number;
     sellPrice: number;
     discountPercent: number;
     imageUrl: string;
     productName: string;
     quantity: number;
+    limit: number;
     productNote: string;
     voucherNote: string;
     voucherInfo: VoucherInfo;
@@ -407,9 +408,15 @@ interface ProductDetailResponse {
     totalSell: number;
     totalView: number;
     productInfos: ProductInfo[];
-    productDetails : ProductDetailInfoResponse[];
+    productDetails: ProductDetailInfoResponse[];
     isLike: boolean;
     is_hot: boolean;
+}
+
+interface ProductInfoResponse {
+    id: string;
+    productName: string;
+    defaultImageUrl: string;
 }
 
 interface ProductTypeResponse {
@@ -605,6 +612,7 @@ interface ProductComboDetailResponse {
     totalPrice: number;
     comboName: string;
     type: DiscountType;
+    products: ProductInfoResponse[];
     value: number;
     quantityToUse: number;
     maxDiscount: number;

@@ -12,6 +12,7 @@ const CONFIG = {
   enablePWA: true,
   theme: {
     accentColor: '#FF3333',
+    secondaryColor: '#FF8080',
     sidebarLayout: LayoutType.TOP,
     showBreadcrumb: true,
   },
