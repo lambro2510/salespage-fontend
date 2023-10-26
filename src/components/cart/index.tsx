@@ -20,6 +20,9 @@ const CardView = () => {
             setLoading(true);
             const response = await http.get(`${apiRoutes.cart}`);
             const datas = response.data?.data as CartByStoreResponseInterface[];
+            datas.forEach(data => {
+                data.selectedCombo = data.bestCombo;
+            })
             setCartItems(datas || []);
         } catch (error) {
             handleErrorResponse(error);
@@ -107,23 +110,45 @@ const CardView = () => {
         handleDto();
     }, [cartItems]);
 
-    const comboInfo = (combo: ProductComboDetailResponseInterface) => {
+    const setComboInfo = (cartItems: CartByStoreResponseInterface[], storeId: string, combo: ProductComboDetailResponseInterface) => {
+        let updatedCartItem = [...cartItems]
         let selectedProduct = new Set<string>();
         let productInCombos = new Set<string>(combo?.products?.map(item => item.id));
-        cartItems.forEach(cartItem => {
-            cartItem.cartResponses.forEach(item => {
-                if (item.isSelected) {
-                    selectedProduct.add(item.productId);
-                }
-            });
+        updatedCartItem.forEach(cartItem => {
+            if (cartItem.storeId === storeId) {
+                cartItem.selectedCombo = combo;
+                cartItem.cartResponses.forEach(item => {
+                    if (item.isSelected) {
+                        if (item.comboIds.includes(combo.id)) {
+                            if (selectedProduct.has(item.productId)) {
+                                item.isDuplicateInCombo = true;
+                            } else {
+                                item.isInCombo = true;
+                            }
+                        } else {
+                            item.isInCombo = false;
+                        }
+                        selectedProduct.add(item.productId);
+                    } else {
+                        item.isInCombo = false;
+                        item.isDuplicateInCombo = false;
+                    }
+                });
+            }
         });
         const productIds = new Set([...selectedProduct].filter(id => productInCombos.has(id)));
-        if (productIds.size > combo?.quantityToUse) {
+        console.log('combo?.quantityToUse: ', combo?.quantityToUse);
+        console.log('productIds size: ', productIds.size);
+        if (productIds.size >= combo?.quantityToUse) {
             combo.canUseCombo = true;
+        } else {
+            combo.canUseCombo = false;
         }
+        setCartItems(updatedCartItem)
+        console.log('updatedCartItem: ', updatedCartItem);
         console.log('selectedProduct: ', selectedProduct);
         console.log('productInCombos: ', productInCombos);
-        console.log('productIds: ', productIds);
+
         console.log("=====================>comboInfo: ");
         console.log(combo);
         return combo;
@@ -133,19 +158,13 @@ const CardView = () => {
 
         const setSelectedCombo = (combo: ProductComboDetailResponseInterface) => {
             let updatedCartItems = [...cartItems];
-            let updatedCartItem = { ...cartItem, selectedCombo: combo }
-            updatedCartItems.forEach(cart => {
-                if (cart.storeId == cartItem.storeId) {
-                    cart = updatedCartItem;
-                }
-            })
-            setCartItems(updatedCartItems);
+            setComboInfo(updatedCartItems, cartItem.storeId, combo)
         }
 
         const content = cartItem.combos.map((combo: ProductComboDetailResponseInterface) => {
 
             return (
-                <ProCard key={combo.id} bordered boxShadow className={comboInfo(cartItem.selectedCombo)?.canUseCombo ? 'mb-5 mt-5 border-r-red border-l-red' : 'mb-5 mt-5'}>
+                <ProCard key={combo.id} bordered boxShadow >
                     <Row>
                         <Col className="ml-5 mr-20">
                             <Row className="mb-3">{combo.comboName}</Row>
@@ -172,27 +191,27 @@ const CardView = () => {
 
         if (cartItem.combos.length > 0) {
             return (
-                <Tooltip title={!cartItem.bestCombo.canUseCombo && 'Chưa đủ điều kiện sử dụng khuyến mãi'}>
-                    <Row className="w-full bg-rose-50 p-3">
-                        <Col>
-                            <Tag color="red">Khuyến mãi</Tag>
-                        </Col>
-                        <Col>
-                            {cartItem.bestCombo.comboName}
-                        </Col>
-                        <Col>
-                            <Text>&nbsp;- giảm giá tối đa {formatCurrency(cartItem.bestCombo.maxDiscount)}</Text>
-                        </Col>
-                        <Col>
-                            <Text>&nbsp;khi mua {cartItem.bestCombo.quantityToUse} sản phẩm</Text>
-                        </Col>
-                        <Col>
-                            <Popover title={'Khuyến mãi'} content={content}>
-                                <Text className="text-primary cursor-pointer hover:text-secondary">&nbsp;Thêm{'>'}</Text>
-                            </Popover>
-                        </Col>
-                    </Row>
-                </Tooltip>
+
+                <Row className="w-full bg-rose-50 p-3">
+                    <Col>
+                        <Tag color="red">Khuyến mãi</Tag>
+                        {!cartItem.selectedCombo.canUseCombo && <Tag color="default">Chưa đủ điều kiện</Tag>}
+                    </Col>
+                    <Col>
+                        {cartItem.selectedCombo.comboName}
+                    </Col>
+                    <Col>
+                        <Text>&nbsp;- giảm giá tối đa {formatCurrency(cartItem.selectedCombo.maxDiscount)}</Text>
+                    </Col>
+                    <Col>
+                        <Text>&nbsp;khi mua {cartItem.selectedCombo.quantityToUse} sản phẩm</Text>
+                    </Col>
+                    <Col>
+                        <Popover title={'Khuyến mãi'} content={content}>
+                            <Text className="text-primary cursor-pointer hover:text-secondary">&nbsp;Thêm{'>'}</Text>
+                        </Popover>
+                    </Col>
+                </Row>
             );
         }
     };
@@ -212,6 +231,7 @@ const CardView = () => {
                 }
             })
             setCartItems(updatedCartItems);
+            setComboInfo(updatedCartItems, cartItem.storeId, cartItem.selectedCombo)
         };
 
         const updateQuantity = (cartId: string, quantity: number) => {
@@ -232,12 +252,33 @@ const CardView = () => {
 
         const countPriceNeedPayment = () => {
             let totalPrice = 0;
+            let totalPriceInCombo = 0;
+            let combo: ProductComboDetailResponseInterface = cartItem.selectedCombo;
             cartItem.cartResponses.forEach(item => {
                 if (item.isSelected) {
-                    totalPrice += item.totalPrice;
+                    if (item.isInCombo) {
+                        totalPriceInCombo += item.totalPrice;
+
+                    } else {
+                        totalPrice += item.quantity * item.sellPrice;
+
+                    }
                 }
+
             })
-            return totalPrice;
+            if (combo?.canUseCombo) {
+                if (combo.type == "PERCENT") {
+                    totalPriceInCombo = totalPriceInCombo - totalPriceInCombo * (combo.value / 100);
+        
+                } else if (combo.type == "TOTAL") {
+                    totalPriceInCombo = totalPriceInCombo - combo.value;
+                }
+            }
+            console.log('totalPriceInCombo: ', totalPriceInCombo);
+            console.log('totalPrice: ', totalPrice);
+            console.log('totalPrice + totalPriceInCombo: ', totalPrice + totalPriceInCombo);
+            return totalPrice + totalPriceInCombo;
+
         };
 
         return (
@@ -252,13 +293,24 @@ const CardView = () => {
                     <>
                         <ProCard
                             bordered
-                            className="border-r-red border-l-red"
+                            extra={
+                                <>
+                                    {item.isInCombo && <Tag color="lime">Áp dụng khuyến mãi</Tag>}
+                                    {item.isDuplicateInCombo && <Tag color="blue">Trùng sản phẩm</Tag>}
+                                </>
+                            }
                         >
+
                             <Row key={item.cartId}>
                                 <Col span={1} className="flex items-center justify-center">
                                     <Checkbox checked={item.isSelected} onChange={(value: any) => selectItem(item.cartId, value.target.checked)} />
                                 </Col>
-                                <Col span={8} className="flex items-center justify-center">{item.productName}</Col>
+                                <Col span={8} className="flex items-center justify-center">
+                                    <div>
+                                        <Text className="flex justify-center">{item.productName}</Text>
+                                        <Text className="flex justify-center opacity-75" >({item.productDetailName})</Text>
+                                    </div>
+                                </Col>
                                 <Col span={4} className="flex items-center justify-center">
                                     {item.discountPercent ? (
                                         <div className="flex">

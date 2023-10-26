@@ -4,6 +4,7 @@ export interface CartResponseInterface extends CartResponse{
     isSelected : boolean;
     isDisable : boolean;
     isInCombo : boolean | false;
+    isDuplicateInCombo : boolean | false;
 }
 
 export interface CartByStoreResponseInterface extends CartByStoreResponse{
