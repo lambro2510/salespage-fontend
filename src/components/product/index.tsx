@@ -11,6 +11,7 @@ import LazyImage from "../lazy-image";
 import { NotificationType, formatCurrency, handleErrorResponse, showNotification } from '../../utils/index'
 import { BiCartAdd } from "react-icons/bi";
 import QuantityInput from "../quantityInput";
+import { ProductDetailInfoResponse, ProductDetailResponse, UploadImageData } from "../../interfaces/Interface";
 const { Text } = Typography;
 
 const ProductDetailView = () => {
@@ -248,7 +249,7 @@ const ProductDetailView = () => {
                                         Số lượng:
                                     </Col>
                                     <Col span={18}>
-                                        <QuantityInput quantity={quantity} setQuantity={setQuantity} limit={selectedProductDetail?.quantity} />
+                                        <QuantityInput quantity={quantity} setQuantity={setQuantity} limit={selectedProductDetail?.quantity} disable={false}/>
                                     </Col>
                                 </Row>
 

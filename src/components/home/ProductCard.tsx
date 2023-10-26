@@ -7,6 +7,7 @@ import LazyImage from "../lazy-image";
 import defaultImage from "../../assets/img/product-default-image.png";
 import { BiSolidCartAdd } from "react-icons/bi";
 import { formatCurrency } from "../../utils";
+import { ProductDataResponse } from "../../interfaces/Interface";
 
 const { Text, Title } = Typography;
 

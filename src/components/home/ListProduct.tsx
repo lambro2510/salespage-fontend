@@ -8,6 +8,7 @@ import { AiFillCaretRight, AiFillCaretLeft } from "react-icons/ai";
 import ProductCard from "./ProductCard";
 
 import "./ListProduct.css";
+import { ProductDataResponse } from "../../interfaces/Interface";
 
 const ListProduct = ({ products, loading, title }: { products: ProductDataResponse[], loading : boolean, title : string }) => {
     const [slidesToShow, setSlidesToShow] = useState(4);
