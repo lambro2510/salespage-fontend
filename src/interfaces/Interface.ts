@@ -656,34 +656,34 @@ export interface Daily {
     totalShipCod: number;
 }
 
-type FavoriteType = "PRODUCT" | "STORE" | "SELLER" | "SHIPPER";
+export type FavoriteType = "PRODUCT" | "STORE" | "SELLER" | "SHIPPER";
 
-type UserRole = "ADMIN" | "OPERATOR" | "SHIPPER" | "USER" | "SELLER";
+export type UserRole = "ADMIN" | "OPERATOR" | "SHIPPER" | "USER" | "SELLER";
 
-type DiscountType = "PERCENT" | "TOTAL" | "PER_PRODUCT";
+export type DiscountType = "PERCENT" | "TOTAL" | "PER_PRODUCT";
 
-type ActiveState = "ACTIVE" | "INACTIVE";
+export type ActiveState = "ACTIVE" | "INACTIVE";
 
-type CategoryType = "VERY_SMALL" | "SMALL" | "BIG" | "LARGE" | "SUPPER_LARGE";
+export type CategoryType = "VERY_SMALL" | "SMALL" | "BIG" | "LARGE" | "SUPPER_LARGE";
 
-type ProductTypeStatus = "ACTIVE" | "INACTIVE";
+export type ProductTypeStatus = "ACTIVE" | "INACTIVE";
 
-type ProductTypeDetailStatus = "ACTIVE" | "WAITING" | "DENY" | "INACTIVE";
-
-type StoreStatus = "ACTIVE" | "INACTIVE";
-
-type VoucherStoreType = "PRODUCT" | "STORE";
-
-type VoucherStoreStatus = "ACTIVE" | "INACTIVE";
-
-type BankStatus = "ACTIVE" | "INACTIVE" | "DISCONNECT";
-
-type NotificationStatus = "SEEN" | "NOT_SEEN";
-
-type PaymentStatus = "WAITING" | "RESOLVE" | "PENDING" | "CANCEL";
-
-type PaymentType = "IN" | "OUT";
-
-type ProductTransactionState = "IN_CART" | "WAITING_STORE" | "ACCEPT_STORE" | "WAITING_SHIPPER" | "SHIPPER_PROCESSING" | "SHIPPER_COMPLETE" | "ALL_COMPLETE" | "CANCEL";
-
-type VoucherCodeStatus = "NEW" | "OWNER" | "USED" | "EXPIRE";
+export type ProductTypeDetailStatus = "ACTIVE" | "WAITING" | "DENY" | "INACTIVE";
+ 
+export type StoreStatus = "ACTIVE" | "INACTIVE";
+ 
+export type VoucherStoreType = "PRODUCT" | "STORE";
+ 
+export type VoucherStoreStatus = "ACTIVE" | "INACTIVE";
+ 
+export type BankStatus = "ACTIVE" | "INACTIVE" | "DISCONNECT";
+ 
+export type NotificationStatus = "SEEN" | "NOT_SEEN";
+ 
+export type PaymentStatus = "WAITING" | "RESOLVE" | "PENDING" | "CANCEL";
+ 
+export type PaymentType = "IN" | "OUT";
+ 
+export type ProductTransactionState = "IN_CART" | "WAITING_STORE" | "ACCEPT_STORE" | "WAITING_SHIPPER" | "SHIPPER_PROCESSING" | "SHIPPER_COMPLETE" | "ALL_COMPLETE" | "CANCEL";
+ 
+export type VoucherCodeStatus = "NEW" | "OWNER" | "USED" | "EXPIRE";

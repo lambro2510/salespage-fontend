@@ -1,3 +1,5 @@
+import { ProductTransactionState, VoucherInfo } from "../Interface";
+
 export interface ProductTransactionResponse {
     selected: boolean;
     transactionId: string;

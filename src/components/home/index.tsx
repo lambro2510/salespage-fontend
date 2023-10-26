@@ -5,18 +5,19 @@ import { apiRoutes } from "../../routes/api";
 import { handleErrorResponse } from "../../utils";
 import ListProduct from "./ListProduct";
 import { Product } from "../../interfaces/models/product";
+import { ProductDataResponse, ProductInfoResponse } from "../../interfaces/Interface";
 
 const Home = () => {
 
     const [loading, setLoading] = useState<boolean>(true);
-    const [hotProducts, setHotProducts] = useState<Product[]>([]);
+    const [hotProducts, setHotProducts] = useState<ProductDataResponse[]>([]);
     const [saleProducts, setSaleProducts] = useState<[]>([]);
     const [suggestProduct, setSuggestProduct] = useState<[]>([]);
 
     const loadHotProduct = async () => {
         await http.get(`${apiRoutes.products}/hot-product`)
         .then((response) => {
-            setHotProducts(response?.data?.data as Product[]);
+            setHotProducts(response?.data?.data as ProductDataResponse[]);
         })
         .catch((err) => {
             handleErrorResponse(err);
