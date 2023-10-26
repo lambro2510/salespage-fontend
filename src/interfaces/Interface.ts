@@ -309,8 +309,11 @@ export interface CartResponse {
     price: number;
     sellPrice: number;
     discountPercent: number;
+    productDetailImageUrl : string;
+    productDetailName : string;
     imageUrl: string;
     productName: string;
+    comboIds : string[];
     quantity: number;
     limit: number;
     productNote: string;
@@ -669,21 +672,21 @@ export type CategoryType = "VERY_SMALL" | "SMALL" | "BIG" | "LARGE" | "SUPPER_LA
 export type ProductTypeStatus = "ACTIVE" | "INACTIVE";
 
 export type ProductTypeDetailStatus = "ACTIVE" | "WAITING" | "DENY" | "INACTIVE";
- 
+
 export type StoreStatus = "ACTIVE" | "INACTIVE";
- 
+
 export type VoucherStoreType = "PRODUCT" | "STORE";
- 
+
 export type VoucherStoreStatus = "ACTIVE" | "INACTIVE";
- 
+
 export type BankStatus = "ACTIVE" | "INACTIVE" | "DISCONNECT";
- 
+
 export type NotificationStatus = "SEEN" | "NOT_SEEN";
- 
+
 export type PaymentStatus = "WAITING" | "RESOLVE" | "PENDING" | "CANCEL";
- 
+
 export type PaymentType = "IN" | "OUT";
- 
+
 export type ProductTransactionState = "IN_CART" | "WAITING_STORE" | "ACCEPT_STORE" | "WAITING_SHIPPER" | "SHIPPER_PROCESSING" | "SHIPPER_COMPLETE" | "ALL_COMPLETE" | "CANCEL";
- 
+
 export type VoucherCodeStatus = "NEW" | "OWNER" | "USED" | "EXPIRE";
