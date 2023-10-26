@@ -1,0 +1,12 @@
+name: Auto deploy web UI
+
+on:
+  push:
+    branches: [ "master" ] 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest 
+    steps:
+      - name: API auto deloy
+        run: curl -X POST ${{ secrets.FE_WEBHOOK_URL }} 
