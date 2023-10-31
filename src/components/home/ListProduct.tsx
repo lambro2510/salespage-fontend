@@ -9,39 +9,11 @@ import ProductCard from "./ProductCard";
 
 import "./ListProduct.css";
 import { ProductDataResponse } from "../../interfaces/Interface";
+import ProductCarousel from "../share-component/Sider";
 
 const ListProduct = ({ products, loading, title }: { products: ProductDataResponse[], loading : boolean, title : string }) => {
     const [slidesToShow, setSlidesToShow] = useState(4);
 
-    useEffect(() => {
-        const handleResize = () => {
-            const windowWidth = window.innerWidth;
-
-            if (windowWidth >= 1920) {
-                setSlidesToShow(4);
-            } else if (windowWidth >= 1680) {
-                setSlidesToShow(4);
-            } else if (windowWidth >= 1280) {
-                setSlidesToShow(3);
-            } else if (windowWidth >= 1024) {
-                setSlidesToShow(2);
-            } else if (windowWidth >= 768) {
-                setSlidesToShow(1);
-            } else if (windowWidth >= 320) {
-                setSlidesToShow(1);
-            } else {
-                setSlidesToShow(1);
-            }
-        };
-
-        handleResize();
-
-        window.addEventListener("resize", handleResize);
-
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, []);
 
     const settings = {
         dots: false,
@@ -57,15 +29,7 @@ const ListProduct = ({ products, loading, title }: { products: ProductDataRespon
     return (
         <BasePageContainer loading={loading}>
             <h3>{title}</h3>
-            <Slider {...settings}>
-                {products?.map((product) => (
-                    <div key={product.productId}>
-                        <div >
-                            <ProductCard product={product} />
-                        </div>
-                    </div>
-                ))}
-            </Slider>
+            <ProductCarousel products={products}/>
         </BasePageContainer>
     );
 };

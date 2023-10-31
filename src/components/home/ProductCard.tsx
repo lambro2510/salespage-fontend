@@ -47,7 +47,8 @@ const ProductCard = ({ product }: { product: ProductDataResponse }) => {
                 </Text>
             )
         }
-    }
+    };
+    
     return (
         <div
             className='relative h-full bg-white border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition duration-300 flex flex-col w-11/12'

@@ -64,8 +64,8 @@ export function formatCurrency(amount: any | undefined, currencyCode = 'VND') {
       style: 'currency',
       currency: currencyCode,
     }).format(amount);
-  }else{
+  } else {
     return amount;
   }
-
 }
+
