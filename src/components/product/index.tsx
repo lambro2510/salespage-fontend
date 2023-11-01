@@ -15,7 +15,7 @@ import { ProductDetailInfoResponse, ProductDetailResponse, UploadImageData } fro
 const { Text } = Typography;
 
 const ProductDetailView = () => {
-    const { productId, productName } = useParams();
+    const { productId } = useParams();
     const [product, setProduct] = useState<ProductDetailResponse>();
     const [currentImage, setCurrentImage] = useState<string>();
     const [selectedProductDetail, setSelectedProductDetail] = useState<ProductDetailInfoResponse>();
@@ -61,6 +61,7 @@ const ProductDetailView = () => {
         <LazyImage key={index} src={image.url} className="w-full h-auto p-1" />
     )) || [];
 
+    const productName = product ? product.productName : "";
     const breadcrumb: BreadcrumbProps = {
         items: [
             {
@@ -77,6 +78,7 @@ const ProductDetailView = () => {
             },
         ],
     };
+
 
 
     const handleStoreClick = (storeId: string) => {
@@ -131,7 +133,7 @@ const ProductDetailView = () => {
             <div>
                 {product?.productInfos.map((productInfo) => {
                     return (
-                        <Row className="mb-8 mt-8">
+                        <Row className="mb-8 mt-8" key={productInfo.label}>
                             <Col span={6} >
                                 {productInfo.label} :
                             </Col>
@@ -156,9 +158,9 @@ const ProductDetailView = () => {
                     <Col span={18}>
                         {product?.stores.map((store) => {
                             if (store.id === selectedStoreId) {
-                                return <Tag color="red" className="cursor-pointer" onClick={() => handleStoreClick(store.id)}>{store.storeName}</Tag>;
+                                return <Tag key={store.id} color="red" className="cursor-pointer" onClick={() => handleStoreClick(store.id)}>{store.storeName}</Tag>;
                             } else {
-                                return <Tag color="default" className="cursor-pointer" onClick={() => handleStoreClick(store.id)}>{store.storeName}</Tag>;
+                                return <Tag key={store.id} color="default" className="cursor-pointer" onClick={() => handleStoreClick(store.id)}>{store.storeName}</Tag>;
                             }
                         })}
                     </Col>
@@ -179,6 +181,7 @@ const ProductDetailView = () => {
                             product?.productDetails.map((productDetail) => (
                                 <Col
                                     className="mt-1 mb-1"
+                                    key={productDetail.id}
                                 >
                                     <Tag
                                         className="cursor-pointer"
@@ -249,7 +252,7 @@ const ProductDetailView = () => {
                                         Số lượng:
                                     </Col>
                                     <Col span={18}>
-                                        <QuantityInput quantity={quantity} setQuantity={setQuantity} limit={selectedProductDetail?.quantity} disable={false}/>
+                                        <QuantityInput quantity={quantity} setQuantity={setQuantity} limit={selectedProductDetail?.quantity} disable={false} />
                                     </Col>
                                 </Row>
 

@@ -47,7 +47,7 @@ export const browserRouter = createBrowserRouter([
         errorElement: errorElement,
       },
       {
-        path: `${webRoutes.products}/:productId/:productName`,
+        path: `${webRoutes.products}/:productId`,
         element: <ProductDetailView />,
         errorElement: errorElement,
       },

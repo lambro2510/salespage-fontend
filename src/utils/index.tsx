@@ -69,3 +69,10 @@ export function formatCurrency(amount: any | undefined, currencyCode = 'VND') {
   }
 }
 
+export function formatQuantity(amount: number) {
+  if (amount > 1000) {
+    return amount / 1000 + ' k';
+  } else {
+    return amount;
+  }
+}

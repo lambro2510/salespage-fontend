@@ -4,7 +4,7 @@
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-
+  font-size: 16px;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -79,4 +79,28 @@
     -webkit-transform: rotate(359deg);
     transform: rotate(359deg);
   }
+}
+
+@media (max-width: 768px) {
+  :root {
+    font-size: 14px; 
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    font-size: 12px;
+  }
+}
+
+body {
+  font-size: 1rem;
+}
+
+h1 {
+  font-size: 2rem; 
+}
+
+p {
+  font-size: 0.875rem;
 }

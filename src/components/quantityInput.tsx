@@ -7,6 +7,7 @@ const { Text } = Typography;
 const QuantityInput = ({ quantity, setQuantity, limit, disable }: { quantity: number, setQuantity: any, limit: number | undefined, disable: boolean }) => {
 
     const handleIncrement = () => {
+        
         if (!limit) {
             limit = 99999;
         }
@@ -54,7 +55,7 @@ const QuantityInput = ({ quantity, setQuantity, limit, disable }: { quantity: nu
                         style={{ borderRight: 'none' }}
                     ></Button>
                 </Tooltip>
-                <Tooltip title={`Tối thiểu: ${'1'} - tối đa: ${limit || 'Unlimited'}`} placement="top">
+                <Tooltip title={`Tối thiểu: ${'1'} - tối đa: ${limit || 'không giới hạn'}`} placement="top">
                     <InputNumber
                         disabled={disable}
                         className="rounded-none"
@@ -63,7 +64,7 @@ const QuantityInput = ({ quantity, setQuantity, limit, disable }: { quantity: nu
                         value={quantity}
                         onChange={(value) => onQuantityChange(value)} />
                 </Tooltip>
-                <Tooltip title={`Tối đa: ${limit || 'Unlimited'}`} placement="top">
+                <Tooltip title={`Tối đa: ${limit || 'không giới hạn'}`} placement="top">
                     <Button
                         disabled={disable}
                         className="rounded-none"
