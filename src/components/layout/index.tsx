@@ -70,6 +70,16 @@ const Layout = () => {
     )
   };
 
+  const renderFooter = () => {
+    return (
+      <div style={{ textAlign: 'center', padding: '16px', backgroundColor: '#f0f2f5' }}>
+        backend git link: https://github.com/lambro2510/salespage-service.git;
+        fontend git link: https://github.com/lambro2510/salespage-fontend.git;
+        © lambro2510@gmail.com
+      </div>
+    );
+  };
+  
   const defaultProps: ProLayoutProps = {
     title: CONFIG.appName,
     logo: '/icon.png',
@@ -79,6 +89,7 @@ const Layout = () => {
     route: {
       routes: sidebar,
     },
+    footerRender: renderFooter,
   };
 
   const logoutAdmin = () => {
@@ -102,7 +113,6 @@ const Layout = () => {
           },
         }}
         location={location}
-        
         onMenuHeaderClick={() => navigate(webRoutes.home)}
         menuItemRender={(item, dom) => (
           <a
@@ -128,6 +138,9 @@ const Layout = () => {
           },
         }}
       >
+        <div>
+
+        </div>
         <Outlet />
       </ProLayout>
     </div>

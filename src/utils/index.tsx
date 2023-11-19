@@ -59,17 +59,34 @@ export const handleErrorResponse = (
   }
 };
 
-export function formatCurrency(amount: any | undefined, currencyCode = 'VND') {
+// export function formatCurrency(amount: any | undefined, currencyCode = 'VND') {
+//   if (typeof amount === 'number') {
+//     return new Intl.NumberFormat('vi-VN', {
+//       style: 'currency',
+//       currency: currencyCode,
+//     }).format(amount);
+//   } else {
+//     return amount;
+//   }
+// }
+
+export function formatCurrency(amount : any) {
+  // Kiểm tra nếu amount là số
   if (typeof amount === 'number') {
-    return new Intl.NumberFormat('vi-VN', {
-      style: 'currency',
-      currency: currencyCode,
-    }).format(amount);
+    // Định dạng số tiền theo yêu cầu
+    if (amount >= 10000000) {
+      return (amount / 1000000).toFixed(1) + ' triệu đ';
+    } else {
+      return amount.toLocaleString('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+      });
+    }
   } else {
+    // Nếu không phải số, trả về giá trị không thay đổi
     return amount;
   }
 }
-
 export function formatQuantity(amount: number) {
   if (amount > 1000) {
     return amount / 1000 + ' k';

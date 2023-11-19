@@ -14,7 +14,6 @@ const Profile = () => {
     const auth = useSelector((state: RootState) => state.auth);
     const navigate = useNavigate();
 
-
     return (
         <div className=''>
             <BasePageContainer>
