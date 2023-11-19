@@ -104,7 +104,7 @@ const ProductCarousel = ({ products }: { products: ProductDataResponse[] }) => {
         );
     };
 
-    const displayedProducts = products.slice(currentIndex, currentIndex + size);
+    const displayedProducts = products?.slice(currentIndex, currentIndex + size);
 
     return (
         <div className="relative">
@@ -147,7 +147,7 @@ const ProductCarousel = ({ products }: { products: ProductDataResponse[] }) => {
                     transition: "transform 0.3s ease-in-out",
                 }}
             >
-                {displayedProducts.map((product) => renderProductCard(product))}
+                {displayedProducts?.map((product) => renderProductCard(product))}
             </div>
         </div>
     );

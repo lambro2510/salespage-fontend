@@ -11,17 +11,27 @@ const Home = () => {
 
     const [loading, setLoading] = useState<boolean>(true);
     const [hotProducts, setHotProducts] = useState<ProductDataResponse[]>([]);
+    const [allProducts, setAllProduct] = useState<ProductDataResponse[]>([]);
     const [saleProducts, setSaleProducts] = useState<[]>([]);
     const [suggestProduct, setSuggestProduct] = useState<[]>([]);
 
     const loadHotProduct = async () => {
         await http.get(`${apiRoutes.products}/hot-product`)
-        .then((response) => {
-            setHotProducts(response?.data?.data as ProductDataResponse[]);
-        })
-        .catch((err) => {
-            handleErrorResponse(err);
-        })
+            .then((response) => {
+                setHotProducts(response?.data?.data as ProductDataResponse[]);
+            })
+            .catch((err) => {
+                handleErrorResponse(err);
+            })
+    }
+
+    const loadAllProduct = async () => {
+        try {
+            const response = await http.get(`${apiRoutes.products}`);
+            setAllProduct(response?.data?.data?.data)
+        } catch (error) {
+            handleErrorResponse(error);
+        }
     }
 
     useEffect(() => {
@@ -32,11 +42,13 @@ const Home = () => {
             .catch((error) => {
                 handleErrorResponse(error);
             });
+        loadAllProduct();
     }, []);
 
-    return(
+    return (
         <div>
-            <ListProduct products={hotProducts} loading={loading} title={"Sản phẩm xem nhiều hôm nay"}/>
+            <ListProduct products={hotProducts} loading={loading} title={"Sản phẩm xem nhiều hôm nay"} />
+            <ListProduct products={allProducts} loading={loading} title={"Sản phẩm mới"} />
         </div>
     )
 }

@@ -27,6 +27,7 @@ export interface ProductComboDetailResponseInterface extends ProductComboDetailR
 export interface CartPaymentTransaction {
     productDetailId : string;
     storeId : string;
+    cartId : string;
     voucherCodeId : string | undefined;
     note : string | undefined;
     address : string;

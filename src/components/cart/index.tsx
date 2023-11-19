@@ -15,6 +15,7 @@ const CardView = () => {
     const [cartItems, setCartItems] = useState<CartByStoreResponseInterface[]>([]);
     const [cartDto, setCartDto] = useState<CartPaymentDto[]>()
     const [paymentPrice, setPaymentPrice] = useState<any[]>([]);
+    
     const getCartItems = async () => {
         try {
             setLoading(true);
@@ -50,7 +51,8 @@ const CardView = () => {
     const paymentCartItem = async () => {
         try {
             setLoading(true);
-            const response = await http.post(`${apiRoutes.cart}`, cartDto);
+            const response = await http.post(`${apiRoutes.cart}/payment`, cartDto);
+            showNotification(response.data.message)
         } catch (error) {
             handleErrorResponse(error);
         } finally {
@@ -69,9 +71,10 @@ const CardView = () => {
             for (let item of data.cartResponses) {
                 if (item.isSelected) {
                     let cardPaymentTransaction: CartPaymentTransaction = {
-                        productDetailId: item.cartId,
+                        productDetailId: item.productDetailId,
                         storeId: item.storeId,
                         voucherCodeId: undefined,
+                        cartId: item.cartId,
                         note: '',
                         address: ''
                     };
@@ -120,18 +123,13 @@ const CardView = () => {
                 cartItem.cartResponses.forEach(item => {
                     if (item.isSelected) {
                         if (item.comboIds.includes(combo.id)) {
-                            if (selectedProduct.has(item.productId)) {
-                                item.isDuplicateInCombo = true;
-                            } else {
                                 item.isInCombo = true;
-                            }
                         } else {
                             item.isInCombo = false;
                         }
                         selectedProduct.add(item.productId);
                     } else {
                         item.isInCombo = false;
-                        item.isDuplicateInCombo = false;
                     }
                 });
             }
@@ -296,7 +294,6 @@ const CardView = () => {
                             extra={
                                 <>
                                     {item.isInCombo && <Tag color="lime">Áp dụng khuyến mãi</Tag>}
-                                    {item.isDuplicateInCombo && <Tag color="blue">Trùng sản phẩm</Tag>}
                                 </>
                             }
                         >

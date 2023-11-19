@@ -10,8 +10,10 @@ import ProductCard from "./ProductCard";
 import "./ListProduct.css";
 import { ProductDataResponse } from "../../interfaces/Interface";
 import ProductCarousel from "../share-component/Sider";
+import { Divider, Typography } from "antd";
 
-const ListProduct = ({ products, loading, title }: { products: ProductDataResponse[], loading : boolean, title : string }) => {
+const {Text, Title} = Typography
+const ListProduct = ({ products, loading, title }: { products: ProductDataResponse[], loading: boolean, title: string }) => {
     const [slidesToShow, setSlidesToShow] = useState(4);
 
 
@@ -28,8 +30,11 @@ const ListProduct = ({ products, loading, title }: { products: ProductDataRespon
 
     return (
         <BasePageContainer loading={loading}>
-            <h3>{title}</h3>
-            <ProductCarousel products={products}/>
+            <div>
+                <h1 className="text-center">{title}</h1>
+                <Divider />
+                <ProductCarousel products={products} />
+            </div>
         </BasePageContainer>
     );
 };

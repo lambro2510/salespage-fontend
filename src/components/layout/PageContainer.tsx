@@ -13,8 +13,8 @@ export interface BasePageContainerProps {
   children: React.ReactNode;
   transparent?: boolean;
 }
-
 const BasePageContainer = (props: BasePageContainerProps) => {
+
   const isMobile = useBreakpoint();
 
   return (
