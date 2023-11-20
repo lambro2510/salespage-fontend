@@ -75,25 +75,33 @@ const Home = () => {
                         </div>
                     </div>
                     <div>
-                        <img src="https://cf.shopee.vn/file/b3535d7e56c58c4ebe9a87672d38cc5e_xhdpi" />
+                    <div  className="flex justify-center">
+                    <img width="60%" src="https://cf.shopee.vn/file/b3535d7e56c58c4ebe9a87672d38cc5e_xhdpi" />
+                        </div>
                         <div className="flex justify-center">
                             Gì cũng rẻ
                         </div>
                     </div>
                     <div>
-                        <img src="https://cf.shopee.vn/file/vn-50009109-8a387d78a7ad954ec489d3ef9abd60b4_xhdpi" />
+                    <div  className="flex justify-center">
+                    <img width="60%" src="https://cf.shopee.vn/file/vn-50009109-8a387d78a7ad954ec489d3ef9abd60b4_xhdpi" />
+                        </div>
                         <div className="flex justify-center">
                             Mã giảm giá
                         </div>
                     </div>
                     <div>
-                        <img src="https://cf.shopee.vn/file/a08ab28962514a626195ef0415411585_xhdpi" />
+                    <div  className="flex justify-center">
+                    <img width="60%" src="https://cf.shopee.vn/file/a08ab28962514a626195ef0415411585_xhdpi" />
+                        </div>
                         <div className="flex justify-center">
                             Hàng quốc tế
                         </div>
                     </div>
                     <div>
-                        <img src="https://cf.shopee.vn/file/vn-50009109-1975fb1af4ae3c22878d04f6f440b6f9_xhdpi" />
+                    <div  className="flex justify-center">
+                    <img width="60%" src="https://cf.shopee.vn/file/vn-50009109-1975fb1af4ae3c22878d04f6f440b6f9_xhdpi" />
+                        </div>
                         <div className="flex justify-center">
                             Giá sốc
                         </div>

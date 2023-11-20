@@ -15,7 +15,11 @@ import { Divider, Typography } from "antd";
 const {Text, Title} = Typography
 const ListProduct = ({ products, loading, title }: { products: ProductDataResponse[], loading: boolean, title: string }) => {
     const [slidesToShow, setSlidesToShow] = useState(4);
-
+    useEffect(() => {
+        if(slidesToShow > products.length){
+            setSlidesToShow(products.length);
+        }
+    })
 
     const settings = {
         dots: false,
@@ -33,7 +37,11 @@ const ListProduct = ({ products, loading, title }: { products: ProductDataRespon
             <div>
                 <h1 className="text-center">{title}</h1>
                 <Divider />
-                <ProductCarousel products={products} />
+                <Slider {...settings} >
+          {products.map((product, index) => (
+            <ProductCard key={index} product={product} />
+          ))}
+        </Slider>
             </div>
         </BasePageContainer>
     );
