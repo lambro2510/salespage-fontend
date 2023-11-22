@@ -9,17 +9,11 @@ import ProductCard from "./ProductCard";
 
 import "./ListProduct.css";
 import { ProductDataResponse } from "../../interfaces/Interface";
-import ProductCarousel from "../share-component/Sider";
-import { Divider, Typography } from "antd";
+import { Card, Divider, Typography } from "antd";
 
-const {Text, Title} = Typography
+const { Text, Title } = Typography
 const ListProduct = ({ products, loading, title }: { products: ProductDataResponse[], loading: boolean, title: string }) => {
-    const [slidesToShow, setSlidesToShow] = useState(4);
-    useEffect(() => {
-        if(slidesToShow > products.length){
-            setSlidesToShow(products.length);
-        }
-    })
+    const [slidesToShow, setSlidesToShow] = useState(5);
 
     const settings = {
         dots: false,
@@ -33,17 +27,19 @@ const ListProduct = ({ products, loading, title }: { products: ProductDataRespon
     };
 
     return (
-        <BasePageContainer loading={loading}>
+        <div>
+            <BasePageContainer loading={loading}>
             <div>
-                <h1 className="text-center">{title}</h1>
+                <h2 className="text-center text-lightRed">{title}</h2>
                 <Divider />
                 <Slider {...settings} >
-          {products.map((product, index) => (
-            <ProductCard key={index} product={product} />
-          ))}
-        </Slider>
+                    {products.map((product, index) => (
+                        <ProductCard key={index} product={product} />
+                    ))}
+                </Slider>
             </div>
         </BasePageContainer>
+        </div>
     );
 };
 

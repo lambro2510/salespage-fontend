@@ -32,7 +32,6 @@ const BasePageContainer = (props: BasePageContainerProps) => {
         <ProCard
           className={`mb-10 ${!props.transparent ? 'shadow-lg' : ''}`}
           size="small"
-          style={{ minHeight: 500 }}
           ghost={props.transparent}
           loading={
             props.loading ? (

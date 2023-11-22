@@ -67,40 +67,40 @@ const Home = () => {
             <div className="flex justify-center  bg-white pb-2">
                 <div className="w-6/12 flex justify-around">
                     <div>
-                        <div  className="flex justify-center">
-                        <img width="60%" src="https://cf.shopee.vn/file/vn-50009109-c7a2e1ae720f9704f92f72c9ef1a494a_xhdpi" />
+                        <div className="flex justify-center">
+                            <img width="60%" src="https://cf.shopee.vn/file/vn-50009109-c7a2e1ae720f9704f92f72c9ef1a494a_xhdpi" />
                         </div>
                         <div className="flex justify-center">
-                            Miễn phí ship
+                            <p> Miễn phí ship </p>
                         </div>
                     </div>
                     <div>
-                    <div  className="flex justify-center">
-                    <img width="60%" src="https://cf.shopee.vn/file/b3535d7e56c58c4ebe9a87672d38cc5e_xhdpi" />
+                        <div className="flex justify-center">
+                            <img width="60%" src="https://cf.shopee.vn/file/b3535d7e56c58c4ebe9a87672d38cc5e_xhdpi" />
                         </div>
                         <div className="flex justify-center">
-                            Gì cũng rẻ
+                            <p> Gì cũng rẻ</p>
                         </div>
                     </div>
                     <div>
-                    <div  className="flex justify-center">
-                    <img width="60%" src="https://cf.shopee.vn/file/vn-50009109-8a387d78a7ad954ec489d3ef9abd60b4_xhdpi" />
+                        <div className="flex justify-center">
+                            <img width="60%" src="https://cf.shopee.vn/file/vn-50009109-8a387d78a7ad954ec489d3ef9abd60b4_xhdpi" />
                         </div>
                         <div className="flex justify-center">
-                            Mã giảm giá
+                            <p>Mã giảm giá</p>
                         </div>
                     </div>
                     <div>
-                    <div  className="flex justify-center">
-                    <img width="60%" src="https://cf.shopee.vn/file/a08ab28962514a626195ef0415411585_xhdpi" />
+                        <div className="flex justify-center">
+                            <img width="60%" src="https://cf.shopee.vn/file/a08ab28962514a626195ef0415411585_xhdpi" />
                         </div>
                         <div className="flex justify-center">
-                            Hàng quốc tế
+                            <p>Hàng quốc tế</p>
                         </div>
                     </div>
                     <div>
-                    <div  className="flex justify-center">
-                    <img width="60%" src="https://cf.shopee.vn/file/vn-50009109-1975fb1af4ae3c22878d04f6f440b6f9_xhdpi" />
+                        <div className="flex justify-center">
+                            <img width="60%" src="https://cf.shopee.vn/file/vn-50009109-1975fb1af4ae3c22878d04f6f440b6f9_xhdpi" />
                         </div>
                         <div className="flex justify-center">
                             Giá sốc

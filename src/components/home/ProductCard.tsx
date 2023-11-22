@@ -19,39 +19,10 @@ const ProductCard = ({ product }: { product: ProductDataResponse }) => {
         navigate(`${webRoutes.products}/${product.productId}/${product.productName}`);
     };
 
-    const renderPrice = () => {
-        if (product.minSellPrice != product.maxSellPrice) {
-            if (product.minOriginPrice != product.maxOriginPrice) {
-                return (
-                    <div className="flex justify-around">
-                        <Text delete>
-                            {formatCurrency(product.minOriginPrice)} - {formatCurrency(product.maxOriginPrice)}
-                        </Text>
-                        <Text >
-                            {formatCurrency(product.minSellPrice)} - {formatCurrency(product.maxSellPrice)}
-                        </Text>
-                    </div>
 
-                )
-            } else {
-                return (
-                    <Text >
-                        {formatCurrency(product.minSellPrice)} - {formatCurrency(product.maxSellPrice)}
-                    </Text>
-                )
-            }
-        } else {
-            return (
-                <Text >
-                    {formatCurrency(product.minSellPrice)}
-                </Text>
-            )
-        }
-    };
-    
     return (
         <div
-            className='relative h-full bg-white border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition duration-300 flex flex-col w-11/12'
+            className='rounded-none relative h-full bg-white border border-gray-300 shadow-sm hover:shadow-md transition duration-300 flex flex-col w-11/12'
             onClick={handleCardClick}
         >
             <div className="flex-grow h-full">
@@ -59,19 +30,12 @@ const ProductCard = ({ product }: { product: ProductDataResponse }) => {
             </div>
             <div className="p-4 flex-grow flex flex-col justify-between h-full">
                 <div>
-                    <Title level={5}>
-                        {product.productName}
-                    </Title>
-                    {renderPrice()}
-                    <br />
-                    <Rate allowHalf disabled defaultValue={product.productRate.avgPoint} />
-                </div>
-                <div className="mt-4 text-center">
-                    <Button
-                        icon={<BiSolidCartAdd />}
-                    >
-                        Mua ngay
-                    </Button>
+                    <div className="h-12">
+                        <p className="sx overflow-hidden line-clamp-2">
+                            {product.productName}
+                        </p>
+                    </div>
+                    <p>{formatCurrency(product.minSellPrice)}</p>
                 </div>
             </div>
         </div>
