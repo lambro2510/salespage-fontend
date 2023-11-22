@@ -380,6 +380,7 @@ export interface ProductDataResponse {
     totalSell: number;
     totalView: number;
     imageUrl: string;
+    maxDiscountPercent: number;
     categoryId: string;
     createdAt: number;
     isHot: boolean;

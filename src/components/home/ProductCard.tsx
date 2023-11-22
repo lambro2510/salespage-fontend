@@ -4,7 +4,6 @@ import { Product } from "../../interfaces/models/product";
 import { useNavigate } from "react-router-dom";
 import { webRoutes } from "../../routes/web";
 import LazyImage from "../lazy-image";
-import defaultImage from "../../assets/img/product-default-image.png";
 import { BiSolidCartAdd } from "react-icons/bi";
 import { formatCurrency } from "../../utils";
 import { ProductDataResponse } from "../../interfaces/Interface";
@@ -13,10 +12,9 @@ const { Text, Title } = Typography;
 
 const ProductCard = ({ product }: { product: ProductDataResponse }) => {
     const navigate = useNavigate();
-    const imageUrl = product.imageUrl || defaultImage;
 
     const handleCardClick = () => {
-        navigate(`${webRoutes.products}/${product.productId}/${product.productName}`);
+        navigate(`${webRoutes.products}/${product.productId}`);
     };
 
 
@@ -26,7 +24,9 @@ const ProductCard = ({ product }: { product: ProductDataResponse }) => {
             onClick={handleCardClick}
         >
             <div className="flex-grow h-full">
-                <LazyImage className="w-full h-auto overflow-hidden" placeholder={<img src={defaultImage} className="w-full" />} src={imageUrl} />
+                {product.maxDiscountPercent > 0 && <div className="absolute top-0 right-0 bg-semiYellow"><p className="sx text-red p-1">-{product.maxDiscountPercent}%</p></div>}
+                <LazyImage className="w-full h-auto overflow-hidden" src={product.imageUrl} />
+                
             </div>
             <div className="p-4 flex-grow flex flex-col justify-between h-full">
                 <div>

@@ -7,7 +7,7 @@ enum LayoutType {
 }
 
 const CONFIG = {
-  appName: 'Sàn giao dịch shoppi',
+  appName: 'E-Web',
   helpLink: 'https://github.com/lambro2510/salepage-fontend.git',
   enablePWA: true,
   theme: {

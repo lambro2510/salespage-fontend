@@ -55,7 +55,7 @@ const Home = () => {
 
     return (
         <div>
-            <div className="flex justify-center pt-2 pb-2 bg-white">
+            <div className="flex justify-center pt-10 pb-5 bg-white">
                 <div className="w-4/12">
                     <Carousel images={imageUrls} loading={false} title="" />
                 </div>

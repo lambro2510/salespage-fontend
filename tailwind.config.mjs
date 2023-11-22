@@ -9,6 +9,7 @@ export default {
         primary: CONFIG.theme.accentColor,
         secondary : CONFIG.theme.secondaryColor,
         red : '#ee4d2d',
+        semiYellow: '#FFE97A',
         lightRed : '#ff7337',
         lightWhite : '#ffffff'
       },

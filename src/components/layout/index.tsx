@@ -112,11 +112,36 @@ const Layout = () => {
 
   const renderFooter = () => {
     return (
-      <div style={{ textAlign: 'center', padding: '16px', backgroundColor: '#f0f2f5' }}>
-        backend git link: https://github.com/lambro2510/salespage-service.git;
-        fontend git link: https://github.com/lambro2510/salespage-fontend.git;
-        © lambro2510@gmail.com
+      <footer className="bg-gradient-to-r from-gray-500 to-gray-400 text-white py-8">
+      <div className="container mx-auto flex justify-between items-center">
+        <div className="flex flex-col">
+          <h2 className="text-3xl font-bold mb-4">E-Web</h2>
+          <p className="text-gray-200">Chào mừng bạn đến với trang E-Web, trang giao dịch thương mại điện tử của chúng tôi.</p>
+        </div>
+
+        <div className="flex flex-col">
+          <h2 className="text-xl font-bold mb-4">Chức năng</h2>
+          <ul>
+            <li><a href="#" className="text-gray-200 hover:text-white">Sản phẩm</a></li>
+            <li><a href="#" className="text-gray-200 hover:text-white">Dịch vụ</a></li>
+            <li><a href="#" className="text-gray-200 hover:text-white">Liên hệ</a></li>
+          </ul>
+        </div>
+
+        <div className="flex flex-col">
+          <h2 className="text-xl font-bold mb-4">Chính sách</h2>
+          <ul>
+            <li><a href="#" className="text-gray-200 hover:text-white">Chính sách bảo mật</a></li>
+            <li><a href="#" className="text-gray-200 hover:text-white">Điều khoản sử dụng</a></li>
+            <li><a href="#" className="text-gray-200 hover:text-white">Chính sách vận chuyển</a></li>
+          </ul>
+        </div>
       </div>
+
+      <div className="mt-8 border-t border-gray-200 pt-4 text-center">
+        <p className="text-gray-400">&copy; {new Date().getFullYear()} E-Web. All rights reserved.</p>
+      </div>
+    </footer>
     );
   };
 
@@ -155,7 +180,7 @@ const Layout = () => {
             </Row>
           </div>
           <Row className='p-4 max-h-3'>
-            <Col span={3}>
+            <Col className='cursor-pointer' span={3} onClick={() => navigate(webRoutes.home)}>
               <LazyImage className='h-20' src='/icon.png' />
             </Col>
             <Col span={18}>
@@ -241,7 +266,7 @@ const Layout = () => {
     <div className="h-screen">
       {renderHeader()}
       <Outlet />
-
+      {renderFooter()}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { useState, Fragment, useEffect } from 'react';
-import defaultImage from '../../assets/img/product-default-image.png'
+import defaultImage from '../../assets/img/empty-image.png'
 
 export interface LazyImageProps {
   src: string;
