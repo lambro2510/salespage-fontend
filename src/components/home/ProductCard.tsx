@@ -6,7 +6,7 @@ import { webRoutes } from "../../routes/web";
 import LazyImage from "../lazy-image";
 import { BiSolidCartAdd } from "react-icons/bi";
 import { formatCurrency } from "../../utils";
-import { ProductDataResponse } from "../../interfaces/Interface";
+import { ProductDataResponse } from "../../interfaces/interface";
 
 const { Text, Title } = Typography;
 

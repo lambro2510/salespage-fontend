@@ -1,4 +1,4 @@
-import { ProductTransactionState, VoucherInfo } from "../Interface";
+import { ProductTransactionState, VoucherInfo } from "../interface";
 
 export interface ProductTransactionResponse {
     selected: boolean;

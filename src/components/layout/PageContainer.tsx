@@ -20,7 +20,7 @@ const BasePageContainer = (props: BasePageContainerProps) => {
   return (
     <div className='flex justify-center'>
       <PageContainer
-        className='w-2/3 '
+        className='w-11/12'
         header={{
           title: props.title,
           breadcrumb: CONFIG.theme.showBreadcrumb ? props.breadcrumb : undefined,
@@ -32,6 +32,7 @@ const BasePageContainer = (props: BasePageContainerProps) => {
         <ProCard
           className={`mb-10 ${!props.transparent ? 'shadow-lg' : ''}`}
           size="small"
+          style={{ minHeight: 100 }}
           ghost={props.transparent}
           loading={
             props.loading ? (

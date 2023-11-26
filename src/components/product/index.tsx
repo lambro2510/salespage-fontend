@@ -11,7 +11,7 @@ import LazyImage from "../lazy-image";
 import { NotificationType, formatCurrency, handleErrorResponse, showNotification } from '../../utils/index'
 import { BiCartAdd } from "react-icons/bi";
 import QuantityInput from "../quantityInput";
-import { ProductDetailInfoResponse, ProductDetailResponse, UploadImageData } from "../../interfaces/Interface";
+import { ProductDetailInfoResponse, ProductDetailResponse, UploadImageData } from "../../interfaces/interface";
 const { Text } = Typography;
 
 const ProductDetailView = () => {

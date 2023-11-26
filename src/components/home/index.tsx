@@ -5,8 +5,14 @@ import { apiRoutes } from "../../routes/api";
 import { handleErrorResponse } from "../../utils";
 import ListProduct from "./ListProduct";
 import { Product } from "../../interfaces/models/product";
-import { ProductDataResponse, ProductInfoResponse } from "../../interfaces/Interface";
+import { ProductDataResponse, ProductInfoResponse } from "../../interfaces/interface";
 import Carousel from "../layout/Carousel";
+import { ProCard } from "@ant-design/pro-components";
+import { Col, Divider, Row, Space } from "antd";
+import HomeBanner from "./HomeBanner";
+import ListCategories from "./Category";
+import HotProduct from "./HotProduct";
+import ListCardProduct from "./ListCardProduct";
 
 const imageUrls = [
     "https://cf.shopee.vn/file/vn-50009109-2eb798374b65de905510aa91380aaf62_xxhdpi",
@@ -54,63 +60,32 @@ const Home = () => {
     }, []);
 
     return (
-        <div>
-            <div className="flex justify-center pt-10 pb-5 bg-white">
-                <div className="w-4/12">
-                    <Carousel images={imageUrls} loading={false} title="" />
-                </div>
-                <div className="w-2/12">
-                    <Carousel images={imageUrls} loading={false} title="" />
-                    <Carousel images={imageUrls} loading={false} title="" />
-                </div>
-            </div>
-            <div className="flex justify-center  bg-white pb-2">
-                <div className="w-6/12 flex justify-around">
-                    <div>
-                        <div className="flex justify-center">
-                            <img width="60%" src="https://cf.shopee.vn/file/vn-50009109-c7a2e1ae720f9704f92f72c9ef1a494a_xhdpi" />
-                        </div>
-                        <div className="flex justify-center">
-                            <p> Miễn phí ship </p>
-                        </div>
-                    </div>
-                    <div>
-                        <div className="flex justify-center">
-                            <img width="60%" src="https://cf.shopee.vn/file/b3535d7e56c58c4ebe9a87672d38cc5e_xhdpi" />
-                        </div>
-                        <div className="flex justify-center">
-                            <p> Gì cũng rẻ</p>
-                        </div>
-                    </div>
-                    <div>
-                        <div className="flex justify-center">
-                            <img width="60%" src="https://cf.shopee.vn/file/vn-50009109-8a387d78a7ad954ec489d3ef9abd60b4_xhdpi" />
-                        </div>
-                        <div className="flex justify-center">
-                            <p>Mã giảm giá</p>
-                        </div>
-                    </div>
-                    <div>
-                        <div className="flex justify-center">
-                            <img width="60%" src="https://cf.shopee.vn/file/a08ab28962514a626195ef0415411585_xhdpi" />
-                        </div>
-                        <div className="flex justify-center">
-                            <p>Hàng quốc tế</p>
-                        </div>
-                    </div>
-                    <div>
-                        <div className="flex justify-center">
-                            <img width="60%" src="https://cf.shopee.vn/file/vn-50009109-1975fb1af4ae3c22878d04f6f440b6f9_xhdpi" />
-                        </div>
-                        <div className="flex justify-center">
-                            Giá sốc
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <ListProduct products={hotProducts} loading={loading} title={"Sản phẩm xem nhiều hôm nay"} />
-            <ListProduct products={allProducts} loading={loading} title={"Sản phẩm mới"} />
-        </div>
+        <Row className="bg-base">
+            <Col span={24}>
+                <HomeBanner />
+            </Col>
+            <Col span={24} style={{ paddingRight: '5%', paddingLeft: '5%' }}>
+                <ListCategories />
+            </Col>
+            <Divider className="mb-32" />
+            <Col span={24}>
+                <h1 className="text-center">Khuyến mãi Giới hạn</h1>
+            </Col>
+            <Col span={24} className="">
+                <h2 className="text-center">Flash Sale</h2>
+            </Col>
+            <Col span={24} style={{ paddingRight: '5%', paddingLeft: '5%' }}>
+                <HotProduct />
+            </Col>
+            <Divider className="mb-32" />
+            <Col span={24} style={{ paddingRight: '5%', paddingLeft: '5%' }}>
+                <ListCardProduct products={hotProducts} />
+            </Col>
+            <Col span={24}>
+                <ListProduct products={allProducts} loading={loading} title={"Sản phẩm mới"} />
+            </Col>
+
+        </Row>
     )
 }
 

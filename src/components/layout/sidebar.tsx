@@ -6,25 +6,25 @@ export const sidebar = [
   {
     path: webRoutes.orders,
     key: webRoutes.orders,
-    name: 'Sản phẩm cho hôm này',
+    name: 'Sản phẩm',
     icon: <OrderedListOutlined />,
   },
   {
     path: webRoutes.products,
     key: webRoutes.products,
-    name: 'Sản phẩm yêu thích',
+    name: 'Yêu thích',
     icon: <ShoppingOutlined />,
   },
   {
     path: webRoutes.vouchers,
     key: webRoutes.vouchers,
-    name: 'Livetream sản phẩm',
+    name: 'Khuyến mãi',
     icon: <BarcodeOutlined />,
   },
   {
     path: webRoutes.stores,
     key: webRoutes.stores,
-    name: 'Blog bình luận',
+    name: 'Đánh giá',
     icon: <ShopOutlined />,
   }
 ];

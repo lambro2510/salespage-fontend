@@ -1,4 +1,4 @@
-import { CartByStoreResponse, CartResponse, ProductComboDetailResponse } from "../Interface";
+import { CartByStoreResponse, CartResponse, ProductComboDetailResponse } from "../interface";
 
 export interface CartResponseInterface extends CartResponse{
     isSelected : boolean;

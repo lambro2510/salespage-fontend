@@ -8,12 +8,13 @@ import { AiFillCaretRight, AiFillCaretLeft } from "react-icons/ai";
 import ProductCard from "./ProductCard";
 
 import "./ListProduct.css";
-import { ProductDataResponse } from "../../interfaces/Interface";
+import { ProductDataResponse } from "../../interfaces/interface";
 import { Card, Divider, Typography } from "antd";
 
 const { Text, Title } = Typography
 const ListProduct = ({ products, loading, title }: { products: ProductDataResponse[], loading: boolean, title: string }) => {
     const [slidesToShow, setSlidesToShow] = useState(5);
+
 
     const settings = {
         dots: false,

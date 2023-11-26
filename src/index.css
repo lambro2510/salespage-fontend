@@ -26,26 +26,27 @@
   animation: icon-spin 1s infinite linear;
 }
 
-.ant-input-number-input-wrap > input.ant-input-number-input {
+.ant-input-number-input-wrap>input.ant-input-number-input {
   text-align: center;
 }
 
-.ant-btn{
+.ant-btn {
   border-radius: 0%;
 }
 
-.ant-btn-primary{
+.ant-btn-primary {
   background-color: #ee4d2d;
 }
 
-.ant-pro-card{
-  border-radius: 0%;
+.ant-pro-card {
+  border-radius: 1%;
 }
 
 @keyframes fadeIn {
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -55,6 +56,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -65,6 +67,7 @@
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(359deg);
     transform: rotate(359deg);
@@ -76,6 +79,7 @@
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(359deg);
     transform: rotate(359deg);
@@ -84,7 +88,7 @@
 
 @media (max-width: 768px) {
   :root {
-    font-size: 14px; 
+    font-size: 14px;
   }
 }
 
@@ -99,7 +103,7 @@ body {
 }
 
 h1 {
-  font-size: 2rem; 
+  font-size: 2rem;
 }
 
 p {
@@ -114,6 +118,9 @@ p {
   font-size: 0.75rem;
 }
 
+.vsm {
+  font-size: 0.6rem;
+}
 a {
   font-size: 0.825rem;
 }

@@ -3,7 +3,7 @@ import { Button, Card, Col, Rate, Row, Tag, Typography } from "antd";
 import defaultImage from "../../assets/img/product-default-image.png";
 import LazyImage from "../lazy-image";
 import { formatCurrency, formatQuantity } from "../../utils";
-import { ProductDataResponse } from "../../interfaces/Interface";
+import { ProductDataResponse } from "../../interfaces/interface";
 import { ImNext } from "react-icons/im";
 import { BiLeftArrow, BiRightArrow, BiSolidChevronRightCircle } from "react-icons/bi";
 import { AiOutlineLeft, AiOutlineLeftCircle, AiOutlineRight, AiOutlineRightCircle } from "react-icons/ai";
