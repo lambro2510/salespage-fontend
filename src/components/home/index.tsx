@@ -13,6 +13,11 @@ import HomeBanner from "./HomeBanner";
 import ListCategories from "./Category";
 import HotProduct from "./HotProduct";
 import ListCardProduct from "./ListCardProduct";
+import ListHotStore from "./ListHotStore";
+import FooterBanner from "./FooterBanner";
+import Support from "./Support";
+import BasePageContainer from "../layout/PageContainer";
+import ListReview from "./ListProduct";
 
 const imageUrls = [
     "https://cf.shopee.vn/file/vn-50009109-2eb798374b65de905510aa91380aaf62_xxhdpi",
@@ -60,32 +65,43 @@ const Home = () => {
     }, []);
 
     return (
-        <Row className="bg-base">
-            <Col span={24}>
-                <HomeBanner />
-            </Col>
-            <Col span={24} style={{ paddingRight: '5%', paddingLeft: '5%' }}>
-                <ListCategories />
-            </Col>
-            <Divider className="mb-32" />
-            <Col span={24}>
-                <h1 className="text-center">Khuyến mãi Giới hạn</h1>
-            </Col>
-            <Col span={24} className="">
-                <h2 className="text-center">Flash Sale</h2>
-            </Col>
-            <Col span={24} style={{ paddingRight: '5%', paddingLeft: '5%' }}>
-                <HotProduct />
-            </Col>
-            <Divider className="mb-32" />
-            <Col span={24} style={{ paddingRight: '5%', paddingLeft: '5%' }}>
-                <ListCardProduct products={hotProducts} />
-            </Col>
-            <Col span={24}>
-                <ListProduct products={allProducts} loading={loading} title={"Sản phẩm mới"} />
-            </Col>
+        <BasePageContainer loading={loading}>
+            <Row className="bg-base">
+                <Col span={24}>
+                    <HomeBanner />
+                </Col>
+                <Col span={24} style={{ paddingRight: '5%', paddingLeft: '5%' }}>
+                    <ListCategories />
+                </Col>
+                <Divider className="mb-20" />
+                <Col span={24}>
+                    <h1 className="text-center">Khuyến mãi Giới hạn</h1>
+                </Col>
+                <Col span={24} className="">
+                    <h2 className="text-center">Flash Sale</h2>
+                </Col>
+                <Col span={24} style={{ paddingRight: '5%', paddingLeft: '5%' }}>
+                    <HotProduct />
+                </Col>
+                <Divider className="mb-20" />
+                <Col span={24} style={{ paddingRight: '5%', paddingLeft: '5%' }}>
+                    <ListCardProduct products={hotProducts} />
+                </Col>
+                <Col span={24} style={{ paddingRight: '5%', paddingLeft: '5%' }}>
+                    <ListHotStore />
+                </Col>
+                <Col span={24} style={{ marginTop: '2%', paddingRight: '15%', paddingLeft: '15%' }}>
+                    <FooterBanner />
+                </Col>
+                <Col  span={24} style={{ marginTop: '2%', paddingRight: '5%', paddingLeft: '5%' }}>
+                    <Support />
+                </Col>
+                <Col span={24}>
+                    <ListReview />
+                </Col>
 
-        </Row>
+            </Row>
+        </BasePageContainer>
     )
 }
 

@@ -9,6 +9,7 @@ import loadable from '@loadable/component';
 import ProgressBar from '../components/loader/progressBar';
 import RequireAuth from './requireAuth';
 import Login from '../components/auth/Login';
+import LoginForm from '../components/auth/LoginForm';
 
 const errorElement = <ErrorPage />;
 const fallbackElement = <ProgressBar />;
@@ -61,7 +62,7 @@ export const browserRouter = createBrowserRouter([
     children: [
       {
         path: webRoutes.login,
-        element: <Login />,
+        element: <LoginForm />,
       },
       {
         path: webRoutes.register,

@@ -23,7 +23,7 @@ export const apiRoutes = {
 
   cart: `${API_URL}/cart`,
 
-  stores: `${API_URL}/seller/store`,
+  stores: `${API_URL}/public/seller-store`,
 
   categories: `${API_URL}/seller/product-category`,
 

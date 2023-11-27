@@ -20,7 +20,7 @@ const ProductCard = ({ product }: { product: ProductDataResponse }) => {
 
     return (
         <div
-            className='rounded-none relative h-full bg-white border border-gray-300 shadow-sm hover:shadow-md transition duration-300 flex flex-col w-11/12'
+            className='rounded-none relative h-full bg-white border border-gray-300 shadow-sm hover:shadow-md transition duration-300 flex flex-col w-11/12 min-h-max'
             onClick={handleCardClick}
         >
             <div className="flex-grow h-full">

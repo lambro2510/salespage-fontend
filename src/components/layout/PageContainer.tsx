@@ -20,7 +20,7 @@ const BasePageContainer = (props: BasePageContainerProps) => {
   return (
     <div className='flex justify-center'>
       <PageContainer
-        className='w-11/12'
+        style={{width : '100%', borderRadius : 0}}
         header={{
           title: props.title,
           breadcrumb: CONFIG.theme.showBreadcrumb ? props.breadcrumb : undefined,

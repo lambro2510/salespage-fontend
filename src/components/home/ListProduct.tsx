@@ -12,36 +12,24 @@ import { ProductDataResponse } from "../../interfaces/interface";
 import { Card, Divider, Typography } from "antd";
 
 const { Text, Title } = Typography
-const ListProduct = ({ products, loading, title }: { products: ProductDataResponse[], loading: boolean, title: string }) => {
-    const [slidesToShow, setSlidesToShow] = useState(5);
 
-
-    const settings = {
-        dots: false,
-        infinite: true,
-        arrows: true,
-        speed: 500,
-        slidesToShow: slidesToShow,
-        slidesToScroll: 1,
-        nextArrow: <AiFillCaretRight />,
-        prevArrow: <AiFillCaretLeft />,
-    };
+const data = [
+    {
+        username : '1 ngày 3 bữa',
+        storeId : '',
+        storeName : 'Cửa hàng trọ',
+        title : 'Đánh giá sản phẩm bim bim lays',
+        description : 'Sản phẩm chất lượng khá tốt, hạn sử dụng còn dài, ...',
+        star : 5,
+    }
+]
+const ListReview = () => {
 
     return (
         <div>
-            <BasePageContainer loading={loading}>
-            <div>
-                <h2 className="text-center text-lightRed">{title}</h2>
-                <Divider />
-                <Slider {...settings} >
-                    {products.map((product, index) => (
-                        <ProductCard key={index} product={product} />
-                    ))}
-                </Slider>
-            </div>
-        </BasePageContainer>
+            
         </div>
     );
 };
 
-export default ListProduct;
+export default ListReview;
