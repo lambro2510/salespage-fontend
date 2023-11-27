@@ -50,6 +50,7 @@ const Login = () => {
             throw Error("Vui lòng đăng nhập trang quản trị viên để sử dụng");
           }
           dispatch(login(auth));
+          navigate(-1)
         }
       })
       .catch((error) => {
