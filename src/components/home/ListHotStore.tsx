@@ -75,7 +75,7 @@ const ListHotStore = () => {
             <Row gutter={[16, 16]}>
                 {stores.map((store: SellerStoreResponse) => {
                     return (
-                        <Col lg={12} >
+                        <Col xs={24} lg={12} >
                             <Row className='bg-card' style={{ height: '15vh' }}>
                                 <Col lg={6}>
                                     <img src={store.imageUrl} />

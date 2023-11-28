@@ -3,7 +3,7 @@ import ProfileCard from "../profile/ProfileCard";
 import http from "../../utils/http";
 import { apiRoutes } from "../../routes/api";
 import { handleErrorResponse } from "../../utils";
-import ListProduct from "./ListProduct";
+import ListProduct from "./ListReview";
 import { Product } from "../../interfaces/models/product";
 import { ProductDataResponse, ProductInfoResponse } from "../../interfaces/interface";
 import Carousel from "../layout/Carousel";
@@ -17,7 +17,9 @@ import ListHotStore from "./ListHotStore";
 import FooterBanner from "./FooterBanner";
 import Support from "./Support";
 import BasePageContainer from "../layout/PageContainer";
-import ListReview from "./ListProduct";
+import ListReview from "./ListReview";
+import { useDispatch } from "react-redux";
+import { SyncLoader} from "react-spinners";
 
 const imageUrls = [
     "https://cf.shopee.vn/file/vn-50009109-2eb798374b65de905510aa91380aaf62_xxhdpi",
@@ -26,6 +28,8 @@ const imageUrls = [
     "https://cf.shopee.vn/file/vn-50009109-1f18bb1d3f752570668b28ee92501320_xxhdpi",
     "https://cf.shopee.vn/file/vn-50009109-0fffe0b1b0b7e9af17ad1e53346f4311_xhdpi"
 ]
+
+
 const Home = () => {
 
     const [loading, setLoading] = useState<boolean>(true);
@@ -33,6 +37,7 @@ const Home = () => {
     const [allProducts, setAllProduct] = useState<ProductDataResponse[]>([]);
     const [saleProducts, setSaleProducts] = useState<[]>([]);
     const [suggestProduct, setSuggestProduct] = useState<[]>([]);
+    const dispatch = useDispatch();
 
     const loadHotProduct = async () => {
         await http.get(`${apiRoutes.products}/hot-product`)
@@ -54,18 +59,27 @@ const Home = () => {
     }
 
     useEffect(() => {
-        Promise.all([loadHotProduct()])
+        Promise.all([loadHotProduct(), loadAllProduct()])
             .then(() => {
-                setLoading(false)
+
             })
             .catch((error) => {
                 handleErrorResponse(error);
+            })
+            .finally(() => {
+                setLoading(false)
             });
-        loadAllProduct();
+
     }, []);
 
-    return (
-        <BasePageContainer loading={loading}>
+    if (loading) {
+        return(
+            <div className="h-screen flex justify-center items-center">
+                <SyncLoader color="red" loading={loading} />
+            </div>
+        )
+    } else {
+        return (
             <Row className="bg-base">
                 <Col span={24}>
                     <HomeBanner />
@@ -93,16 +107,16 @@ const Home = () => {
                 <Col span={24} style={{ marginTop: '2%', paddingRight: '15%', paddingLeft: '15%' }}>
                     <FooterBanner />
                 </Col>
-                <Col  span={24} style={{ marginTop: '2%', paddingRight: '5%', paddingLeft: '5%' }}>
+                <Col span={24} style={{ marginTop: '2%', paddingRight: '5%', paddingLeft: '5%' }}>
                     <Support />
                 </Col>
-                <Col span={24}>
+                <Col span={24} style={{ marginTop: '2%', paddingRight: '5%', paddingLeft: '5%' }}>
                     <ListReview />
                 </Col>
-
             </Row>
-        </BasePageContainer>
-    )
+        )
+    }
+
 }
 
 export default Home;

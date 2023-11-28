@@ -27,6 +27,7 @@ const Layout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const auth = useSelector((state: RootState) => state.auth);
+
   const defaultProps: ProLayoutProps = {
     title: CONFIG.appName,
     logo: '/icon.png',
@@ -42,51 +43,78 @@ const Layout = () => {
 
   const logoutAdmin = () => {
     dispatch(logout());
-    navigate(webRoutes.login, {
-      replace: true,
-    });
-
-    http.post(apiRoutes.logout).catch((error) => {
-      handleErrorResponse(error);
-    });
+    // navigate(webRoutes.login, {
+    //   replace: true,
+    // });
+    // http.post(apiRoutes.logout).catch((error) => {
+    //   handleErrorResponse(error);
+    // });
   };
 
   const renderFooter = () => {
     return (
       <footer style={{ backgroundColor: "#f6f6f6", padding: "50px 0", color: "black" }}>
-        <Row gutter={[16, 16]}>
-          <Col lg={8} md={12} sm={24} xs={24}>
-            <Title level={3}>E-web</Title>
-            <Text className='m-auto'>
-              Mang mọi thứ về nhà bạn
-            </Text>
+        <Row gutter={[0, 32]}>
+          <Col xs={24} lg={8}>
+            <Col span={24}>
+              <Title level={3} className='text-center mb-10'>E-web</Title>
+            </Col>
+            <Col span={24} className='flex justify-center'>
+              <Text className='mb-5'>E-web nơi bạn có thể giao dịch mọi thứ</Text>
+            </Col>
           </Col>
-          <Col lg={8} md={12} sm={24} xs={24}>
-            <Title level={4}>Trang web</Title>
-            <ul>
-              <li>
-                <Link to="/">Trang chủ</Link>
-              </li>
-              <li>
-                <Link to="/products">Sản phẩm</Link>
-              </li>
-              <li>
-                <Link to="/about">Về chúng tôi</Link>
-              </li>
-              <li>
-                <Link to="/contact">Liên hệ</Link>
-              </li>
-            </ul>
+          <Col xs={24} lg={4}>
+            <Col span={24}>
+              <Title level={3} className='text-center mb-10'>Giới thiệu</Title>
+            </Col>
+            <Col span={24} className='flex justify-center'>
+              <Text className='mb-5'>Về tôi</Text>
+            </Col>
+            <Col span={24} className='flex justify-center'>
+              <Text className='mb-5'>Trung tâm giúp đỡ</Text>
+            </Col>
           </Col>
-          <Col lg={8} md={12} sm={24} xs={24}>
-            <Title level={4}>Kết nối với chúng tôi</Title>
-            <Text>
-              78 ngõ 70 Phùng Khoang, Đại Mỗ, phường Nam Từ Liêm , Thành phố Hà Nội
-              <br />
-              Email: lambro2510@gmail.com
-              <br />
-              Phone: +84 979 *** 206
-            </Text>
+          <Col xs={24} lg={4}>
+            <Col span={24}>
+              <Title level={3} className='text-center mb-10'>Người dùng</Title>
+            </Col>
+            <Col span={24} className='flex justify-center'>
+              <Text className='mb-5'>Thành viên</Text>
+            </Col>
+            <Col span={24} className='flex justify-center'>
+              <Text className='mb-5'>Khuyến mãi</Text>
+            </Col>
+            <Col span={24} className='flex justify-center'>
+              <Text className='mb-5'>Tài khoản</Text>
+            </Col>
+          </Col>
+          <Col xs={24} lg={4}>
+            <Col span={24}>
+              <Title level={3} className='text-center mb-10'>Trợ giúp</Title>
+            </Col>
+            <Col span={24} className='flex justify-center'>
+              <Text className='mb-5'>Liên lạc</Text>
+            </Col>
+            <Col span={24} className='flex justify-center'>
+              <Text className='mb-5'>Phương thức thanh toán</Text>
+            </Col>
+            <Col span={24} className='flex justify-center'>
+              <Text className='mb-5'>Cửa hàng</Text>
+            </Col>
+          </Col>
+          <Col xs={24} lg={4}>
+            <Col span={24}>
+              <Title level={3} className='text-center mb-10'>FAQ</Title>
+            </Col>
+            <Col span={24} className='flex justify-center'>
+              <Text className='mb-5'>Người dùng</Text>
+            </Col>
+            <Col span={24} className='flex justify-center'>
+              <Text className='mb-5'>Hệ thống</Text>
+            </Col>
+            <Col span={24} className='flex justify-center'>
+              <Text className='mb-5'>Hướng dẫn</Text>
+            </Col>
           </Col>
         </Row>
         <Row justify="center" style={{ marginTop: "20px" }}>
@@ -207,7 +235,7 @@ const Layout = () => {
             }
           },
         }}
-        footerRender = {renderFooter}
+        footerRender={renderFooter}
       >
         <Outlet />
       </ProLayout>

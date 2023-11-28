@@ -10,11 +10,19 @@ const bestSaleProduct = {
     storeId: '1',
     description: 'hiệu năng cực mạnh'
 }
+
+const secondSaleProduct = {
+    discount: 40,
+    imgUrl: "https://laptopkhanhtran.vn/pic/product/images/thinkpad_x1_carbon_gen_7_laptopkhanhtran_2.jpg",
+    name: 'Lenovo Thinkpad X1 Carbon',
+    storeId: '1',
+    description: 'hiệu năng cực mạnh'
+}
 const HotProduct = () => {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
     const renderProcard = (saleProduct: any) => (
-        <ProCard className="bg-card" style={{ paddingTop: '9.1%' }} bordered boxShadow>
+        <ProCard className="bg-card" bordered boxShadow>
             <Row>
                 <Col xs={24} sm={24} md={24} lg={24}>
                     <img src={saleProduct.imgUrl} alt={saleProduct.name} />
@@ -35,7 +43,7 @@ const HotProduct = () => {
     return (
         <ProCard>
             <Row gutter={[32, 32]}>
-                <Col xs={24} sm={24} md={24} lg={16} >
+                <Col xs={24} sm={24} md={16} lg={16} >
                     <ProCard className="bg-card" bordered boxShadow >
                         <Row>
                             <Col xs={24} sm={24} md={24} lg={10}>
@@ -51,19 +59,19 @@ const HotProduct = () => {
                     </ProCard>
                 </Col>
                 {!isMobile && <>
-                    <Col xs={24} sm={24} md={24} lg={8}>
+                    <Col xs={24} sm={24} md={8} lg={8}>
+                        {renderProcard(secondSaleProduct)}
+                    </Col>
+                    <Col xs={12} sm={12} md={6} lg={6}>
                         {renderProcard(bestSaleProduct)}
                     </Col>
-                    <Col xs={24} sm={24} md={24} lg={6}>
+                    <Col xs={12} sm={12} md={6} lg={6}>
                         {renderProcard(bestSaleProduct)}
                     </Col>
-                    <Col xs={24} sm={24} md={24} lg={6}>
+                    <Col xs={12} sm={12} md={6} lg={6}>
                         {renderProcard(bestSaleProduct)}
                     </Col>
-                    <Col xs={24} sm={24} md={24} lg={6}>
-                        {renderProcard(bestSaleProduct)}
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={6}>
+                    <Col xs={12} sm={12} md={6} lg={6}>
                         {renderProcard(bestSaleProduct)}
                     </Col>
                 </>}

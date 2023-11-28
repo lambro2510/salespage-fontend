@@ -75,7 +75,7 @@ export function formatCurrency(amount : any) {
   if (typeof amount === 'number') {
     // Định dạng số tiền theo yêu cầu
     if (amount >= 10000000) {
-      return (amount / 1000000).toFixed(1) + ' triệu đ';
+      return (amount / 1000000).toFixed(1) + ' tr đ';
     } else {
       return amount.toLocaleString('vi-VN', {
         style: 'currency',

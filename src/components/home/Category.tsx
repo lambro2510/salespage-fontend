@@ -46,7 +46,7 @@ const ListCategories = () => {
             <Row className="bg-base">
                 {categories.map((category) => {
                     return (
-                        <Col lg={4} className="flex justify-center items-center mt-10 mb-10">
+                        <Col xs={7} lg={4} className="flex justify-center items-center mt-10 mb-10">
                             <div>
                                 <img src={category.imgUrl} style={{ height: 70 }} className="mb-5" />
                                 <h2 className="text-center">{category.label}</h2>

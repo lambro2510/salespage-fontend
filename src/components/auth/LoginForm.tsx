@@ -28,6 +28,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { RootState } from '../../store';
 import { Auth } from '../../interfaces/models/auth';
 import { login } from '../../store/slices/authSlice';
+import { webRoutes } from '../../routes/web';
 
 type LoginType = 'phone' | 'account';
 
@@ -66,6 +67,7 @@ const Page = () => {
             if (response?.data?.data?.role != 'USER') {
                 showNotification("Vui lòng đăng nhập trang quản trị viên để sử dụng", NotificationType.ERROR);
             } else {
+                navigate(`${webRoutes.home}`)
                 dispatch(login(auth));
                 showNotification(response.data.message, NotificationType.SUCCESS);
             }
