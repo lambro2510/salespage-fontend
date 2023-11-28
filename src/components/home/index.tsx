@@ -19,7 +19,7 @@ import Support from "./Support";
 import BasePageContainer from "../layout/PageContainer";
 import ListReview from "./ListReview";
 import { useDispatch } from "react-redux";
-import { SyncLoader} from "react-spinners";
+import { SyncLoader } from "react-spinners";
 
 const imageUrls = [
     "https://cf.shopee.vn/file/vn-50009109-2eb798374b65de905510aa91380aaf62_xxhdpi",
@@ -33,8 +33,10 @@ const imageUrls = [
 const Home = () => {
 
     const [loading, setLoading] = useState<boolean>(true);
+    const [nextPageLoading, setNextPageLoading] = useState<boolean>(true);
     const [hotProducts, setHotProducts] = useState<ProductDataResponse[]>([]);
     const [allProducts, setAllProduct] = useState<ProductDataResponse[]>([]);
+    const [page, setPage] = useState<number>(0);
     const [saleProducts, setSaleProducts] = useState<[]>([]);
     const [suggestProduct, setSuggestProduct] = useState<[]>([]);
     const dispatch = useDispatch();
@@ -51,15 +53,23 @@ const Home = () => {
 
     const loadAllProduct = async () => {
         try {
-            const response = await http.get(`${apiRoutes.products}`);
+            setNextPageLoading(true)
+            const response = await http.get(`${apiRoutes.products}`, {
+                params: {
+                    page: page,
+                    size: 12
+                }
+            });
             setAllProduct(response?.data?.data?.data)
         } catch (error) {
             handleErrorResponse(error);
+        } finally {
+            setNextPageLoading(false)
         }
     }
 
     useEffect(() => {
-        Promise.all([loadHotProduct(), loadAllProduct()])
+        Promise.all([loadHotProduct()])
             .then(() => {
 
             })
@@ -72,8 +82,12 @@ const Home = () => {
 
     }, []);
 
+    useEffect(() => {
+        loadAllProduct()
+    }, [page])
+
     if (loading) {
-        return(
+        return (
             <div className="h-screen flex justify-center items-center">
                 <SyncLoader color="red" loading={loading} />
             </div>
@@ -99,7 +113,7 @@ const Home = () => {
                 </Col>
                 <Divider className="mb-20" />
                 <Col span={24} style={{ paddingRight: '5%', paddingLeft: '5%' }}>
-                    <ListCardProduct products={hotProducts} />
+                    <ListCardProduct products={hotProducts} loading={nextPageLoading} nextPage={() => setPage(page + 1)} />
                 </Col>
                 <Col span={24} style={{ paddingRight: '5%', paddingLeft: '5%' }}>
                     <ListHotStore />

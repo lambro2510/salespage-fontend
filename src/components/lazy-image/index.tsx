@@ -19,7 +19,7 @@ const LazyImage = ({ src, ...rest }: LazyImageProps) => {
   }, [src]);
 
   return (
-    <Fragment>{loading ? <img src={defaultImage} /> : <img src={src} {...rest}/>}</Fragment>
+    <Fragment>{loading ? <img src={defaultImage} /> : <img className='w-full' src={src} {...rest}/>}</Fragment>
   );
 };
 
