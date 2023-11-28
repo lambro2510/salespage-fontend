@@ -1,10 +1,10 @@
 import {
-    AlipayOutlined,
+    GoogleOutlined,
     LockOutlined,
     MobileOutlined,
-    TaobaoOutlined,
+    FacebookFilled,
+    TwitterOutlined,
     UserOutlined,
-    WeiboOutlined,
 } from '@ant-design/icons';
 import {
     LoginForm,
@@ -40,15 +40,13 @@ const iconStyles: CSSProperties = {
 };
 
 const Page = () => {
-    const [loginType, setLoginType] = useState<LoginType>('phone');
+    const [loginType, setLoginType] = useState<LoginType>('account');
     const { token } = theme.useToken();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || -1;
     const auth = useSelector((state: RootState) => state.auth);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [form] = Form.useForm();
 
     useEffect(() => {
         if (auth) {
@@ -89,6 +87,12 @@ const Page = () => {
                 logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
                 title="Đăng nhập E-web"
                 subTitle="E-WEB"
+                submitter = {{
+                    searchConfig: {
+                        submitText : 'Đăng nhập'
+                    }
+                }
+                }
                 onFinish={(value) => loginByUsername(value)}
                 activityConfig={{
                     style: {
@@ -147,7 +151,7 @@ const Page = () => {
                                     borderRadius: '50%',
                                 }}
                             >
-                                <AlipayOutlined style={{ ...iconStyles, color: '#1677FF' }} />
+                                <GoogleOutlined  style={{ ...iconStyles, color: '#FF6A1' }} />
                             </div>
                             <div
                                 style={{
@@ -161,7 +165,7 @@ const Page = () => {
                                     borderRadius: '50%',
                                 }}
                             >
-                                <TaobaoOutlined style={{ ...iconStyles, color: '#FF6A10' }} />
+                                <FacebookFilled style={{ ...iconStyles, color: '#1677FF' }} />
                             </div>
                             <div
                                 style={{
@@ -175,7 +179,7 @@ const Page = () => {
                                     borderRadius: '50%',
                                 }}
                             >
-                                <WeiboOutlined style={{ ...iconStyles, color: '#1890ff' }} />
+                                <TwitterOutlined style={{ ...iconStyles, color: '#1890ff' }} />
                             </div>
                         </Space>
                     </div>

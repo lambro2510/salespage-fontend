@@ -70,12 +70,12 @@ const ListHotStore = () => {
     }, [])
 
     return (
-        <div>
+        <div className='mb-10'>
             <h1 className='text-center mb-10 mt-10'>Cửa hàng gợi ý</h1>
             <Row gutter={[16, 16]}>
                 {stores.map((store: SellerStoreResponse) => {
                     return (
-                        <Col xs={24} lg={12} >
+                        <Col key={store.id} xs={24} lg={12} >
                             <Row className='bg-card' style={{ height: '15vh' }}>
                                 <Col lg={6}>
                                     <img src={store.imageUrl} />

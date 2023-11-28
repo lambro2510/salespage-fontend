@@ -19,8 +19,6 @@ const ListCardProduct = ({ products, loading, nextPage }: ListCardProductProps) 
     const navigate = useNavigate();
 
     const handleCardHover = (productId: string, isHovered: boolean) => {
-        // Add any additional hover effects here
-        // Example: Change background color
         const cardElement = document.getElementById(productId);
         if (cardElement) {
             cardElement.style.backgroundColor = isHovered ? '#f0f0f0' : 'inherit';
@@ -65,7 +63,7 @@ const ListCardProduct = ({ products, loading, nextPage }: ListCardProductProps) 
                                                     color="yellow"
                                                 />
                                             </div>
-                                            <div className="flex justify-start items-center">
+                                            <div className="flex justify-start items-center text-red">
                                                 <p>{formatCurrency(product.minSellPrice)}</p>
                                             </div>
                                         </Col>
@@ -89,4 +87,4 @@ const ListCardProduct = ({ products, loading, nextPage }: ListCardProductProps) 
     );
 };
 
-export default ListCardProduct;
+export default React.memo(ListCardProduct);

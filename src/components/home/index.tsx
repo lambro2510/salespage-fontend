@@ -53,20 +53,23 @@ const Home = () => {
 
     const loadAllProduct = async () => {
         try {
-            setNextPageLoading(true)
+            setNextPageLoading(true);
             const response = await http.get(`${apiRoutes.products}`, {
                 params: {
                     page: page,
                     size: 12
                 }
             });
-            setAllProduct(response?.data?.data?.data)
+            
+            setAllProduct([...allProducts, ...response?.data?.data?.data]);
+            console.log("Updated all products:", [...allProducts, ...response?.data?.data?.data]);
         } catch (error) {
             handleErrorResponse(error);
         } finally {
-            setNextPageLoading(false)
+            setNextPageLoading(false);
         }
-    }
+    };
+    
 
     useEffect(() => {
         Promise.all([loadHotProduct()])
@@ -113,7 +116,7 @@ const Home = () => {
                 </Col>
                 <Divider className="mb-20" />
                 <Col span={24} style={{ paddingRight: '5%', paddingLeft: '5%' }}>
-                    <ListCardProduct products={hotProducts} loading={nextPageLoading} nextPage={() => setPage(page + 1)} />
+                    <ListCardProduct products={allProducts} loading={nextPageLoading} nextPage={() => setPage(page + 1)} />
                 </Col>
                 <Col span={24} style={{ paddingRight: '5%', paddingLeft: '5%' }}>
                     <ListHotStore />

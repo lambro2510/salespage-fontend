@@ -51,6 +51,18 @@ const Layout = () => {
     // });
   };
 
+  const getNotification = () => {
+    try{
+        const response = http.get(`${apiRoutes.notification}`, {
+          params : {
+            page : 0,
+            size : 10
+          }
+        });
+    }catch(err){
+
+    }
+  }
   const renderFooter = () => {
     return (
       <footer style={{ backgroundColor: "#f6f6f6", padding: "50px 0", color: "black" }}>
@@ -188,7 +200,7 @@ const Layout = () => {
                     />
 
                     <Badge count={99} className='mr-3 ml-3'>
-                      <MdOutlineNotificationsNone className='m-1 text-lg' />
+                      <MdOutlineNotificationsNone onClick={() => getNotification()} className='m-1 text-lg' />
                     </Badge>
 
                     <BiCart className='mr-3 ml-3 text-2xl' />

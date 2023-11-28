@@ -58,7 +58,7 @@ const ListReview = () => {
             <Row gutter={[32, 32]} className="mt-10 mb-10">
                 {reviewData.map((review) => {
                     return (
-                        <Col xs={24} sm={12} lg={6}>
+                        <Col key={review.title} xs={24} sm={12} lg={6}>
                             <Card className="h-fit " title={review.title} extra={review.storeName} actions={[
                                 <Rate allowHalf disabled count={review.star} defaultValue={review.star} />
                             ]}>

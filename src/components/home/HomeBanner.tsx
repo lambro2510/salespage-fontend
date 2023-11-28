@@ -58,7 +58,7 @@ const HomeBanner = () => {
                 <Col span={24}>
                     <Slider {...settings} >
                         {imagesData.map((img, index) => (
-                            <Banner imageUrl={img.imageUrl} title={img.title} subTitle={img.subTitle} link={img.link}/>
+                            <Banner key={index} imageUrl={img.imageUrl} title={img.title} subTitle={img.subTitle} link={img.link}/>
                         ))}
                     </Slider>
                 </Col>

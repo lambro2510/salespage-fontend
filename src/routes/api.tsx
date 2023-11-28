@@ -30,4 +30,6 @@ export const apiRoutes = {
   maps : `${API_URL}/public/map`,
 
   payment : `${API_URL}/payment`,
+
+  notification : `${API_URL}/notification`,
 };
