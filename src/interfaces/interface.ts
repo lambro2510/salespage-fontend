@@ -478,7 +478,25 @@ export interface UploadImageData {
     thumbUrl: string;
 }
 
-export interface UserResponse {
+export interface UserProfile {
+    id: string;
+    username: string;
+    email: string | null;
+    phoneNumber: string;
+    displayName: string;
+    dateOfBirth: string | null;
+    firstName: string | null;
+    lastName: string | null;
+    imageUrl: string;
+    rate: {
+        totalPoint: number;
+        totalRate: number;
+        avgPoint: number;
+    };
+    balance: {
+        type: string;
+        money: number;
+    };
 }
 
 export interface NotificationDetailResponse extends NotificationResponse {
@@ -515,26 +533,6 @@ export interface PaymentTransactionResponse {
     amount: number;
     type: PaymentType;
     created: Date;
-}
-
-export interface ProductTransactionResponse {
-    transactionId: string;
-    productId: string;
-    productName: string;
-    productImageUrl: string;
-    sellerName: string;
-    buyerName: string;
-    storeId: string;
-    storeName: string;
-    address: string;
-    note: string;
-    quantity: number;
-    isUseVoucher: boolean;
-    productTransactionState: ProductTransactionState;
-    voucherInfo: VoucherInfo;
-    total_price: number;
-    price: number;
-    created_at: Date;
 }
 
 export interface TotalStatisticResponse {

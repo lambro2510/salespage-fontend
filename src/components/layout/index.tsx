@@ -20,6 +20,7 @@ import {
   InstagramOutlined,
   YoutubeOutlined,
 } from "@ant-design/icons";
+import { ImProfile } from 'react-icons/im';
 
 const { Title, Text } = Typography;
 const Layout = () => {
@@ -198,16 +199,22 @@ const Layout = () => {
                       prefix={<BiSearch />}
                       style={{ maxWidth: 200 }}
                     />
-
                     <Badge count={99} className='mr-3 ml-3'>
                       <MdOutlineNotificationsNone onClick={() => getNotification()} className='m-1 text-lg' />
                     </Badge>
-
                     <BiCart className='mr-3 ml-3 text-2xl' />
                   </div>
                   <Dropdown
                     menu={{
                       items: [
+                        {
+                          key: 'profile',
+                          icon: <ImProfile />,
+                          label: 'Tài khoản',
+                          onClick: () => {
+                            navigate(webRoutes.profile);
+                          },
+                        },
                         {
                           key: 'logout',
                           icon: <LogoutOutlined />,

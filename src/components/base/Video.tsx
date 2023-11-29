@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, ReactNode } from 'react';
 interface VideoBackgroundProps {
-  videoUrl: string;
+  videoUrl?: string;
   children?: ReactNode;
 }
 
@@ -20,8 +20,9 @@ const VideoBackground: React.FC<VideoBackgroundProps> = ({ videoUrl, children })
         }}
       >
         <source src='bg-login.mp4' />
+        {children}
       </video>
-      {children}
+      
     </div>
   );
 };
