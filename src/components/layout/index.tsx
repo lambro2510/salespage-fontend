@@ -1,11 +1,11 @@
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { webRoutes } from '../../routes/web';
-import { Badge, Button, Col, Dropdown, Input, Menu, Row, Typography } from 'antd';
+import { Badge, Button, Col, Popover, Input, Menu, Row, Typography, Dropdown } from 'antd';
 import { ProLayout, ProLayoutProps } from '@ant-design/pro-components';
 import Icon, { LogoutOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/slices/authSlice';
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { sidebar } from './sidebar';
 import { apiRoutes } from '../../routes/api';
 import http from '../../utils/http';
@@ -21,6 +21,7 @@ import {
   YoutubeOutlined,
 } from "@ant-design/icons";
 import { ImProfile } from 'react-icons/im';
+import { NotificationResponse } from '../../interfaces/interface';
 
 const { Title, Text } = Typography;
 const Layout = () => {
@@ -28,6 +29,7 @@ const Layout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const auth = useSelector((state: RootState) => state.auth);
+  const [notifications, setNotifications] = useState<NotificationResponse[]>([])
 
   const defaultProps: ProLayoutProps = {
     title: CONFIG.appName,
@@ -52,18 +54,61 @@ const Layout = () => {
     // });
   };
 
-  const getNotification = () => {
-    try{
-        const response = http.get(`${apiRoutes.notification}`, {
-          params : {
-            page : 0,
-            size : 10
-          }
-        });
-    }catch(err){
-
+  const getNotification = async () => {
+    try {
+      const response = await http.get(`${apiRoutes.notification}`, {
+        params: {
+          page: 0,
+          size: 10
+        }
+      });
+      setNotifications(response.data.data?.data);
+    } catch (err) {
+      handleErrorResponse(err)
     }
-  }
+  };
+
+  const getCart = () => {
+    try {
+      const response = http.get(`${apiRoutes.cart}/all`, {
+        params: {
+          page: 0,
+          size: 10
+        }
+      });
+    } catch (err) {
+      handleErrorResponse(err)
+    }
+  };
+
+  useEffect(() => {
+    if (auth) {
+      getNotification();
+      getCart();
+    }
+  }, [auth]);
+
+  const renderNotifiMenu = () => {
+    return (
+      <Popover
+        content={
+          <div className='w-52'>
+            {notifications.map((notify: NotificationResponse) => (
+              <div key={notify.id} className='pt-1 pl-1'>
+                <Text className='line-clamp-1'>{notify.title}</Text>
+              </div>
+            ))}
+          </div>
+        }
+        trigger={["hover", "click"]}
+      >
+        <Badge count={notifications.length}>
+          <MdOutlineNotificationsNone className="m-1 text-lg" />
+        </Badge>
+      </Popover>
+    );
+  };
+
   const renderFooter = () => {
     return (
       <footer style={{ backgroundColor: "#f6f6f6", padding: "50px 0", color: "black" }}>
@@ -199,9 +244,7 @@ const Layout = () => {
                       prefix={<BiSearch />}
                       style={{ maxWidth: 200 }}
                     />
-                    <Badge count={99} className='mr-3 ml-3'>
-                      <MdOutlineNotificationsNone onClick={() => getNotification()} className='m-1 text-lg' />
-                    </Badge>
+                    {renderNotifiMenu()}
                     <BiCart className='mr-3 ml-3 text-2xl' />
                   </div>
                   <Dropdown
@@ -241,9 +284,7 @@ const Layout = () => {
                       style={{ maxWidth: 200 }}
                     />
 
-                    <Badge count={99} className='mr-3 ml-3'>
-                      <MdOutlineNotificationsNone className='m-1 text-lg' />
-                    </Badge>
+                    {renderNotifiMenu()}
 
                     <BiCart className='mr-3 ml-3 text-2xl' />
                   </div>

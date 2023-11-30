@@ -65,8 +65,8 @@ const Page = () => {
             if (response?.data?.data?.role != 'USER') {
                 showNotification("Vui lòng đăng nhập trang quản trị viên để sử dụng", NotificationType.ERROR);
             } else {
-                navigate(`${webRoutes.home}`)
                 dispatch(login(auth));
+                navigate(-1)
                 showNotification(response.data.message, NotificationType.SUCCESS);
             }
 
