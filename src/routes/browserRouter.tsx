@@ -22,7 +22,7 @@ const Profile = loadable(() => import('../components/profile'), {
 });
 
 
-const Register = loadable(() => import('../components/register'), {
+const Register = loadable(() => import('../components/auth/Register'), {
   fallback: fallbackElement,
 });
 const Verify = loadable(() => import('../components/register/verify'), {

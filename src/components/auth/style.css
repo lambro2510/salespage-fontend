@@ -1,0 +1,8 @@
+.ant-input{
+    background-color: inherit;
+    color: aliceblue;
+}
+
+::placeholder {
+    color: rgb(218, 218, 218) !important;
+  }

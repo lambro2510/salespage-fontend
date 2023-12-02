@@ -116,7 +116,7 @@ const Home = () => {
                 </Col>
                 <Divider className="mb-20" />
                 <Col span={24} style={{ paddingRight: '5%', paddingLeft: '5%' }}>
-                    <ListCardProduct products={allProducts} loading={nextPageLoading} nextPage={() => setPage(page + 1)} />
+                    <ListCardProduct title="Sản phẩm phổ biên" products={allProducts} loading={nextPageLoading} nextPage={() => setPage(page + 1)} />
                 </Col>
                 <Col span={24} style={{ paddingRight: '5%', paddingLeft: '5%' }}>
                     <ListHotStore />

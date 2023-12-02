@@ -11,32 +11,49 @@ import LazyImage from "../lazy-image";
 import { NotificationType, formatCurrency, handleErrorResponse, showNotification } from '../../utils/index'
 import { BiCartAdd } from "react-icons/bi";
 import QuantityInput from "../quantityInput";
-import { ProductDetailInfoResponse, ProductDetailResponse, UploadImageData } from "../../interfaces/interface";
+import { ProductDataResponse, ProductDetailInfoResponse, ProductDetailResponse, UploadImageData } from "../../interfaces/interface";
+import ListCardProduct from "../home/ListCardProduct";
 const { Text } = Typography;
 
 const ProductDetailView = () => {
     const { productId } = useParams();
+    const [loading, setLoading] = useState<boolean>()
     const [product, setProduct] = useState<ProductDetailResponse>();
     const [currentImage, setCurrentImage] = useState<string>();
     const [selectedProductDetail, setSelectedProductDetail] = useState<ProductDetailInfoResponse>();
     const [quantity, setQuantity] = useState<any>(1);
     const [selectedStoreId, setSelectedStoreId] = useState<string>();
+    const [productSuggest, setProductSuggest] = useState<ProductDataResponse[]>([])
 
     const getProductDetail = async () => {
         try {
-            const response = await http.get(
-                `${apiRoutes.products}/${productId}`
-            );
+            setLoading(true);
+            const response = await http.get(`${apiRoutes.products}/${productId}`);
             const productData = response.data.data as ProductDetailResponse;
             setProduct(productData);
             setCurrentImage(productData?.imageUrls[0].url);
         } catch (error) {
-            console.error("Error fetching product details:", error);
+            handleErrorResponse(error)
+        } finally {
+            setLoading(false);
         }
     };
 
+    const getSuggestProdut = async () => {
+        try {
+            setLoading(true);
+            const response = await http.get(`${apiRoutes.products}/suggest/${productId}`);
+            const productData = response.data.data as ProductDataResponse[];
+            setProductSuggest(productData);
+        } catch (error) {
+            handleErrorResponse(error)
+        } finally {
+            setLoading(false);
+        }
+    }
     useEffect(() => {
         getProductDetail();
+        getSuggestProdut();
     }, []);
 
     const addToCart = async () => {
@@ -202,70 +219,78 @@ const ProductDetailView = () => {
     }
 
     return (
-        <BasePageContainer breadcrumb={breadcrumb}>
-            <Row justify="space-around">
-                <Col span={8} className="lg:col-span-6 xl:col-span-4">
-                    <div className="flex justify-center mt-1">
-                        <img className="w-full h-auto rounded-lg" src={currentImage} alt={productName} />
-                    </div>
-                    <div className="pt-5">
-                        <ListCarousel child={ListImage} setCurrentChild={setCurrentImage} />
-                    </div>
-                </Col>
-                <Col span={15} className="lg:col-span-6 xl:col-span-8">
-                    {product && (
-                        <div>
-                            <div className="flex justify-between items-center">
-                                <h1 className="text-xl font-semibold">{product?.productName}</h1>
+        <Row gutter={[16, 32]}>
+            <Col span={24}>
+                <BasePageContainer loading={loading} breadcrumb={breadcrumb}>
+                    <Row gutter={[128, 16]} className="flex justify-center items-center">
+                        <Col xs={24} lg={8} className="lg:col-span-6 xl:col-span-4">
+                            <div className="flex justify-center mt-1">
+                                <img className="w-full h-auto rounded-lg" src={currentImage} alt={productName} />
                             </div>
-                            <div className="mt-3 h-6 text-sm">
-                                <Row>
-                                    <Col span={1}>
-                                        <Text className="text-red  underline">
-                                            {product?.rate?.avgPoint}
-                                        </Text>
-                                    </Col>
-                                    <Col span={6}>
-                                        <Rate disabled allowHalf value={product?.rate.avgPoint} className="text-red text-xs" />
-                                    </Col>
-                                    <Col span={6} className="flex items-center text-xs">
-                                        <Text className="flex items-center">|   {product.rate.totalRate}</Text>
-                                        &nbsp;đánh giá
-                                    </Col>
-                                    <Col span={6} className="text-xs flex items-center">
-                                        <Text >|   {product.totalView}</Text>
-                                        &nbsp;lượt xem
-                                    </Col>
-                                    <Col span={5} className="flex justify-end">
-                                        <NavLink to="#">Tố cáo</NavLink>
-                                    </Col>
-                                </Row>
+                            <div className="pt-5">
+                                <ListCarousel child={ListImage} setCurrentChild={setCurrentImage} />
                             </div>
-                            <div className="mt-5">
-                                {renderPrice()}
-                                {renderProductInfo()}
-                                {renderStores()}
-                                {renderProductDetail()}
+                        </Col>
+                        <Col xs={24} lg={16} className="lg:col-span-6 xl:col-span-8">
+                            {product && (
+                                <div>
+                                    <div className="flex justify-between items-center">
+                                        <h1 className="text-xl font-semibold">{product?.productName}</h1>
+                                    </div>
+                                    <div className="mt-3 h-6 text-sm">
+                                        <Row className="flex items-center">
+                                            <Col span={1}>
+                                                <Text className="text-red  underline">
+                                                    {product?.rate?.avgPoint}
+                                                </Text>
+                                            </Col>
+                                            <Col span={6}>
+                                                <Rate disabled allowHalf value={product?.rate.avgPoint} className="text-red text-xs" />
+                                            </Col>
+                                            <Col span={6} className="flex items-center text-xs">
+                                                <Text className="flex items-center">|   {product.rate.totalRate}</Text>
+                                                &nbsp;đánh giá
+                                            </Col>
+                                            <Col span={6} className="text-xs flex items-center">
+                                                <Text >|   {product.totalView}</Text>
+                                                &nbsp;lượt xem
+                                            </Col>
+                                            <Col span={5} className="flex justify-end">
+                                                <NavLink to="#">Tố cáo</NavLink>
+                                            </Col>
+                                        </Row>
+                                    </div>
+                                    <div className="mt-5">
+                                        {renderPrice()}
+                                        {renderProductInfo()}
+                                        {renderStores()}
+                                        {renderProductDetail()}
 
-                                <Row className="flex items-center mt-5">
-                                    <Col span={6}>
-                                        Số lượng:
-                                    </Col>
-                                    <Col span={18}>
-                                        <QuantityInput quantity={quantity} setQuantity={setQuantity} limit={selectedProductDetail?.quantity} disable={false} />
-                                    </Col>
-                                </Row>
+                                        <Row className="flex items-center mt-5">
+                                            <Col span={6}>
+                                                Số lượng:
+                                            </Col>
+                                            <Col span={18}>
+                                                <QuantityInput quantity={quantity} setQuantity={setQuantity} limit={selectedProductDetail?.quantity} disable={false} />
+                                            </Col>
+                                        </Row>
 
-                                <Row className="pt-5 flex justify-around">
-                                    <Button type="default" icon={<BiCartAdd />} onClick={() => addToCart()}>Thêm vào giỏ hàng</Button>
-                                    <Button type="primary">Mua ngay</Button>
-                                </Row>
-                            </div>
-                        </div>
-                    )}
-                </Col>
-            </Row>
-        </BasePageContainer>
+                                        <Row className="pt-5 flex justify-around">
+                                            <Button type="default" icon={<BiCartAdd />} onClick={() => addToCart()}>Thêm vào giỏ hàng</Button>
+                                            <Button type="primary">Mua ngay</Button>
+                                        </Row>
+                                    </div>
+                                </div>
+                            )}
+                        </Col>
+
+                    </Row>
+                </BasePageContainer>
+            </Col>
+            <Col span={24} className="ww-11/12 flex justify-center items-center bg-card">
+                <ListCardProduct title="Sản phẩm tương tự" products={productSuggest} loading={loading} nextPage={() => console.log('nextpage')} />
+            </Col>
+        </Row>
     );
 };
 

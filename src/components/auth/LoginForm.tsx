@@ -18,10 +18,8 @@ import {
 import { Button, Divider, Space, Tabs, message, theme } from 'antd';
 import type { CSSProperties } from 'react';
 import { useEffect, useState } from 'react';
-import VideoBackground from '../base/Video';
 import http from '../../utils/http';
 import { apiRoutes } from '../../routes/api';
-import Form from 'antd/lib/form';
 import { NotificationType, handleErrorResponse, showNotification } from '../../utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -61,7 +59,7 @@ const Page = () => {
             });
             const auth: Auth = response?.data?.data;
             console.log(response?.data?.data?.role);
-            
+
             if (response?.data?.data?.role != 'USER') {
                 showNotification("Vui lòng đăng nhập trang quản trị viên để sử dụng", NotificationType.ERROR);
             } else {
@@ -87,9 +85,9 @@ const Page = () => {
                 logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
                 title="Đăng nhập E-web"
                 subTitle="E-WEB"
-                submitter = {{
+                submitter={{
                     searchConfig: {
-                        submitText : 'Đăng nhập'
+                        submitText: 'Đăng nhập'
                     }
                 }
                 }
@@ -151,7 +149,7 @@ const Page = () => {
                                     borderRadius: '50%',
                                 }}
                             >
-                                <GoogleOutlined  style={{ ...iconStyles, color: '#FF6A1' }} />
+                                <GoogleOutlined style={{ ...iconStyles, color: '#FF6A1' }} />
                             </div>
                             <div
                                 style={{
@@ -182,6 +180,7 @@ const Page = () => {
                                 <TwitterOutlined style={{ ...iconStyles, color: '#1890ff' }} />
                             </div>
                         </Space>
+                        <a className='pt-5' href={`${webRoutes.register}`}>Tạo tài khoản mới</a>
                     </div>
                 }
             >
@@ -303,6 +302,7 @@ const Page = () => {
                     </>
                 )}
                 <div
+                    className='flex justify-between items-center'
                     style={{
                         marginBlockEnd: 24,
                     }}

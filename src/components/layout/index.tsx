@@ -64,7 +64,7 @@ const Layout = () => {
 
   const getNotification = async () => {
     try {
-      const response = await http.get(`${apiRoutes.notification}`, {
+      const response = await http.get(`${apiRoutes.notification}/NOT_SEEN`, {
         params: {
           page: 0,
           size: 10
@@ -80,7 +80,7 @@ const Layout = () => {
     try {
       const response = await http.get(`${apiRoutes.notification}/detail`, {
         params: {
-          notificationId: id
+          notificationId: id,
         }
       });
       const responseData = response.data.data as NotificationDetailResponse;

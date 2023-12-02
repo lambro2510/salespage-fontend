@@ -10,12 +10,13 @@ import { useNavigate } from "react-router-dom";
 import { webRoutes } from "../../routes/web";
 
 interface ListCardProductProps {
+    title : string;
     products: ProductDataResponse[];
     loading?: boolean;
     nextPage?: any;
 }
 
-const ListCardProduct = ({ products, loading, nextPage }: ListCardProductProps) => {
+const ListCardProduct = ({title, products, loading, nextPage }: ListCardProductProps) => {
     const navigate = useNavigate();
 
     const handleCardHover = (productId: string, isHovered: boolean) => {
@@ -27,7 +28,7 @@ const ListCardProduct = ({ products, loading, nextPage }: ListCardProductProps) 
 
     return (
         <Col span={24} className="mb-10">
-            <h1 className="text-center">Sản phẩm phổ biến</h1>
+            <h1 className="text-center">{title}</h1>
             <Row gutter={[32, 32]}>
                 {products.map((product) => (
                     <Col xs={12} sm={8} md={6} lg={6} xl={4} key={product.productId}>

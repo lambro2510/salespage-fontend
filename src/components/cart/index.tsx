@@ -58,7 +58,6 @@ const CardView = () => {
 
     const updateCartItems = async (cartId: string, quantity: number | undefined, voucherId: string | undefined) => {
         try {
-            setLoading(true);
             const response = await http.put(`${apiRoutes.cart}/${cartId}`, {}, {
                 params: {
                     quantity: quantity,
@@ -74,7 +73,6 @@ const CardView = () => {
 
     const paymentCartItem = async () => {
         try {
-            setLoading(true);
             const response = await http.post(`${apiRoutes.cart}/payment`, cartDto);
             setModalProps({
                 isOpen: true,
@@ -133,6 +131,7 @@ const CardView = () => {
     }
 
     useEffect(() => {
+        setLoading(true);
         getCartItems();
         updateSelectedCombo();
     }, []);
