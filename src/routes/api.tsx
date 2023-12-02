@@ -32,4 +32,6 @@ export const apiRoutes = {
   payment : `${API_URL}/payment`,
 
   notification : `${API_URL}/notification`,
+  
+  bank : `${API_URL}/bank`,
 };

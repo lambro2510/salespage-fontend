@@ -244,7 +244,7 @@ export interface BankListData {
     id: number;
     name: string;
     code: string;
-    bin: string;
+    bin: number;
     shortName: string;
     logo: string;
     transferSupported: number;

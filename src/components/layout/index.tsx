@@ -1,6 +1,6 @@
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { webRoutes } from '../../routes/web';
-import { Badge, Button, Col, Popover, Input, Menu, Row, Typography, Dropdown } from 'antd';
+import { Badge, Button, Col, Popover, Input, Menu, Row, Typography, Dropdown, Card, Modal } from 'antd';
 import { ProLayout, ProLayoutProps } from '@ant-design/pro-components';
 import Icon, { LogoutOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,8 +21,8 @@ import {
   YoutubeOutlined,
 } from "@ant-design/icons";
 import { ImProfile } from 'react-icons/im';
-import { NotificationResponse } from '../../interfaces/interface';
-
+import { CartResponse, NotificationDetailResponse, NotificationResponse } from '../../interfaces/interface';
+import { modalState } from '../../interfaces/models/data';
 const { Title, Text } = Typography;
 const Layout = () => {
   const location = useLocation();
@@ -30,7 +30,15 @@ const Layout = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state: RootState) => state.auth);
   const [notifications, setNotifications] = useState<NotificationResponse[]>([])
-
+  const [cartItems, setCartItems] = useState<CartResponse[]>([])
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [modalProps, setModalProps] = useState<modalState>(
+    {
+      isOpen: false,
+      title: '',
+      content: ''
+    }
+  )
   const defaultProps: ProLayoutProps = {
     title: CONFIG.appName,
     logo: '/icon.png',
@@ -68,14 +76,34 @@ const Layout = () => {
     }
   };
 
-  const getCart = () => {
+  const getNotificationDetail = async (id: string) => {
     try {
-      const response = http.get(`${apiRoutes.cart}/all`, {
+      const response = await http.get(`${apiRoutes.notification}/detail`, {
+        params: {
+          notificationId: id
+        }
+      });
+      const responseData = response.data.data as NotificationDetailResponse;
+      setModalProps({
+        isOpen: true,
+        title: responseData.title,
+        content: responseData.content,
+        createdAt: responseData.created
+      })
+    } catch (err) {
+      handleErrorResponse(err)
+    }
+  };
+
+  const getCart = async () => {
+    try {
+      const response = await http.get(`${apiRoutes.cart}/all`, {
         params: {
           page: 0,
           size: 10
         }
       });
+      setCartItems(response.data.data.data)
     } catch (err) {
       handleErrorResponse(err)
     }
@@ -83,19 +111,30 @@ const Layout = () => {
 
   useEffect(() => {
     if (auth) {
-      getNotification();
       getCart();
+      getNotification();
+
+      const intervalId = setInterval(() => {
+        getCart();
+        getNotification();
+      }, 3000);
+
+      // Clean up the interval on component unmount
+      return () => clearInterval(intervalId);
     }
   }, [auth]);
 
+
+
   const renderNotifiMenu = () => {
     return (
+
       <Popover
         content={
-          <div className='w-52'>
+          <div className='max-w-xs'>
             {notifications.map((notify: NotificationResponse) => (
-              <div key={notify.id} className='pt-1 pl-1'>
-                <Text className='line-clamp-1'>{notify.title}</Text>
+              <div className='flex items-center cursor-pointer pt-3 pb-3 hover:bg-card w-full' onClick={() => getNotificationDetail(notify.id)}>
+                <Text key={notify.id} className='m-auto pl-1 line-clamp-1 w-full'>{notify.title}</Text>
               </div>
             ))}
           </div>
@@ -106,6 +145,29 @@ const Layout = () => {
           <MdOutlineNotificationsNone className="m-1 text-lg" />
         </Badge>
       </Popover>
+    );
+  };
+
+  const renderCardMenu = () => {
+    return (
+      <div className='flex justify-center items-center' onClick={() => navigate(`${webRoutes.cart}`)} >
+        <Popover
+          content={
+            <div className='max-w-xs'>
+              {cartItems.map((cart: CartResponse) => (
+                <div className='flex items-center cursor-pointer  pt-3 pb-3 hover:bg-card w-full'>
+                  <Text key={cart.cartId} className='m-auto pl-1 line-clamp-1 w-full'>{cart.productName}</Text>
+                </div>
+              ))}
+            </div>
+          }
+          trigger={["hover", "click"]}
+        >
+          <Badge count={cartItems.length}>
+            <BiCart className='mr-2 ml-3 text-xl' onClick={() => navigate(`${webRoutes.cart}`)} />
+          </Badge>
+        </Popover>
+      </div>
     );
   };
 
@@ -231,12 +293,12 @@ const Layout = () => {
           className: 'bg-primary bg-opacity-20 text-primary text-opacity-90',
           size: 'small',
           shape: 'square',
-          title: auth ? auth.username : 'Đăng nhập',
+          title: auth ? (!isMobile ? auth.username : '') : 'Đăng nhập',
 
           render: (_, dom) => {
             if (auth) {
               return (
-                <div>
+                <div className='hover:bg-inherit'>
                   <div className='flex justify-around items-center'>
                     <Input
                       placeholder='Tìm kiếm...'
@@ -245,9 +307,10 @@ const Layout = () => {
                       style={{ maxWidth: 200 }}
                     />
                     {renderNotifiMenu()}
-                    <BiCart className='mr-3 ml-3 text-2xl' />
+                    {renderCardMenu()}
                   </div>
                   <Dropdown
+                  className='pl-3'
                     menu={{
                       items: [
                         {
@@ -285,8 +348,7 @@ const Layout = () => {
                     />
 
                     {renderNotifiMenu()}
-
-                    <BiCart className='mr-3 ml-3 text-2xl' />
+                    {renderCardMenu()}
                   </div>
                   <Button onClick={() => navigate(`${webRoutes.login}`)} style={{ border: 'none', boxShadow: 'none' }}>Đăng nhập</Button>
                 </div>
@@ -298,6 +360,31 @@ const Layout = () => {
         footerRender={renderFooter}
       >
         <Outlet />
+        <Modal
+          className='m-auto'
+          title={modalProps.title}
+          centered
+          open={modalProps.isOpen}
+          okType='primary'
+          closable={false}
+          footer={[
+            <div className='flex justify-center' key="modal-footer">
+              <Button
+                key="submit"
+                type="primary"
+                onClick={() => setModalProps({ isOpen: false })}
+              >
+                Xác nhận
+              </Button>
+            </div>
+          ]}
+        >
+          <div className="p-4">
+            <Text>{modalProps.content}</Text>
+            <br />
+            <Text>{modalProps.createdAt?.toString()}</Text>
+          </div>
+        </Modal>
       </ProLayout>
     </div>
   );

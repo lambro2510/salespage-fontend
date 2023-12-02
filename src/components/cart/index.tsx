@@ -1,21 +1,32 @@
 import React, { useEffect, useState } from "react";
 import http from "../../utils/http";
 import { apiRoutes } from "../../routes/api";
-import { formatCurrency, handleErrorResponse, showNotification } from "../../utils";
-import { Avatar, Button, Checkbox, Col, Divider, Dropdown, Menu, Popover, Row, Tag, Tooltip, Typography } from "antd";
+import { NotificationType, formatCurrency, handleErrorResponse, showNotification } from "../../utils";
+import { Avatar, Button, Checkbox, Col, Divider, Dropdown, Menu, Modal, Popover, Row, Tag, Tooltip, Typography } from "antd";
 import { ProCard } from "@ant-design/pro-components";
 import QuantityInput from "../quantityInput";
 import { BiDownArrow } from "react-icons/bi";
 import { CartByStoreResponseInterface, CartPaymentDto, CartPaymentTransaction, ProductComboDetailResponseInterface } from "../../interfaces/models/cart";
+import { modalState } from "../../interfaces/models/data";
+import { useNavigate } from "react-router-dom";
+import { webRoutes } from "../../routes/web";
+import { SyncLoader } from "react-spinners";
 
 const { Text } = Typography;
 
 const CardView = () => {
+    const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean>();
     const [cartItems, setCartItems] = useState<CartByStoreResponseInterface[]>([]);
     const [cartDto, setCartDto] = useState<CartPaymentDto[]>()
     const [paymentPrice, setPaymentPrice] = useState<any[]>([]);
-    
+    const [modalProps, setModalProps] = useState<modalState>(
+        {
+            isOpen: false,
+            title: '',
+            content: ''
+        }
+    )
     const getCartItems = async () => {
         try {
             setLoading(true);
@@ -25,6 +36,19 @@ const CardView = () => {
                 data.selectedCombo = data.bestCombo;
             })
             setCartItems(datas || []);
+        } catch (error) {
+            handleErrorResponse(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const deleteCartItem = async (id: string) => {
+        try {
+            setLoading(true);
+            const response = await http.delete(`${apiRoutes.cart}/${id}`);
+            getCartItems();
+            showNotification(response.data.message, NotificationType.SUCCESS);
         } catch (error) {
             handleErrorResponse(error);
         } finally {
@@ -52,7 +76,11 @@ const CardView = () => {
         try {
             setLoading(true);
             const response = await http.post(`${apiRoutes.cart}/payment`, cartDto);
-            showNotification(response.data.message)
+            setModalProps({
+                isOpen: true,
+                title: 'Thanh toán thành công',
+                content: `Bạn đã thanh toán đơn hàng thành công`
+            })
         } catch (error) {
             handleErrorResponse(error);
         } finally {
@@ -113,7 +141,10 @@ const CardView = () => {
         handleDto();
     }, [cartItems]);
 
-    const setComboInfo = (cartItems: CartByStoreResponseInterface[], storeId: string, combo: ProductComboDetailResponseInterface) => {
+    const setComboInfo = (cartItems: CartByStoreResponseInterface[], storeId: string, combo: ProductComboDetailResponseInterface | null) => {
+        if (!combo) {
+            return;
+        }
         let updatedCartItem = [...cartItems]
         let selectedProduct = new Set<string>();
         let productInCombos = new Set<string>(combo?.products?.map(item => item.id));
@@ -121,16 +152,12 @@ const CardView = () => {
             if (cartItem.storeId === storeId) {
                 cartItem.selectedCombo = combo;
                 cartItem.cartResponses.forEach(item => {
-                    if (item.isSelected) {
-                        if (item.comboIds.includes(combo.id)) {
-                                item.isInCombo = true;
-                        } else {
-                            item.isInCombo = false;
-                        }
-                        selectedProduct.add(item.productId);
+                    if (item.comboIds.includes(combo.id)) {
+                        item.isInCombo = true;
                     } else {
                         item.isInCombo = false;
                     }
+                    selectedProduct.add(item.productId);
                 });
             }
         });
@@ -188,29 +215,46 @@ const CardView = () => {
         });
 
         if (cartItem.combos.length > 0) {
-            return (
-
-                <Row className="w-full bg-rose-50 p-3">
-                    <Col>
-                        <Tag color="red">Khuyến mãi</Tag>
-                        {!cartItem.selectedCombo.canUseCombo && <Tag color="default">Chưa đủ điều kiện</Tag>}
-                    </Col>
-                    <Col>
-                        {cartItem.selectedCombo.comboName}
-                    </Col>
-                    <Col>
-                        <Text>&nbsp;- giảm giá tối đa {formatCurrency(cartItem.selectedCombo.maxDiscount)}</Text>
-                    </Col>
-                    <Col>
-                        <Text>&nbsp;khi mua {cartItem.selectedCombo.quantityToUse} sản phẩm</Text>
-                    </Col>
-                    <Col>
-                        <Popover title={'Khuyến mãi'} content={content}>
-                            <Text className="text-primary cursor-pointer hover:text-secondary">&nbsp;Thêm{'>'}</Text>
-                        </Popover>
-                    </Col>
-                </Row>
-            );
+            if (cartItem.selectedCombo) {
+                return (
+                    <Row className="w-full bg-rose-50 p-3 flex items-center">
+                        <Col>
+                            <Tag color="red">Khuyến mãi</Tag>
+                            {!cartItem?.selectedCombo?.canUseCombo && <Tag color="default">Chưa đủ điều kiện</Tag>}
+                        </Col>
+                        <Col>
+                            {cartItem?.selectedCombo?.comboName}
+                        </Col>
+                        <Col>
+                            <Text>&nbsp;- giảm giá tối đa {formatCurrency(cartItem.selectedCombo?.maxDiscount)}</Text>
+                        </Col>
+                        <Col>
+                            <Text>&nbsp;khi mua {cartItem.selectedCombo?.quantityToUse} sản phẩm</Text>
+                        </Col>
+                        <Col>
+                            <Popover title={'Khuyến mãi'} content={content}>
+                                <Text className="text-primary cursor-pointer hover:text-secondary">&nbsp;Thêm{'>'}</Text>
+                            </Popover>
+                        </Col>
+                    </Row>
+                );
+            } else {
+                return (
+                    <Row className="w-full bg-rose-50 p-3 flex items-center">
+                        <Col>
+                            <Tag color="red">Khuyến mãi</Tag>
+                        </Col>
+                        <Col>
+                            <Text>Chưa thể áp dụng</Text>
+                        </Col>
+                        <Col>
+                            <Popover title={'Khuyến mãi'} content={content}>
+                                <Text className="text-primary cursor-pointer hover:text-secondary">&nbsp;Thêm{'>'}</Text>
+                            </Popover>
+                        </Col>
+                    </Row>
+                )
+            }
         }
     };
 
@@ -251,7 +295,7 @@ const CardView = () => {
         const countPriceNeedPayment = () => {
             let totalPrice = 0;
             let totalPriceInCombo = 0;
-            let combo: ProductComboDetailResponseInterface = cartItem.selectedCombo;
+            let combo: ProductComboDetailResponseInterface | null = cartItem.selectedCombo;
             cartItem.cartResponses.forEach(item => {
                 if (item.isSelected) {
                     if (item.isInCombo) {
@@ -267,7 +311,7 @@ const CardView = () => {
             if (combo?.canUseCombo) {
                 if (combo.type == "PERCENT") {
                     totalPriceInCombo = totalPriceInCombo - totalPriceInCombo * (combo.value / 100);
-        
+
                 } else if (combo.type == "TOTAL") {
                     totalPriceInCombo = totalPriceInCombo - combo.value;
                 }
@@ -339,7 +383,7 @@ const CardView = () => {
                                 <Col span={4} className="flex items-center justify-center">
                                     <div>
                                         <div className="flex items-center justify-center">
-                                            <Button type="ghost">Xoá</Button>
+                                            <Button type="ghost" onClick={() => deleteCartItem(item.cartId)}>Xoá</Button>
                                         </div>
                                         <div className="flex items-center justify-center cursor-pointer">
                                             <Text className="text-rose-500">Sản phẩm tương tự </Text>
@@ -358,6 +402,7 @@ const CardView = () => {
             </ProCard>
         );
     };
+
 
     return (
         <div>
@@ -382,11 +427,17 @@ const CardView = () => {
                 </div>
             </div>
             <div className="flex justify-center">
-                <div className="w-2/3 pt-5">
-                    {cartItems.map((item) => (
-                        <div key={item.storeId}>{renderCartItem(item)}</div>
-                    ))}
-                </div>
+                {loading ?
+                    <div style={{ minHeight: '10vh' }} className=" flex justify-center items-center bg-base">
+                        <SyncLoader color="red" loading={loading} />
+                    </div>
+                    :
+                    <div className="w-2/3 pt-5">
+                        {cartItems.map((item) => (
+                            <div key={item.storeId}>{renderCartItem(item)}</div>
+                        ))}
+                    </div>
+                }
             </div>
             <div className="flex justify-center">
                 <ProCard className="w-2/3">
@@ -408,6 +459,36 @@ const CardView = () => {
                     </Row>
                 </ProCard>
             </div>
+            <Modal
+                className='m-auto'
+                title={modalProps.title}
+                centered
+                open={modalProps.isOpen}
+                okType='primary'
+                closable={false}
+                footer={[
+                    <div className='flex justify-around' key="modal-footer">
+                        <Button
+                            key="submit"
+                            type="primary"
+                            onClick={() => navigate(`${webRoutes.profile}`)}
+                        >
+                            Xem đơn hàng
+                        </Button>
+                        <Button
+                            key="submit"
+                            type="default"
+                            onClick={() => navigate(`${webRoutes.home}`)}
+                        >
+                            Trở về trang chủ
+                        </Button>
+                    </div>
+                ]}
+            >
+                <div className="p-4">
+                    <Text>{modalProps.content}</Text>
+                </div>
+            </Modal>
         </div>
     );
 };

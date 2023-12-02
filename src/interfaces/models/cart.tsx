@@ -11,7 +11,7 @@ export interface CartByStoreResponseInterface extends CartByStoreResponse{
     cartResponses: CartResponseInterface[];
     combos: ProductComboDetailResponseInterface[];
     bestCombo: ProductComboDetailResponseInterface;
-    selectedCombo: ProductComboDetailResponseInterface | any;
+    selectedCombo: ProductComboDetailResponseInterface | null;
 }
 export interface CartPaymentDto {
     comboId : string | undefined;

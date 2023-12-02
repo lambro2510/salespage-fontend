@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Auth } from '../../interfaces/models/auth';
-import { baseData } from '../../interfaces/models/data';
+import { baseData, modalState } from '../../interfaces/models/data';
 
 export type BaseState = baseData | null;
 

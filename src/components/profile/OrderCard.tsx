@@ -148,7 +148,7 @@ const OrderCard = () => {
 
     if (loading) {
         return (
-            <div style={{height : '20vh'}} className="flex justify-center items-center">
+            <div style={{ height: '20vh' }} className="flex justify-center items-center">
                 <SyncLoader color="red" loading={loading} />
             </div>
         );
@@ -159,7 +159,24 @@ const OrderCard = () => {
                     <Collapse >
                         {transactions.map((transaction: ProductTransactionResponse) => {
                             return (
-                                <Collapse.Panel key={transaction.id} header={renderPanelHeader(transaction)}>
+                                <Collapse.Panel key={transaction.id} header={renderPanelHeader(transaction)} >
+                                    <div>
+                                        {transaction.comboInfo.isUseCombo ?
+                                            <div>
+                                                <Row gutter={[16,16]} className="mb-5">
+                                                    <Col span={24}>
+                                                        <Text>Khuyến mãi: {transaction.comboInfo.comboName}</Text>
+                                                    </Col>
+                                                    <Col span={24}>
+                                                        <Text>Giảm giá: {transaction.comboInfo.discountType == "PERCENT" ? transaction.comboInfo.value + '%' : transaction.comboInfo.value}</Text>
+                                                    </Col>
+                                                </Row>
+                                            </div>
+                                            :
+                                            <>
+                                            </>
+                                        }
+                                    </div>
                                     <Collapse>
                                         {transaction.details.map((detail: ProductTransactionDetailResponse) => {
                                             return (
@@ -173,7 +190,7 @@ const OrderCard = () => {
                                 </Collapse.Panel>
                             )
                         })}
-                    </Collapse>;
+                    </Collapse>
                 </Col>
             </Row>
         )

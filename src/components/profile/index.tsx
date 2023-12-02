@@ -8,6 +8,7 @@ import { handleErrorResponse } from '../../utils';
 import ProfileCard from './ProfileCard';
 import ProfileDetail from './ProfileDetail';
 import OrderCard from './OrderCard';
+import PaymentCard from './PaymentCard';
 
 const { TabPane } = Tabs;
 
@@ -65,8 +66,7 @@ const Profile = () => {
                                         <OrderCard />
                                     </TabPane>
                                     <TabPane tab="Thanh toán" key="payment">
-                                        {/* Content for Tab 2 */}
-                                        <p>Tab 2 Content</p>
+                                        <PaymentCard />
                                     </TabPane>
                                 </Tabs>
                             </ProfileCard>
