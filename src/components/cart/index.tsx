@@ -345,7 +345,10 @@ const CardView = () => {
                                 <Col span={1} className="flex items-center justify-center">
                                     <Checkbox checked={item.isSelected} onChange={(value: any) => selectItem(item.cartId, value.target.checked)} />
                                 </Col>
-                                <Col span={8} className="flex items-center justify-center">
+                                <Col lg={1} className="flex items-center justify-center">
+                                    <Avatar src={item.imageUrl} />
+                                </Col>
+                                <Col span={7} className="flex items-center justify-center">
                                     <div>
                                         <Text className="flex justify-center">{item.productName}</Text>
                                         <Text className="flex justify-center opacity-75" >({item.productDetailName})</Text>

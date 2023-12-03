@@ -1,13 +1,14 @@
 import { webRoutes } from '../../routes/web';
 import { BiHomeAlt2 } from 'react-icons/bi';
 import { UserOutlined, InfoCircleOutlined, ShoppingOutlined, BarcodeOutlined, ShopOutlined, OrderedListOutlined } from '@ant-design/icons';
+import { MdProductionQuantityLimits } from 'react-icons/md';
 
 export const sidebar = [
   {
-    path: webRoutes.orders,
-    key: webRoutes.orders,
+    path: webRoutes.products,
+    key: webRoutes.products,
     name: 'Sản phẩm',
-    icon: <OrderedListOutlined />,
+    icon: <MdProductionQuantityLimits />,
   },
   {
     path: webRoutes.products,

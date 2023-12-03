@@ -33,6 +33,10 @@ const ProductDetailView = loadable(() => import('../components/product'), {
   fallback: fallbackElement,
 });
 
+const ListProduct = loadable(() => import('../components/products'), {
+  fallback: fallbackElement,
+});
+
 const CartView = loadable(() => import('../components/cart'), {
   fallback: fallbackElement,
 });
@@ -50,6 +54,11 @@ export const browserRouter = createBrowserRouter([
       {
         path: `${webRoutes.products}/:productId`,
         element: <ProductDetailView />,
+        errorElement: errorElement,
+      },
+      {
+        path: `${webRoutes.products}`,
+        element: <ListProduct />,
         errorElement: errorElement,
       },
     ]
