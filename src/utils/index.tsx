@@ -94,3 +94,42 @@ export function formatQuantity(amount: number) {
     return amount;
   }
 }
+
+export function convertUTCToVietnamTime(utcTimestamp : number) {
+  // Tạo đối tượng Date từ timestamp UTC
+  const utcDate = new Date(utcTimestamp);
+
+  // Chuyển múi giờ sang múi giờ Việt Nam (UTC+7)
+  const vietnamDate = new Date(utcDate.getTime() + 7 * 60 * 60 * 1000);
+
+  // Trích xuất thông tin ngày và giờ
+  const year = vietnamDate.getFullYear();
+  const month = ('0' + (vietnamDate.getMonth() + 1)).slice(-2);
+  const day = ('0' + vietnamDate.getDate()).slice(-2);
+  const hours = ('0' + vietnamDate.getHours()).slice(-2);
+  const minutes = ('0' + vietnamDate.getMinutes()).slice(-2);
+  const seconds = ('0' + vietnamDate.getSeconds()).slice(-2);
+
+  // Tạo chuỗi định dạng
+  const formattedDateTime = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+
+  return formattedDateTime;
+}
+
+export function convertToVietnamTime(vnTimestamp : number) {
+
+  const vietnamDate = new Date(vnTimestamp);
+
+  // Trích xuất thông tin ngày và giờ
+  const year = vietnamDate.getFullYear();
+  const month = ('0' + (vietnamDate.getMonth() + 1)).slice(-2);
+  const day = ('0' + vietnamDate.getDate()).slice(-2);
+  const hours = ('0' + vietnamDate.getHours()).slice(-2);
+  const minutes = ('0' + vietnamDate.getMinutes()).slice(-2);
+  const seconds = ('0' + vietnamDate.getSeconds()).slice(-2);
+
+  // Tạo chuỗi định dạng
+  const formattedDateTime = `${day}/${month}/${year} ${hours}:${minutes}:${seconds} `;
+
+  return formattedDateTime;
+}

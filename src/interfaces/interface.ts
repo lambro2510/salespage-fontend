@@ -223,6 +223,10 @@ export interface UpdateVoucherStoreDto {
 
 export interface BankAccountData {
     accountName: string;
+    bin: string;
+    bankShortName: string,
+    bankAccountNo: string;
+    name: string;
 }
 
 export interface BankAccountResponse {
@@ -309,11 +313,11 @@ export interface CartResponse {
     price: number;
     sellPrice: number;
     discountPercent: number;
-    productDetailImageUrl : string;
-    productDetailName : string;
+    productDetailImageUrl: string;
+    productDetailName: string;
     imageUrl: string;
     productName: string;
-    comboIds : string[];
+    comboIds: string[];
     quantity: number;
     limit: number;
     productNote: string;
@@ -506,7 +510,7 @@ export interface NotificationDetailResponse extends NotificationResponse {
 export interface NotificationResponse {
     id: string;
     title: string;
-    created: Date;
+    created: number;
     status: NotificationStatus;
 }
 

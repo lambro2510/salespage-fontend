@@ -1,7 +1,7 @@
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { webRoutes } from '../../routes/web';
 import { Badge, Button, Col, Popover, Input, Menu, Row, Typography, Dropdown, Card, Modal } from 'antd';
-import { ProLayout, ProLayoutProps } from '@ant-design/pro-components';
+import { ProCard, ProLayout, ProLayoutProps } from '@ant-design/pro-components';
 import Icon, { LogoutOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/slices/authSlice';
@@ -9,7 +9,7 @@ import { memo, useEffect, useState } from 'react';
 import { sidebar } from './sidebar';
 import { apiRoutes } from '../../routes/api';
 import http from '../../utils/http';
-import { handleErrorResponse } from '../../utils';
+import { convertUTCToVietnamTime, handleErrorResponse } from '../../utils';
 import { RiShieldUserFill } from 'react-icons/ri';
 import { BiCart, BiNotification, BiSearch } from 'react-icons/bi';
 import { MdOutlineNotificationsNone } from "react-icons/md";
@@ -32,6 +32,7 @@ const Layout = () => {
   const [notifications, setNotifications] = useState<NotificationResponse[]>([])
   const [cartItems, setCartItems] = useState<CartResponse[]>([])
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [total, setTotal] = useState<number>(0);
   const [modalProps, setModalProps] = useState<modalState>(
     {
       isOpen: false,
@@ -70,6 +71,7 @@ const Layout = () => {
           size: 10
         }
       });
+      setTotal(response.data.data?.metadata.total);
       setNotifications(response.data.data?.data);
     } catch (err) {
       handleErrorResponse(err)
@@ -88,7 +90,7 @@ const Layout = () => {
         isOpen: true,
         title: responseData.title,
         content: responseData.content,
-        createdAt: responseData.created
+        createdAt: convertUTCToVietnamTime(responseData.created)
       })
     } catch (err) {
       handleErrorResponse(err)
@@ -131,17 +133,27 @@ const Layout = () => {
 
       <Popover
         content={
-          <div className='max-w-xs'>
-            {notifications.map((notify: NotificationResponse) => (
-              <div className='flex items-center cursor-pointer pt-3 pb-3 hover:bg-card w-full' onClick={() => getNotificationDetail(notify.id)}>
-                <Text key={notify.id} className='m-auto pl-1 line-clamp-1 w-full'>{notify.title}</Text>
-              </div>
-            ))}
-          </div>
+          <Card 
+          className='max-w-3xl'
+          bordered={false}
+          style={{margin : 0, padding : 0}}
+          actions={[
+            <div>
+              Xoá tất cả
+            </div>
+          ]}>
+            <div >
+              {notifications.map((notify: NotificationResponse) => (
+                <div className='flex items-center cursor-pointer pt-3 pb-3 hover:bg-card w-full' onClick={() => getNotificationDetail(notify.id)}>
+                  <Text key={notify.id} className='m-auto pl-1 line-clamp-1 w-full'>{notify.title}</Text>
+                </div>
+              ))}
+            </div>
+          </Card>
         }
         trigger={["hover", "click"]}
       >
-        <Badge count={notifications.length}>
+        <Badge count={total}>
           <MdOutlineNotificationsNone className="m-1 text-lg" />
         </Badge>
       </Popover>
@@ -310,7 +322,7 @@ const Layout = () => {
                     {renderCardMenu()}
                   </div>
                   <Dropdown
-                  className='pl-3'
+                    className='pl-3'
                     menu={{
                       items: [
                         {

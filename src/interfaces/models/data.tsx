@@ -7,7 +7,7 @@ export interface modalState {
     type? : ModalType | 'NOTIFICATION';
     title? : string;
     content? : string;
-    createdAt? : Date;
+    createdAt? : string;
     onClick? : () => void;
     onCancel? : () => void;
 }
