@@ -99,6 +99,16 @@ const Layout = () => {
     }
   };
 
+  const clearNotify = async () => {
+    try {
+      setNotifications([]);
+      setTotal(0)
+      await http.put(`${apiRoutes.notification}`);
+    } catch (err) {
+      handleErrorResponse(err)
+    }
+  };
+
   const getNotificationDetail = async (id: string) => {
     try {
       const response = await http.get(`${apiRoutes.notification}/detail`, {
@@ -160,7 +170,7 @@ const Layout = () => {
             bodyStyle={{margin : 0, padding : 0}}
             style={isMobile ? { width: '60vw', boxShadow: 'none', border: 'none' } : { width: '20vw', boxShadow: 'none', border: 'none' }}
             actions={[
-              <div>
+              <div onClick={() => clearNotify()}>
                 Xoá tất cả
               </div>
 
@@ -168,7 +178,7 @@ const Layout = () => {
             <div className='m-0 p-0'>
               {notifications.map((notify: NotificationResponse) => (
                 <div className='cursor-pointer pt-3 pb-3 hover:bg-card w-full' onClick={() => getNotificationDetail(notify.id)}>
-                  <Row gutter={[16,16]}>
+                  <Row gutter={[16,16]} key={notify.id}>
                     <Col span={6} className='flex justify-center'>
                       <Avatar size={'large'} src={renderImageFromNotifyType(notify)} />
                     </Col>

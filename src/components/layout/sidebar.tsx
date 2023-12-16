@@ -11,12 +11,6 @@ export const sidebar = [
     icon: <MdProductionQuantityLimits />,
   },
   {
-    path: webRoutes.products,
-    key: webRoutes.products,
-    name: 'Yêu thích',
-    icon: <ShoppingOutlined />,
-  },
-  {
     path: webRoutes.vouchers,
     key: webRoutes.vouchers,
     name: 'Khuyến mãi',

@@ -64,8 +64,8 @@ const CommentView: React.FC<CommentViewProps> = ({ productId, type, rate, commen
             getRating();
         }
         setRatingDto({
-            point: rate,
-            comment: comment,
+            point: 0,
+            comment: '',
             productId: productId
         })
     }, [productId, current]);
@@ -82,7 +82,7 @@ const CommentView: React.FC<CommentViewProps> = ({ productId, type, rate, commen
                                 style={{ marginBottom: '16px' }}
                                 value={ratingDto.comment}
                                 onChange={(e) => setRatingDto({ ...ratingDto, comment: e.target.value })}
-                                autoSize={{ minRows: 2, maxRows: 6 }}
+                                autoSize={{ minRows: 3, maxRows: 6 }}
                             />
                             <Button onClick={submitRating} >Gửi đánh giá</Button>
                         </Col>
@@ -97,6 +97,7 @@ const CommentView: React.FC<CommentViewProps> = ({ productId, type, rate, commen
                                         <Col span={24}>
                                             <TextArea
                                                 readOnly
+                                                autoSize={{ minRows: 3, maxRows: 6 }}
                                                 value={rating.comment}
                                                 style={{ marginBottom: '8px', backgroundColor: '#f5f5f5' }}
                                             />
