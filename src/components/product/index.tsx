@@ -13,6 +13,7 @@ import { BiCartAdd } from "react-icons/bi";
 import QuantityInput from "../quantityInput";
 import { ProductDataResponse, ProductDetailInfoResponse, ProductDetailResponse, UploadImageData } from "../../interfaces/interface";
 import ListCardProduct from "../home/ListCardProduct";
+import CommentView from "./comment";
 const { Text } = Typography;
 
 const ProductDetailView = () => {
@@ -290,6 +291,9 @@ const ProductDetailView = () => {
             </Col>
             <Col span={24} className="ww-11/12 flex justify-center items-center bg-card">
                 <ListCardProduct title="Sản phẩm tương tự" products={productSuggest} loading={loading} nextPage={() => console.log('nextpage')} />
+            </Col>
+            <Col span={24}>
+                <CommentView type={'product'} productId={productId} rate={product?.yourRate} comment={product?.comment}/>
             </Col>
         </Row>
     );

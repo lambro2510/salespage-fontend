@@ -17,6 +17,8 @@ export const apiRoutes = {
 
   products: `${API_URL}/public/product`,
 
+  publicRating: `${API_URL}/public/rating`,
+
   products_detail: `${API_URL}/public/product-detail`,
 
   productTransaction: `${API_URL}/product-transaction`,
@@ -34,4 +36,6 @@ export const apiRoutes = {
   notification : `${API_URL}/notification`,
   
   bank : `${API_URL}/bank`,
+
+  rating: `${API_URL}/rating`,
 };

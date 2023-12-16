@@ -133,3 +133,27 @@ export function convertToVietnamTime(vnTimestamp : number) {
 
   return formattedDateTime;
 }
+
+export function formatTimeDifference(longMillis: number): string {
+  const currentMillisUTC = new Date().getTime();
+  const timeDifference = currentMillisUTC - longMillis;
+  const secondsUntilTarget = timeDifference / 1000;
+
+  if (secondsUntilTarget < 60) {
+      // Nếu nhỏ hơn 1 phút, hiển thị số giây
+      return `${Math.floor(secondsUntilTarget)} giây trước`;
+  } else if (secondsUntilTarget < 3600) {
+      // Nếu nhỏ hơn 1 giờ, hiển thị số phút
+      const minutes = Math.floor(secondsUntilTarget / 60);
+      return `${minutes} phút trước`;
+  } else if (secondsUntilTarget < 86400) {
+      // Nếu nhỏ hơn 1 ngày, hiển thị số giờ
+      const hours = Math.floor(secondsUntilTarget / 3600);
+      return `${hours} giờ trước`;
+  } else {
+      // Nếu lớn hơn 1 ngày, hiển thị số ngày của longMillis
+      const date = new Date(longMillis);
+      const days = date.getDate();
+      return `${days}`;
+  }
+}

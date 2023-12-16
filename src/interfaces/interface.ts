@@ -410,6 +410,7 @@ export interface ProductDetailResponse {
     description: string;
     rate: Rate;
     yourRate: number;
+    comment: string;
     stores: SellerStoreResponse[];
     categoryId: string;
     categoryName: string;
@@ -510,7 +511,9 @@ export interface NotificationDetailResponse extends NotificationResponse {
 export interface NotificationResponse {
     id: string;
     title: string;
-    created: number;
+    imgUrl: string;
+    createdAt: number;
+    type : NotificationType;
     status: NotificationStatus;
 }
 
@@ -693,3 +696,6 @@ export type PaymentType = "IN" | "OUT";
 export type ProductTransactionState = "IN_CART" | "WAITING_STORE" | "ACCEPT_STORE" | "WAITING_SHIPPER" | "SHIPPER_PROCESSING" | "SHIPPER_COMPLETE" | "ALL_COMPLETE" | "CANCEL";
 
 export type VoucherCodeStatus = "NEW" | "OWNER" | "USED" | "EXPIRE";
+
+export type NotificationType = "PAYMENT_CART_TRANSACTION" | "ADD_TO_CART" | "NEW_PAYMENT" | "EXPIRE_PAYMENT" | "PAYMENT_TRANSACTION_IN_SUCCESS";
+

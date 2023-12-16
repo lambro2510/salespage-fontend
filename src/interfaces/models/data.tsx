@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface baseData {
     loading : boolean
 }
@@ -5,6 +7,7 @@ export interface baseData {
 export interface modalState {
     isOpen: boolean | false;
     type? : ModalType | 'NOTIFICATION';
+    icon? : ReactNode;
     title? : string;
     content? : string;
     createdAt? : string;

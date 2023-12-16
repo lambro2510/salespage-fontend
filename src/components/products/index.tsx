@@ -16,37 +16,57 @@ interface ProductFilter {
     isHot?: boolean | undefined,
 }
 const { Text } = Typography;
-const maxNumber = Number.MAX_VALUE;
 const ProductList = () => {
+    const [loading, setLoading] = useState<boolean>(false)
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const [allProduct, setAllProduct] = useState<ProductDataResponse[]>([]);
     const [filter, setFilter] = useState<ProductFilter>();
     const [current, setCurrent] = useState<number>(0)
-    const getAllProduct = async (page : number) => {
+
+    const getAllProduct = async () => {
+        try {
+            setLoading(true)
+            const response = await http.get(`${apiRoutes.products}`, {
+                params: {
+                    ...filter,
+                    page: current,
+                    size: 12,
+                },
+            });
+            setAllProduct([...allProduct, ...response.data.data.data]);
+        } catch (err) {
+            handleErrorResponse(err);
+        } finally {
+            setLoading(false)
+        }
+    };
+
+    const newFilterProduct = async () => {
         try {
             const response = await http.get(`${apiRoutes.products}`, {
                 params: {
                     ...filter,
-                    page: page,
+                    page: 0,
                     size: 12,
                 },
             });
-            if (current == 0) {
-                setAllProduct(response.data.data.data);
-            } else {
-                setAllProduct([...allProduct, ...response.data.data.data]);
-            }
+            setAllProduct(response.data.data.data);
+            setCurrent(0)
         } catch (err) {
             handleErrorResponse(err);
+        } finally {
+            setLoading(false)
         }
     };
 
     useEffect(() => {
-        getAllProduct(0);
+        newFilterProduct();
     }, [filter]);
 
     useEffect(() => {
-        getAllProduct(current);
+        if (current != 0) {
+            getAllProduct();
+        }
     }, [current]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,16 +83,13 @@ const ProductList = () => {
 
     const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        let minValue: string | undefined = value.split('-')[0];
-        let maxValue: string | undefined = value.split('-')[1];
-        if (maxValue == '0') {
-            maxValue = '999999999999999999999';
-        }
+        let minValue: string = value.split('-')[0];
+        let maxValue: string = value.split('-')[1];
         Number.MAX_VALUE;
         setFilter({
             ...filter,
-            minPrice: minValue !== undefined ? Number(minValue) : undefined,
-            maxPrice: maxValue !== undefined ? Number(maxValue) : undefined,
+            minPrice: minValue !== undefined ? Number(minValue) : 0,
+            maxPrice: maxValue !== undefined ? Number(maxValue) : Number.MAX_VALUE,
         });
     };
 
@@ -84,7 +101,7 @@ const ProductList = () => {
                         className="w-full"
                     >
                         <Row gutter={[16, 16]}>
-                            <Col lg={24} className="flex items-center">
+                            <Col xs={12} lg={24} className="flex items-center">
                                 <Input
                                     placeholder="Nhập tên sản phẩm"
                                     name="productName"
@@ -93,7 +110,7 @@ const ProductList = () => {
                                     onChange={handleChange}
                                 />
                             </Col>
-                            <Col lg={24} className="flex items-center">
+                            <Col xs={12} lg={24} className="flex items-center">
                                 <Input
                                     placeholder="Nhập loại sản phẩm"
                                     name="categoryName"
@@ -102,18 +119,14 @@ const ProductList = () => {
                                     onChange={handleChange}
                                 />
                             </Col>
-                            <Col lg={24} className="flex items-center">
-                                <Checkbox name="like" onChange={handleCheckboxChange} />
-                                <span>Yêu thích</span>
-                            </Col>
-                            <Col lg={24}>
+                            <Col xs={12} lg={24}>
                                 <Row>
                                     <Col span={24}>
                                         <span>Giá tiền</span>
                                     </Col>
                                     <Radio.Group onChange={(e: any) => handleRadioChange(e)} value={`${filter?.minPrice}-${filter?.maxPrice}`}>
                                         <Col span={24}>
-                                            <Radio value={`0 - ${maxNumber}`}>Tất cả</Radio>
+                                            <Radio value={`0-${Number.MAX_VALUE}`}>Tất cả</Radio>
                                         </Col>
                                         <Col span={24}>
                                             <Radio value="0-100000">0 - 100,000</Radio>
@@ -122,16 +135,16 @@ const ProductList = () => {
                                             <Radio value="100000-500000">100,000 - 500,000</Radio>
                                         </Col>
                                         <Col span={24}>
-                                            <Radio value="500000-1000000">500,000 - 1,000,999</Radio>
+                                            <Radio value="500000-1000000">500,000 - 1,000,000</Radio>
                                         </Col>
                                         <Col span={24}>
-                                            <Radio value="1000000-2000000">1,000,000 - 2,000,999</Radio>
+                                            <Radio value="1000000-2000000">1,000,000 - 2,000,000</Radio>
                                         </Col>
                                         <Col span={24}>
-                                            <Radio value="2000000-5000000">2,000,999 - 5,000,999</Radio>
+                                            <Radio value="2000000-5000000">2,000,999 - 5,000,000</Radio>
                                         </Col>
                                         <Col span={24}>
-                                            <Radio value="5000000">Trên 5,000,999</Radio>
+                                            <Radio value={`5000000-${Number.MAX_VALUE}`}>Trên 5,000,000</Radio>
                                         </Col>
                                     </Radio.Group>
                                 </Row>
@@ -143,7 +156,7 @@ const ProductList = () => {
                     <ListCardProduct
                         title=""
                         products={allProduct}
-                        loading={false}
+                        loading={loading}
                         nextPage={() => setCurrent(current + 1)}
                     />
                 </Col>

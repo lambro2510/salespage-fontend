@@ -14,7 +14,8 @@ export default {
         red : '#ee4d2d',
         semiYellow: '#FFE97A',
         lightRed : '#ff7337',
-        lightWhite : '#ffffff'
+        lightWhite : '#ffffff',
+        blue : '#0861F2',
       },
     },
   },

@@ -1,17 +1,22 @@
-import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { webRoutes } from '../../routes/web';
-import { Badge, Button, Col, Popover, Input, Menu, Row, Typography, Dropdown, Card, Modal } from 'antd';
+import { Badge, Button, Col, Popover, Input, Row, Typography, Dropdown, Card, Modal, Avatar } from 'antd';
 import { ProCard, ProLayout, ProLayoutProps } from '@ant-design/pro-components';
-import Icon, { LogoutOutlined } from '@ant-design/icons';
+import {
+  LogoutOutlined, CheckCircleOutlined,
+  ShoppingCartOutlined,
+  DollarCircleOutlined,
+  ExclamationCircleOutlined,
+  CreditCardOutlined,
+} from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/slices/authSlice';
 import { memo, useEffect, useState } from 'react';
 import { sidebar } from './sidebar';
 import { apiRoutes } from '../../routes/api';
 import http from '../../utils/http';
-import { convertUTCToVietnamTime, handleErrorResponse } from '../../utils';
-import { RiShieldUserFill } from 'react-icons/ri';
-import { BiCart, BiNotification, BiSearch } from 'react-icons/bi';
+import { convertToVietnamTime, convertUTCToVietnamTime, formatTimeDifference, handleErrorResponse } from '../../utils';
+import { BiCart, BiSearch } from 'react-icons/bi';
 import { MdOutlineNotificationsNone } from "react-icons/md";
 import { RootState } from '../../store';
 import {
@@ -21,7 +26,7 @@ import {
   YoutubeOutlined,
 } from "@ant-design/icons";
 import { ImProfile } from 'react-icons/im';
-import { CartResponse, NotificationDetailResponse, NotificationResponse } from '../../interfaces/interface';
+import { CartResponse, NotificationDetailResponse, NotificationResponse, NotificationType } from '../../interfaces/interface';
 import { modalState } from '../../interfaces/models/data';
 const { Title, Text } = Typography;
 const Layout = () => {
@@ -51,7 +56,23 @@ const Layout = () => {
     },
   };
 
+  const renderImageFromNotifyType = (notify: NotificationResponse) => {
+    switch (notify.type) {
+      case 'PAYMENT_CART_TRANSACTION':
+        return './ExpireTime.png'
+      case 'ADD_TO_CART':
+        return notify.imgUrl;
+      case 'NEW_PAYMENT':
+        return './ExpireTime.png'
+      case 'EXPIRE_PAYMENT':
+        return './ExpireTime.png'
+      case 'PAYMENT_TRANSACTION_IN_SUCCESS':
+        return './ExpireTime.png'
+      default:
+        return './ExpireTime.png'
+    }
 
+  };
 
   const logoutAdmin = () => {
     dispatch(logout());
@@ -90,7 +111,7 @@ const Layout = () => {
         isOpen: true,
         title: responseData.title,
         content: responseData.content,
-        createdAt: convertUTCToVietnamTime(responseData.created)
+        createdAt: convertToVietnamTime(responseData.createdAt)
       })
     } catch (err) {
       handleErrorResponse(err)
@@ -132,20 +153,30 @@ const Layout = () => {
     return (
 
       <Popover
+        className='m-0 p-0'
         content={
-          <Card 
-          className='max-w-3xl'
-          bordered={false}
-          style={{margin : 0, padding : 0}}
-          actions={[
-            <div>
-              Xoá tất cả
-            </div>
-          ]}>
-            <div >
+          <Card
+            bordered={false}
+            bodyStyle={{margin : 0, padding : 0}}
+            style={isMobile ? { width: '60vw', boxShadow: 'none', border: 'none' } : { width: '20vw', boxShadow: 'none', border: 'none' }}
+            actions={[
+              <div>
+                Xoá tất cả
+              </div>
+
+            ]}>
+            <div className='m-0 p-0'>
               {notifications.map((notify: NotificationResponse) => (
-                <div className='flex items-center cursor-pointer pt-3 pb-3 hover:bg-card w-full' onClick={() => getNotificationDetail(notify.id)}>
-                  <Text key={notify.id} className='m-auto pl-1 line-clamp-1 w-full'>{notify.title}</Text>
+                <div className='cursor-pointer pt-3 pb-3 hover:bg-card w-full' onClick={() => getNotificationDetail(notify.id)}>
+                  <Row gutter={[16,16]}>
+                    <Col span={6} className='flex justify-center'>
+                      <Avatar size={'large'} src={renderImageFromNotifyType(notify)} />
+                    </Col>
+                    <Col span={18}>
+                      <Text key={notify.id} className='m-auto pl-1 line-clamp-2 w-full'>{notify.title}</Text>
+                      <Text key={notify.id} className='m-auto pl-1 line-clamp-1 w-full text-blue'>{formatTimeDifference(notify.createdAt)}</Text>
+                    </Col>
+                  </Row>
                 </div>
               ))}
             </div>
@@ -394,7 +425,7 @@ const Layout = () => {
           <div className="p-4">
             <Text>{modalProps.content}</Text>
             <br />
-            <Text>{modalProps.createdAt?.toString()}</Text>
+            <Text className='text-blue'>{modalProps.createdAt?.toString()}</Text>
           </div>
         </Modal>
       </ProLayout>

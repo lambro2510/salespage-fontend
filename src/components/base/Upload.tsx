@@ -37,21 +37,25 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ imgUrl }) => {
     const [imageUrl, setImageUrl] = useState<string | undefined>(imgUrl);
     const [fileImage, setFileImage] = useState<any[]>([]);
     useEffect(() => {
-        setFileImage([{
-            uid: '-1',
-            name: 'image.png',
-            status: 'done',
-            url: `${imgUrl}`,
-        }])
-    }, [imgUrl])
+        if (imageUrl) {
+            setFileImage([{
+                uid: '-1',
+                name: 'image.png',
+                status: 'done',
+                url: `${imgUrl}`,
+            }])
+        }
+    }, [imgUrl, imageUrl])
 
     const handleRemove = async (url: string) => {
         try {
-            await http.delete(`${apiRoutes.user}/image`)
+            await http.delete(`${apiRoutes.user}/avatar`)
+            setFileImage([]);
         } catch (err) {
             handleErrorResponse(err)
         }
-    }
+    };
+
     const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
         if (info.file.status === 'uploading') {
             setLoading(true);
@@ -68,7 +72,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ imgUrl }) => {
     const uploadButton = (
         <div>
             {loading ? <LoadingOutlined /> : <PlusOutlined />}
-            <div style={{ marginTop: 8 }}>tải ảnh lên</div>
+            <div style={{ marginTop: 8 }}>Tải ảnh lên</div>
         </div>
     );
 
@@ -83,14 +87,13 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ imgUrl }) => {
                 listType="picture-circle"
                 className="avatar-uploader"
                 showUploadList={true}
-
                 fileList={fileImage}
                 action={`${apiRoutes.user}/uploadImage`}
                 onRemove={async (file: any) => handleRemove(file?.url)}
                 beforeUpload={beforeUpload}
                 onChange={handleChange}
             >
-                {imageUrl ? null : uploadButton}
+                {imageUrl == undefined || imageUrl == null ? uploadButton : null}
             </Upload>
         </div>
     );
