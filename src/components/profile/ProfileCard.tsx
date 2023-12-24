@@ -4,16 +4,18 @@ import { UserProfile } from "../../interfaces/interface";
 import { formatCurrency } from "../../utils";
 import UploadComponent from "../base/Upload";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
-
+import './style.css'
 interface ProfileCardProps {
     profile?: UserProfile;
     children?: ReactNode;
+    updateProfile : () => void;
 }
 
 const { Text } = Typography;
 
-const ProfileCard = ({ profile, children }: ProfileCardProps) => {
+const ProfileCard = ({ profile, children, updateProfile }: ProfileCardProps) => {
     const [isMobile, setIsMobile] = useState(false);
+
 
     useEffect(() => {
         const handleResize = () => {
@@ -26,18 +28,18 @@ const ProfileCard = ({ profile, children }: ProfileCardProps) => {
         return () => {
             window.removeEventListener("resize", handleResize);
         };
-    }, []);
+    }, [profile?.imageUrl]);
 
     return (
         <Row gutter={[16, 16]}>
-            <Col
-                span={24}
-                className="bg-base flex justify-center items-center"
+            <div
+                className="bg-base flex justify-center items-center background-avatar"
                 style={{
                     position: 'relative',
                     background: `url(${profile?.imageUrl})`,
-                    objectFit: 'cover',
+                    objectFit: 'contain',
                     backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat !important',
                     width: '100%',
                     minHeight: '30vh'
                 }}
@@ -47,7 +49,7 @@ const ProfileCard = ({ profile, children }: ProfileCardProps) => {
                     <Col xs={24} lg={4}>
                         <Row gutter={[16, 16]}>
                             <Col span={24} className="flex justify-center">
-                                <UploadComponent imgUrl={profile?.imageUrl} />
+                                <UploadComponent imgUrl={profile?.imageUrl} callBack={updateProfile}/>
                             </Col>
                             <Col span={24} className="flex justify-center">
                                 <Text strong className="text-lg">{profile?.displayName}</Text>

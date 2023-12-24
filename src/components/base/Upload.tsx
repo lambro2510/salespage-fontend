@@ -1,100 +1,90 @@
-import React, { useEffect, useState } from 'react';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { message, Upload } from 'antd';
-import type { UploadChangeParam } from 'antd/es/upload';
-import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
-import { handleErrorResponse, showNotification } from '../../utils';
+import React, { useState, useRef, useEffect } from 'react';
+import { Avatar } from 'antd';
+import { handleErrorResponse } from '../../utils';
 import { apiRoutes } from '../../routes/api';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
 import http from '../../utils/http';
+import { FaPenClip } from 'react-icons/fa6';
 
 interface UploadComponentProps {
-    imgUrl?: string
+    imgUrl?: string;
+    callBack: (url: string) => void;
 }
 
-const getBase64 = (img: RcFile, callback: (url: string) => void) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result as string));
-    reader.readAsDataURL(img);
-};
+const UploadComponent: React.FC<UploadComponentProps> = ({ imgUrl, callBack }) => {
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
-const beforeUpload = (file: RcFile) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-        showNotification('Bạn chỉ có thể tải lên file ảnh đuôi image hoặc jpeg!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-        showNotification('Ảnh phải nhỏ hơn 2MB');
-    }
-    return isJpgOrPng && isLt2M;
-};
-
-const UploadComponent: React.FC<UploadComponentProps> = ({ imgUrl }) => {
-    const auth = useSelector((state: RootState) => state.auth);
-    const [loading, setLoading] = useState(false);
-    const [imageUrl, setImageUrl] = useState<string | undefined>(imgUrl);
-    const [fileImage, setFileImage] = useState<any[]>([]);
     useEffect(() => {
-        if (imageUrl) {
-            setFileImage([{
-                uid: '-1',
-                name: 'image.png',
-                status: 'done',
-                url: `${imgUrl}`,
-            }])
+        if (selectedFile) {
+            uploadHandler();
         }
-    }, [imgUrl, imageUrl])
+    }, [selectedFile]);
 
-    const handleRemove = async (url: string) => {
-        try {
-            await http.delete(`${apiRoutes.user}/avatar`)
-            setFileImage([]);
-        } catch (err) {
-            handleErrorResponse(err)
+    const fileChangedHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            setSelectedFile(file);
         }
     };
 
-    const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
-        if (info.file.status === 'uploading') {
-            setLoading(true);
+    const uploadHandler = async () => {
+        if (!selectedFile) {
+            console.log('No file selected');
             return;
         }
-        if (info.file.status === 'done') {
-            getBase64(info.file.originFileObj as RcFile, (url) => {
-                setLoading(false);
-                setImageUrl(url);
+
+        const formData = new FormData();
+        formData.append('file', selectedFile, selectedFile.name);
+
+        try {
+            const response = await http.post(`${apiRoutes.user}/uploadImage`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                onUploadProgress: (progressEvent) => {
+                    const percentCompleted = Math.round((progressEvent.loaded * 100) / (progressEvent.total || 1));
+                    console.log(percentCompleted);
+                },
             });
+            callBack(response.data.url);
+        } catch (error) {
+            handleErrorResponse(error);
+        } finally {
+            setSelectedFile(null);
         }
     };
 
-    const uploadButton = (
-        <div>
-            {loading ? <LoadingOutlined /> : <PlusOutlined />}
-            <div style={{ marginTop: 8 }}>Tải ảnh lên</div>
-        </div>
-    );
+    const handleAvatarClick = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
 
     return (
-        <div className='flex justify-center items-center'>
-            <Upload
-                name="file"
-                method='POST'
-                headers={{
-                    'Authorization': `Bearer ${auth?.token}`
-                }}
-                listType="picture-circle"
-                className="avatar-uploader"
-                showUploadList={true}
-                fileList={fileImage}
-                action={`${apiRoutes.user}/uploadImage`}
-                onRemove={async (file: any) => handleRemove(file?.url)}
-                beforeUpload={beforeUpload}
-                onChange={handleChange}
-            >
-                {imageUrl == undefined || imageUrl == null ? uploadButton : null}
-            </Upload>
+        <div>
+            <div className="flex justify-center" style={{ maxWidth: '80px' }}>
+                <Avatar shape="circle" size={80} src={imgUrl}>
+                </Avatar>
+                <label
+                    className='text-orange-200'
+                    htmlFor="fileInput"
+                    style={{ cursor: 'pointer', position: 'absolute', bottom: 1, right: 50 }}
+                    onClick={(event) => {
+                        event.preventDefault(); // Prevent the label from triggering the input
+                        handleAvatarClick();
+                    }}
+                >
+                    <FaPenClip style={{ fontSize: '15px', marginLeft: '10px' }} />
+                </label>
+                <input
+                
+                    type="file"
+                    id="fileInput"
+                    style={{ display: 'none' }}
+                    onChange={fileChangedHandler}
+                    ref={fileInputRef}
+                />
+            </div>
         </div>
     );
 };

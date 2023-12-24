@@ -557,6 +557,7 @@ export interface ListVoucherCodeResponse {
 export interface UserVoucherResponse {
     voucherStoreName: string;
     voucherCodeId: string;
+    voucherStoreId: string;
     voucherCode: string;
     minPrice: number;
     maxPrice: number;
@@ -564,6 +565,7 @@ export interface UserVoucherResponse {
     discountType: DiscountType;
     storeType: VoucherStoreType;
     dayToExpireTime: number;
+    isLimited: boolean | false;
 }
 
 export interface VoucherCodeResponse {
@@ -628,6 +630,7 @@ export interface ProductComboDetailResponse {
 }
 
 export interface VoucherInfo {
+    codeId: string;
     code: string;
     voucherStoreType: VoucherStoreType;
     discountType: DiscountType;

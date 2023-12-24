@@ -81,8 +81,8 @@ const Page = () => {
             }}
         >
             <LoginFormPage
-                backgroundImageUrl="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWXca-DdF31fRrH7d9zsmZ2wPiwr3IkEjLlg&usqp=CAU"
-                logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
+                backgroundImageUrl="./4k-bg.jpg"
+                logo="./icon.png"
                 title="Đăng nhập E-web"
                 subTitle="E-WEB"
                 submitter={{

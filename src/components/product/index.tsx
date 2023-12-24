@@ -11,7 +11,7 @@ import LazyImage from "../lazy-image";
 import { NotificationType, formatCurrency, handleErrorResponse, showNotification } from '../../utils/index'
 import { BiCartAdd } from "react-icons/bi";
 import QuantityInput from "../quantityInput";
-import { ProductDataResponse, ProductDetailInfoResponse, ProductDetailResponse, UploadImageData } from "../../interfaces/interface";
+import { ProductDataResponse, ProductDetailInfoResponse, ProductDetailResponse, UploadImageData, UserVoucherResponse } from "../../interfaces/interface";
 import ListCardProduct from "../home/ListCardProduct";
 import CommentView from "./comment";
 const { Text } = Typography;
@@ -26,7 +26,7 @@ const ProductDetailView = () => {
     const [quantity, setQuantity] = useState<any>(1);
     const [selectedStoreId, setSelectedStoreId] = useState<string>();
     const [productSuggest, setProductSuggest] = useState<ProductDataResponse[]>([])
-
+    const [vouchers, setVouchers] = useState<UserVoucherResponse[]>([])
     const getProductDetail = async () => {
         try {
             setLoading(true);
@@ -53,9 +53,36 @@ const ProductDetailView = () => {
             setLoading(false);
         }
     }
+    const getPublicVoucher = async () => {
+        try {
+            const response = await http.get(`${apiRoutes.public_voucher}/${productId}`);
+            const voucherData = response.data.data as UserVoucherResponse[];
+            setVouchers(voucherData);
+        } catch (error) {
+            handleErrorResponse(error)
+        } finally {
+        }
+    }
+    const saveVoucher = async (voucherStoreId: string) => {
+        try {
+            const response = await http.get(`${apiRoutes.voucher}/receive/voucher-code`, {
+                params: {
+                    voucherStoreId: voucherStoreId
+                }
+            });
+            showNotification("Nhận mã voucher thành công", NotificationType.SUCCESS)
+        } catch (error) {
+            handleErrorResponse(error)
+        } finally {
+            setLoading(false);
+            getPublicVoucher();
+        }
+    }
+
     useEffect(() => {
         getProductDetail();
         getSuggestProdut();
+        getPublicVoucher();
     }, [location]);
 
     const addToCart = async () => {
@@ -147,6 +174,44 @@ const ProductDetailView = () => {
         );
     };
 
+
+    const renderVoucher = (vouchers: UserVoucherResponse[]) => {
+        return (
+            <Row>
+                <Col span={6}>
+                    Mã giảm giá
+                </Col>
+                <Col span={18} className="flex">
+                    {vouchers.map((voucher: UserVoucherResponse) => {
+                        console.log(voucher.isLimited);
+                        return (
+                            <div>
+                                {voucher.isLimited == true ?
+                                    <>
+                                        <Tag key={voucher.voucherStoreId}
+                                            color="magenta"
+                                            className="cursor-pointer"
+                                        >
+                                            <p className="pr-1">{voucher.value}{voucher.discountType == 'PERCENT' ? '%' : ''}</p>
+                                        </Tag>
+                                    </>
+                                    :
+                                    <>
+                                        <Tag key={voucher.voucherStoreId}
+                                            color="red"
+                                            className="cursor-pointer"
+                                            onClick={() => saveVoucher(voucher.voucherStoreId)}
+                                        >
+                                            <p className="pr-1">{voucher.value}{voucher.discountType == 'PERCENT' ? '%' : ''}</p>
+                                        </Tag>
+                                    </>}
+                            </div>
+                        )
+                    })}
+                </Col>
+            </Row>
+        );
+    }
     const renderProductInfo = () => {
         return (
             <div>
@@ -264,6 +329,7 @@ const ProductDetailView = () => {
                                     </div>
                                     <div className="mt-5">
                                         {renderPrice()}
+                                        {renderVoucher(vouchers)}
                                         {renderProductInfo()}
                                         {renderStores()}
                                         {renderProductDetail()}
@@ -293,7 +359,7 @@ const ProductDetailView = () => {
                 <ListCardProduct title="Sản phẩm tương tự" products={productSuggest} loading={loading} nextPage={() => console.log('nextpage')} />
             </Col>
             <Col span={24}>
-                <CommentView type={'product'} productId={productId} rate={product?.yourRate} comment={product?.comment}/>
+                <CommentView type={'product'} productId={productId} rate={product?.yourRate} comment={product?.comment} />
             </Col>
         </Row>
     );

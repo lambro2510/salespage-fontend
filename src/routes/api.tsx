@@ -38,4 +38,8 @@ export const apiRoutes = {
   bank : `${API_URL}/bank`,
 
   rating: `${API_URL}/rating`,
+
+  public_voucher : `${API_URL}/public/voucher`,
+
+  voucher : `${API_URL}/voucher`,
 };

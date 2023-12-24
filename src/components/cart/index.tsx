@@ -11,15 +11,29 @@ import { modalState } from "../../interfaces/models/data";
 import { useNavigate } from "react-router-dom";
 import { webRoutes } from "../../routes/web";
 import { SyncLoader } from "react-spinners";
+import { UserVoucherResponse } from "../../interfaces/interface";
+import SelectVoucherModel from "./SelectVoucherModal";
 
 const { Text } = Typography;
 
+interface VoucherModalProps {
+    cartId: string;
+    open: boolean;
+    productId: string;
+    quantity: number;
+}
 const CardView = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean>();
     const [cartItems, setCartItems] = useState<CartByStoreResponseInterface[]>([]);
     const [cartDto, setCartDto] = useState<CartPaymentDto[]>()
     const [paymentPrice, setPaymentPrice] = useState<any[]>([]);
+    const [voucherModal, setVoucherModal] = useState<VoucherModalProps>({
+        cartId: "",
+        open: false,
+        productId: "",
+        quantity: 0
+    });
     const [modalProps, setModalProps] = useState<modalState>(
         {
             isOpen: false,
@@ -56,12 +70,14 @@ const CardView = () => {
         }
     };
 
+
+
     const updateCartItems = async (cartId: string, quantity: number | undefined, voucherId: string | undefined) => {
         try {
             const response = await http.put(`${apiRoutes.cart}/${cartId}`, {}, {
                 params: {
                     quantity: quantity,
-                    voucherId: voucherId
+                    voucherCodeId: voucherId
                 }
             });
         } catch (error) {
@@ -99,7 +115,7 @@ const CardView = () => {
                     let cardPaymentTransaction: CartPaymentTransaction = {
                         productDetailId: item.productDetailId,
                         storeId: item.storeId,
-                        voucherCodeId: undefined,
+                        voucherCodeId: item.voucherInfo?.codeId,
                         cartId: item.cartId,
                         note: '',
                         address: ''
@@ -393,6 +409,22 @@ const CardView = () => {
                                     </div>
                                 </Col>
                             </Row>
+
+                        </ProCard>
+                        <ProCard
+                            bordered
+                            headStyle={{ margin: 10, padding: 10 }}
+                            bodyStyle={{ margin: 0, padding: 0 }}
+                            extra={<Button 
+                                onClick={() => setVoucherModal({
+                                    cartId: item.cartId,
+                                    productId: item.productId,
+                                    quantity: item.quantity,
+                                    open: true,
+                                })}>
+                                    Chọn mã giảm giá
+                                    </Button>}
+                        >
                         </ProCard>
                     </>
                 ))}
@@ -491,6 +523,16 @@ const CardView = () => {
                     <Text>{modalProps.content}</Text>
                 </div>
             </Modal>
+            <SelectVoucherModel
+                productId={voucherModal.productId}
+                open={voucherModal.open}
+                setOpen={(value) => setVoucherModal({ ...voucherModal, open: value })}
+                setVoucher={async (value: UserVoucherResponse) => {
+                    await updateCartItems(voucherModal.cartId, voucherModal.quantity, value.voucherCodeId);
+                    setVoucherModal({ ...voucherModal, open: false })
+                    await getCartItems();
+                    
+                }} />
         </div>
     );
 };

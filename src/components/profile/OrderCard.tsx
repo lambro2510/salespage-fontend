@@ -2,35 +2,13 @@ import { Key, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom"
 import http from "../../utils/http";
 import { apiRoutes } from "../../routes/api";
-import { Avatar, Button, Col, Collapse, Progress, Row, Space, Tag, Typography } from "antd";
+import { Avatar, Button, Col, Collapse, Pagination, Progress, Row, Space, Tag, Typography } from "antd";
 import { ProductTransactionDetailResponse, ProductTransactionResponse } from "../../interfaces/models/productTransaction";
 import { ProList } from "@ant-design/pro-components";
 import { formatCurrency, handleErrorResponse } from "../../utils";
 import { ProductTransactionState } from "../../interfaces/interface";
 import { SyncLoader } from "react-spinners";
-
-const dataSource = [
-    {
-        title: '语雀的天空',
-        avatar:
-            'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-    },
-    {
-        title: 'Ant Design',
-        avatar:
-            'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-    },
-    {
-        title: '蚂蚁金服体验科技',
-        avatar:
-            'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-    },
-    {
-        title: 'TechUI',
-        avatar:
-            'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-    },
-];
+import OrderModalComponent from "./modal/OrderModal";
 
 const getTransactionState = (state: ProductTransactionState) => {
     switch (state) {
@@ -59,19 +37,21 @@ const { Title, Text } = Typography;
 const OrderCard = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [transactions, setTransactions] = useState([]);
-    const [page, setpage] = useState<number>(0)
-    const [expandedRowKeys, setExpandedRowKeys] = useState<readonly Key[]>([]);
-
+    const [page, setpage] = useState<number>(1)
+    const [total, setTotal] = useState<number>(0);
+    const [openOrderModal, setOpenOrderModal] = useState<boolean>(false);
+    const [selectedDetail, setSelectedDetail] = useState<ProductTransactionDetailResponse>()
     const getTransaction = async () => {
         try {
             setLoading(true)
             const response = await http.get(`${apiRoutes.productTransaction}`, {
                 params: {
-                    page: page,
-                    size: 10
+                    page: page - 1,
+                    size: 5
                 }
             })
             setTransactions(response.data.data.data)
+            setTotal(response.data.data.metadata.total)
             console.log('response.data.data.data: ', response.data.data.data);
         } catch (err) {
             handleErrorResponse(err);
@@ -87,19 +67,19 @@ const OrderCard = () => {
 
     useEffect(() => {
         getTransaction();
-    }, [])
+    }, [page])
 
     const renderPanelHeader = (transaction: ProductTransactionResponse) => {
         return (
             <Col span={24}>
                 <Row className="flex items-center">
                     <Col xs={4} lg={1}>
-                        <Avatar src={transaction.details[0].store.imageUrl} shape="circle" />
+                        <Avatar src={transaction.details[0].store.imageUrl} alt={transaction.details[0].store.storeName} shape="circle" />
                     </Col>
-                    <Col xs={6} lg={6}>
-                        <Text>{transaction.details[0].store.storeName}</Text>
+                    <Col xs={10} lg={13}>
+                        <Text>Đơn hàng {transaction.id} - {`(${transaction.details[0].store.storeName})`}</Text>
                     </Col>
-                    <Col xs={14} lg={17} className="flex justify-end">
+                    <Col xs={10} lg={10} className="flex justify-end">
                         {transaction.comboInfo.isUseCombo ?
                             <>
                                 <Text className="mr-2 text-gray-400" delete>{formatCurrency(transaction.comboInfo.sellPrice + transaction.comboInfo.totalDiscount)}</Text>
@@ -119,7 +99,7 @@ const OrderCard = () => {
         return (
             <Row className="flex items-center" gutter={[0, 16]}>
                 <Col xs={4} lg={1}>
-                    <Avatar shape="circle" src={transaction.productDetail.imageUrl} />
+                    <Avatar shape="circle" src={transaction.product.defaultImageUrl} />
                 </Col>
                 <Col xs={20} lg={12}>
                     <Text >{transaction.product.productName}{` (${transaction.productDetail.type.type})`}</Text>
@@ -131,7 +111,15 @@ const OrderCard = () => {
                     {getTransactionStateTag(transaction.state)}
                 </Col>
                 <Col xs={24} lg={3} >
-                    <Text className="text-red flex justify-center">{transaction.totalPrice}</Text>
+                    <Text className="text-red flex justify-between items-center">
+                        {transaction.totalPrice}
+                        <a onClick={() => {
+                            setSelectedDetail(transaction);
+                            setOpenOrderModal(true);
+                        }}>
+                            Chi tiết
+                        </a>
+                    </Text>
                 </Col>
             </Row>
         )
@@ -141,7 +129,6 @@ const OrderCard = () => {
         return (
             <Row className="flex justify-between items-center">
                 <Text >{transaction.productDetail.type.type}</Text>
-                <Text className="text-red">{transaction.totalPrice}</Text>
             </Row>
         )
     };
@@ -163,7 +150,7 @@ const OrderCard = () => {
                                     <div>
                                         {transaction.comboInfo.isUseCombo ?
                                             <div>
-                                                <Row gutter={[16,16]} className="mb-5">
+                                                <Row gutter={[16, 16]} className="mb-5">
                                                     <Col span={24}>
                                                         <Text>Khuyến mãi: {transaction.comboInfo.comboName}</Text>
                                                     </Col>
@@ -191,6 +178,10 @@ const OrderCard = () => {
                             )
                         })}
                     </Collapse>
+                    <div className="flex justify-center">
+                        <Pagination current={page} total={total} pageSize={5} onChange={(value: number) => setpage(value)} />
+                    </div>
+                    <OrderModalComponent open={openOrderModal} handleClose={() => setOpenOrderModal(false)} detail={selectedDetail} />
                 </Col>
             </Row>
         )
