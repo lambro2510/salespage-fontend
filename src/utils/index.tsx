@@ -96,7 +96,6 @@ export function formatQuantity(amount: number) {
 }
 
 export function convertUTCToVietnamTime(utcTimestamp : number) {
-  // Tạo đối tượng Date từ timestamp UTC
   const utcDate = new Date(utcTimestamp);
 
   // Chuyển múi giờ sang múi giờ Việt Nam (UTC+7)

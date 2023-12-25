@@ -324,6 +324,7 @@ export interface CartResponse {
     voucherNote: string;
     voucherInfo: VoucherInfo;
     totalPrice: number;
+    product: ProductInfoResponse
 }
 
 export interface FavoriteResponse {

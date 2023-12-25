@@ -16,8 +16,8 @@ import { sidebar } from './sidebar';
 import { apiRoutes } from '../../routes/api';
 import http from '../../utils/http';
 import { convertToVietnamTime, convertUTCToVietnamTime, formatTimeDifference, handleErrorResponse } from '../../utils';
-import { BiCart, BiSearch } from 'react-icons/bi';
-import { MdOutlineNotificationsNone } from "react-icons/md";
+import { BiCart, BiMoney, BiSearch } from 'react-icons/bi';
+import { MdOutlineNotificationsNone, MdPayment } from "react-icons/md";
 import { RootState } from '../../store';
 import {
   FacebookOutlined,
@@ -28,6 +28,8 @@ import {
 import { ImProfile } from 'react-icons/im';
 import { CartResponse, NotificationDetailResponse, NotificationResponse, NotificationType } from '../../interfaces/interface';
 import { modalState } from '../../interfaces/models/data';
+import { RiPassExpiredFill } from 'react-icons/ri';
+import { FaPlus } from 'react-icons/fa6';
 const { Title, Text } = Typography;
 const Layout = () => {
   const location = useLocation();
@@ -59,17 +61,17 @@ const Layout = () => {
   const renderImageFromNotifyType = (notify: NotificationResponse) => {
     switch (notify.type) {
       case 'PAYMENT_CART_TRANSACTION':
-        return './ExpireTime.png'
+        return <Avatar icon={<BiMoney size={30} className='w-full' />} style={{ backgroundColor: '#fde3cf', color: '#f56a00' }}>U</Avatar>
       case 'ADD_TO_CART':
-        return notify.imgUrl;
+        return <Avatar src={notify.imgUrl} ></Avatar>;
       case 'NEW_PAYMENT':
-        return './ExpireTime.png'
+        return <Avatar icon={<MdPayment size={30} className='w-full bg-green-500' />}></Avatar>
       case 'EXPIRE_PAYMENT':
-        return './ExpireTime.png'
+        return <Avatar icon={<RiPassExpiredFill size={30} className='w-full' />} ></Avatar>
       case 'PAYMENT_TRANSACTION_IN_SUCCESS':
-        return './ExpireTime.png'
+        return <Avatar icon={<FaPlus size={30} className='w-full bg-rose-500' />}></Avatar>
       default:
-        return './ExpireTime.png'
+        return <Avatar>U</Avatar>
     }
 
   };
@@ -167,7 +169,7 @@ const Layout = () => {
         content={
           <Card
             bordered={false}
-            bodyStyle={{margin : 0, padding : 0}}
+            bodyStyle={{ margin: 0, padding: 0 }}
             style={isMobile ? { width: '60vw', boxShadow: 'none', border: 'none' } : { width: '20vw', boxShadow: 'none', border: 'none' }}
             actions={[
               <div onClick={() => clearNotify()}>
@@ -176,19 +178,22 @@ const Layout = () => {
 
             ]}>
             <div className='m-0 p-0'>
-              {notifications.map((notify: NotificationResponse) => (
-                <div className='cursor-pointer pt-3 pb-3 hover:bg-card w-full' onClick={() => getNotificationDetail(notify.id)}>
-                  <Row gutter={[16,16]} key={notify.id}>
-                    <Col span={6} className='flex justify-center'>
-                      <Avatar size={'large'} src={renderImageFromNotifyType(notify)} />
-                    </Col>
-                    <Col span={18}>
-                      <Text key={notify.id} className='m-auto pl-1 line-clamp-2 w-full'>{notify.title}</Text>
-                      <Text key={notify.id} className='m-auto pl-1 line-clamp-1 w-full text-blue'>{formatTimeDifference(notify.createdAt)}</Text>
-                    </Col>
-                  </Row>
-                </div>
-              ))}
+              {notifications.length === 0 ? (
+                <div className='text-center p-3'>Không có thông báo</div>
+              ) : (
+                notifications.map((notify: NotificationResponse) => (
+                  <div className='cursor-pointer pt-3 pb-3 hover:bg-card w-full' onClick={() => getNotificationDetail(notify.id)}>
+                    <Row gutter={[16, 16]} key={notify.id}>
+                      <Col span={6} className='flex justify-center'>
+                        {renderImageFromNotifyType(notify)}
+                      </Col>
+                      <Col span={18}>
+                        <Text key={notify.id} className='m-auto pl-1 line-clamp-2 w-full'>{notify.title}</Text>
+                        <Text key={notify.id} className='m-auto pl-1 line-clamp-1 w-full text-blue'>{formatTimeDifference(notify.createdAt)}</Text>
+                      </Col>
+                    </Row>
+                  </div>
+                )))}
             </div>
           </Card>
         }
@@ -207,11 +212,15 @@ const Layout = () => {
         <Popover
           content={
             <div className='max-w-xs'>
-              {cartItems.map((cart: CartResponse) => (
-                <div className='flex items-center cursor-pointer  pt-3 pb-3 hover:bg-card w-full'>
-                  <Text key={cart.cartId} className='m-auto pl-1 line-clamp-1 w-full'>{cart.productName}</Text>
-                </div>
-              ))}
+              {cartItems.length === 0 ? (
+                <div className='text-center p-3'>Không có sản phẩm nào trong giỏ hàng</div>
+              ) : (
+                cartItems.map((cart: CartResponse) => (
+                  <div className='flex items-center cursor-pointer  pt-3 pb-3 hover:bg-card w-full'>
+                    <Avatar src={cart.product.defaultImageUrl} size={35} />
+                    <Text key={cart.cartId} className='m-auto pl-1 line-clamp-1 w-full'>{cart.productName}</Text>
+                  </div>
+                )))}
             </div>
           }
           trigger={["hover", "click"]}

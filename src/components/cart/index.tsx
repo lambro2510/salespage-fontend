@@ -5,7 +5,6 @@ import { NotificationType, formatCurrency, handleErrorResponse, showNotification
 import { Avatar, Button, Checkbox, Col, Divider, Dropdown, Menu, Modal, Popover, Row, Tag, Tooltip, Typography } from "antd";
 import { ProCard } from "@ant-design/pro-components";
 import QuantityInput from "../quantityInput";
-import { BiDownArrow } from "react-icons/bi";
 import { CartByStoreResponseInterface, CartPaymentDto, CartPaymentTransaction, ProductComboDetailResponseInterface } from "../../interfaces/models/cart";
 import { modalState } from "../../interfaces/models/data";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +26,7 @@ const CardView = () => {
     const [loading, setLoading] = useState<boolean>();
     const [cartItems, setCartItems] = useState<CartByStoreResponseInterface[]>([]);
     const [cartDto, setCartDto] = useState<CartPaymentDto[]>()
-    const [paymentPrice, setPaymentPrice] = useState<any[]>([]);
+    const [paymentPrice, setPaymentPrice] = useState<number>(0);
     const [voucherModal, setVoucherModal] = useState<VoucherModalProps>({
         cartId: "",
         open: false,
@@ -70,7 +69,17 @@ const CardView = () => {
         }
     };
 
-
+    const removeVoucher = async (cartId: string) => {
+        let updatedCartItem = [...cartItems]
+        updatedCartItem.forEach(cartItem => {
+            for(let item of cartItem.cartResponses){
+                if(item.cartId == cartId){
+                    item.voucherInfo.isUse = false;
+                }
+            }
+        });
+        setCartItems(updatedCartItem);
+    };
 
     const updateCartItems = async (cartId: string, quantity: number | undefined, voucherId: string | undefined) => {
         try {
@@ -80,6 +89,7 @@ const CardView = () => {
                     voucherCodeId: voucherId
                 }
             });
+            removeVoucher(cartId)
         } catch (error) {
             handleErrorResponse(error);
         } finally {
@@ -89,6 +99,11 @@ const CardView = () => {
 
     const paymentCartItem = async () => {
         try {
+            if(!cartDto || cartDto.length == 0 || cartDto[0].transaction.length == 0) {
+
+                showNotification('Bạn chưa chon sản phẩm nào', NotificationType.ERROR);
+                return;
+            }
             const response = await http.post(`${apiRoutes.cart}/payment`, cartDto);
             setModalProps({
                 isOpen: true,
@@ -131,12 +146,6 @@ const CardView = () => {
         setCartDto(cartDtos);
     }
 
-
-    const totalPaymentPrice = () => {
-        let totalPrice = 0;
-        paymentPrice.forEach(price => totalPrice += price);
-        return totalPrice;
-    };
 
     const updateSelectedCombo = () => {
         let updatedCartItems = [...cartItems];
@@ -209,10 +218,10 @@ const CardView = () => {
                         <Col className="ml-5 mr-20">
                             <Row className="mb-3">{combo.comboName}</Row>
                             <Row className="mb-3">
-                                {combo.type === 'PERCENT' ? (
-                                    <>Giảm {combo.value} %</>
-                                ) : combo.type === 'TOTAL' ? (
-                                    <>Giảm {formatCurrency(combo.value)} </>
+                                {combo.type == 'PERCENT' ? (
+                                    <Text>Giảm {combo.value} %</Text>
+                                ) : combo.type == 'TOTAL' ? (
+                                    <Text>Giảm {formatCurrency(combo.value)} </Text>
                                 ) : (
                                     <div></div>
                                 )}
@@ -277,12 +286,18 @@ const CardView = () => {
     const renderCartItem = (cartItem: CartByStoreResponseInterface) => {
 
         const selectItem = (cartId: string, checked: boolean) => {
+            let paymentNeedPrice = countPriceNeedPayment();
             let updatedCartItems = [...cartItems];
             updatedCartItems.forEach(item => {
                 if (item.storeId === cartItem.storeId) {
                     item.cartResponses.forEach(itemInfo => {
                         if (itemInfo.cartId === cartId) {
                             itemInfo.isSelected = checked;
+                            if(checked == true){
+                                setPaymentPrice(paymentPrice - paymentNeedPrice +  countPriceNeedPayment())
+                            }else{
+                                setPaymentPrice(paymentPrice - (paymentNeedPrice - countPriceNeedPayment()))
+                            }
                         }
                     })
                 }
@@ -315,7 +330,6 @@ const CardView = () => {
                 if (item.isSelected) {
                     if (item.isInCombo) {
                         totalPriceInCombo += item.totalPrice;
-
                     } else {
                         totalPrice += item.quantity * item.sellPrice;
 
@@ -356,7 +370,6 @@ const CardView = () => {
                                 </>
                             }
                         >
-
                             <Row key={item.cartId}>
                                 <Col span={1} className="flex items-center justify-center">
                                     <Checkbox checked={item.isSelected} onChange={(value: any) => selectItem(item.cartId, value.target.checked)} />
@@ -413,17 +426,27 @@ const CardView = () => {
                         </ProCard>
                         <ProCard
                             bordered
+                            title={
+                                item.voucherInfo?.isUse ?
+                                    <div className="flex">
+                                        {`${item.voucherInfo.voucherName} (Giảm tối đa ${item.voucherInfo.value} ${item.voucherInfo.discountType == 'PERCENT' ? '%' : 'VND'})`}
+                                    </div>
+                                    :
+                                    <div className="flex">
+                                        Chưa chọn
+                                    </div>
+                            }
                             headStyle={{ margin: 10, padding: 10 }}
                             bodyStyle={{ margin: 0, padding: 0 }}
-                            extra={<Button 
+                            extra={<Button
                                 onClick={() => setVoucherModal({
                                     cartId: item.cartId,
                                     productId: item.productId,
                                     quantity: item.quantity,
                                     open: true,
                                 })}>
-                                    Chọn mã giảm giá
-                                    </Button>}
+                                Chọn mã giảm giá
+                            </Button>}
                         >
                         </ProCard>
                     </>
@@ -485,7 +508,7 @@ const CardView = () => {
                                     <Button type="text">Xóa</Button>
                                 </Col>
                                 <Col span={16} className="flex items-center justify-end">
-                                    <Text className="mr-2">Tổng thanh toán {formatCurrency(totalPaymentPrice)}</Text>
+                                    <Text className="mr-2">Tổng thanh toán {formatCurrency(paymentPrice)}</Text>
                                     <Button type="primary" onClick={() => paymentCartItem()}>Mua hàng</Button>
                                 </Col>
                             </Row>
@@ -531,7 +554,7 @@ const CardView = () => {
                     await updateCartItems(voucherModal.cartId, voucherModal.quantity, value.voucherCodeId);
                     setVoucherModal({ ...voucherModal, open: false })
                     await getCartItems();
-                    
+
                 }} />
         </div>
     );
