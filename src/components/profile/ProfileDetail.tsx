@@ -85,16 +85,10 @@ const ProfileDetail = ({ profile }: ProfileDetailProps) => {
                     </Row>
                 </Col>
 
-                <Col xs={24} sm={12} md={12} lg={12}>
-                    <Form.Item label="Ngày sinh" name="dateOfBirth">
-                        <Input disabled={isEdit} />
-                    </Form.Item>
-                </Col>
-
                 <Col xs={24} lg={24}>
                     <Form.Item>
                         <Button type="primary" htmlType="submit" className="w-full">
-                            Save
+                            Lưu
                         </Button>
                     </Form.Item>
                 </Col>

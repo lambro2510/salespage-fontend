@@ -5,7 +5,7 @@ import { apiRoutes } from "../../routes/api";
 import { Avatar, Button, Col, Collapse, Pagination, Progress, Row, Space, Tag, Typography } from "antd";
 import { ProductTransactionDetailResponse, ProductTransactionResponse } from "../../interfaces/models/productTransaction";
 import { ProList } from "@ant-design/pro-components";
-import { formatCurrency, handleErrorResponse } from "../../utils";
+import { convertToVietnamTime, convertUTCToVietnamTime, formatCurrency, handleErrorResponse } from "../../utils";
 import { ProductTransactionState } from "../../interfaces/interface";
 import { SyncLoader } from "react-spinners";
 import OrderModalComponent from "./modal/OrderModal";
@@ -47,7 +47,8 @@ const OrderCard = () => {
             const response = await http.get(`${apiRoutes.productTransaction}`, {
                 params: {
                     page: page - 1,
-                    size: 5
+                    size: 5,
+                    sort: 'createdAt DESC'
                 }
             })
             setTransactions(response.data.data.data)
@@ -76,19 +77,23 @@ const OrderCard = () => {
                     <Col xs={4} lg={1}>
                         <Avatar src={transaction.details[0].store.imageUrl} alt={transaction.details[0].store.storeName} shape="circle" />
                     </Col>
-                    <Col xs={10} lg={13}>
+                    <Col xs={10} lg={15}>
                         <Text>Đơn hàng {transaction.id} - {`(${transaction.details[0].store.storeName})`}</Text>
                     </Col>
-                    <Col xs={10} lg={10} className="flex justify-end">
-                        {transaction.comboInfo.isUseCombo ?
-                            <>
-                                <Text className="mr-2 text-gray-400" delete>{formatCurrency(transaction.comboInfo.sellPrice + transaction.comboInfo.totalDiscount)}</Text>
-                                -
-                                <Text className="ml-2 text-red">{formatCurrency(transaction.comboInfo.sellPrice)}</Text>
-                            </>
-                            :
-                            <Text className=" text-red">{formatCurrency(transaction.comboInfo.sellPrice)}</Text>
-                        }
+                    <Col xs={10} lg={8} className="flex justify-between">
+                        <div>
+                            {transaction.comboInfo.isUseCombo ?
+                                <>
+                                    <Text className="mr-2 text-gray-400" delete>{formatCurrency(transaction.comboInfo.sellPrice + transaction.comboInfo.totalDiscount)}</Text>
+                                    -
+                                    <Text className="ml-2 text-red">{formatCurrency(transaction.comboInfo.sellPrice)}</Text>
+                                </>
+                                :
+                                <Text className=" text-red">{formatCurrency(transaction.comboInfo.sellPrice)}</Text>
+                            }
+                        </div>
+                        <Text className=" text-blue">{convertToVietnamTime(transaction.createdAt)}</Text>
+
                     </Col>
                 </Row>
             </Col>
@@ -156,6 +161,9 @@ const OrderCard = () => {
                                                     </Col>
                                                     <Col span={24}>
                                                         <Text>Giảm giá: {transaction.comboInfo.discountType == "PERCENT" ? transaction.comboInfo.value + '%' : transaction.comboInfo.value}</Text>
+                                                    </Col>
+                                                    <Col span={24}>
+                                                        <Text>Tiết kiệm: {transaction.comboInfo.totalDiscount} VNĐ</Text>
                                                     </Col>
                                                 </Row>
                                             </div>

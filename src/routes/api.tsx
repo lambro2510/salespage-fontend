@@ -1,6 +1,9 @@
 import { API_URL } from '../utils';
 
 export const apiRoutes = {
+
+  account: `${API_URL}/account`,
+
   login: `${API_URL}/account/sign-in`,
 
   register: `${API_URL}/account/sign-up`,

@@ -3,18 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { Form, Input, Button, message, Card, Select } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import { RootState } from "../../store";
-import { handleErrorResponse, setPageTitle, showNotification } from "../../utils";
+import { NotificationType, handleErrorResponse, setPageTitle, showNotification } from "../../utils";
 import VideoBackground from "../base/Video";
 import './style.css'
 import http from "../../utils/http";
 import { apiRoutes } from "../../routes/api";
 import { webRoutes } from "../../routes/web";
+import { Auth } from "../../interfaces/models/auth";
+import { login } from "../../store/slices/authSlice";
 const Register = () => {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathname || -1;
+    const from = location.state?.from?.pathname || webRoutes.home;
     const auth = useSelector((state: RootState) => state.auth);
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -32,7 +34,16 @@ const Register = () => {
        try{
         const response = await http.post(`${apiRoutes.register}`, values);
         showNotification(response.data.message);
-        navigate(`${webRoutes.login}`)
+        const auth: Auth = response?.data?.data;
+        console.log(response?.data?.data?.role);
+
+        if (response?.data?.data?.role != 'USER') {
+            showNotification("Vui lòng đăng nhập trang quản trị viên để sử dụng", NotificationType.ERROR);
+        } else {
+            dispatch(login(auth));
+            navigate(from)
+            showNotification(response.data.message, NotificationType.SUCCESS);
+        }
        }catch(err){
         handleErrorResponse(err)
        }finally{

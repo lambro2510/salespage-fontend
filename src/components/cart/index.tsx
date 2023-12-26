@@ -48,6 +48,7 @@ const CardView = () => {
             datas.forEach(data => {
                 data.selectedCombo = data.bestCombo;
             })
+            setPaymentPrice(0)
             setCartItems(datas || []);
         } catch (error) {
             handleErrorResponse(error);
@@ -162,7 +163,9 @@ const CardView = () => {
     }, []);
 
     useEffect(() => {
+        
         handleDto();
+        
     }, [cartItems]);
 
     const setComboInfo = (cartItems: CartByStoreResponseInterface[], storeId: string, combo: ProductComboDetailResponseInterface | null) => {

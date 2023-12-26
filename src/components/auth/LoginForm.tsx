@@ -43,9 +43,8 @@ const Page = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathname || -1;
+    const from = location.state?.from?.pathname || webRoutes.home;
     const auth = useSelector((state: RootState) => state.auth);
-
     useEffect(() => {
         if (auth) {
             navigate(from, { replace: true });
@@ -54,17 +53,25 @@ const Page = () => {
 
     const loginByUsername = async (loginData: any) => {
         try {
-            const response = await http.post(`${apiRoutes.login}`, {
-                ...loginData
-            });
+            let response;
+            if (loginData.username) {
+                response = await http.post(`${apiRoutes.login}`, {
+                    ...loginData
+                });
+            } else {
+                response = await http.post(`${apiRoutes.login}/phone`, {
+                    ...loginData
+                });
+            }
             const auth: Auth = response?.data?.data;
             console.log(response?.data?.data?.role);
-
+            console.log(from);
+            
             if (response?.data?.data?.role != 'USER') {
                 showNotification("Vui lòng đăng nhập trang quản trị viên để sử dụng", NotificationType.ERROR);
             } else {
                 dispatch(login(auth));
-                navigate(-1)
+                navigate(from)
                 showNotification(response.data.message, NotificationType.SUCCESS);
             }
 
@@ -73,6 +80,13 @@ const Page = () => {
         }
     };
 
+    const sendOtp =async (phone : string) => {
+        try {
+            const response = await http.post(`${apiRoutes.account}/verify-code/${phone}`);
+        } catch (error) {
+            
+        }
+    }
     return (
         <div
             style={{
@@ -281,12 +295,13 @@ const Page = () => {
                             captchaProps={{
                                 size: 'large',
                             }}
+                            phoneName={'mobile'}
                             placeholder={'Mã xác nhận'}
                             captchaTextRender={(timing, count) => {
                                 if (timing) {
                                     return `${count} ${'giây'}`;
                                 }
-                                return 'Tạo mới';
+                                return 'Gửi mã';
                             }}
                             name="otp"
                             rules={[
@@ -295,8 +310,8 @@ const Page = () => {
                                     message: 'Chưa điền mã xác nhận',
                                 },
                             ]}
-                            onGetCaptcha={async () => {
-                                message.success('Mã xác nhận là: 1234');
+                            onGetCaptcha={async (moblie : any) => {
+                                await sendOtp(moblie)
                             }}
                         />
                     </>

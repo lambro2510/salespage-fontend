@@ -63,6 +63,7 @@ export interface ProductTransactionResponse {
     buyerUsername: string;
     totalPrice: number;
     note: number;
+    createdAt: number;
     comboInfo : ComboInfo;
     details : ProductTransactionDetailResponse[]
 }
