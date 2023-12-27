@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import http from "../../utils/http";
 import { apiRoutes } from "../../routes/api";
 import { NotificationType, formatCurrency, handleErrorResponse, showNotification } from "../../utils";
-import { Avatar, Button, Checkbox, Col, Divider, Dropdown, Menu, Modal, Popover, Row, Tag, Tooltip, Typography } from "antd";
+import { Avatar, Button, Checkbox, Col, Divider, Dropdown, Input, Menu, Modal, Popover, Row, Tag, Tooltip, Typography } from "antd";
 import { ProCard } from "@ant-design/pro-components";
 import QuantityInput from "../quantityInput";
 import { CartByStoreResponseInterface, CartPaymentDto, CartPaymentTransaction, ProductComboDetailResponseInterface } from "../../interfaces/models/cart";
@@ -27,6 +27,7 @@ const CardView = () => {
     const [cartItems, setCartItems] = useState<CartByStoreResponseInterface[]>([]);
     const [cartDto, setCartDto] = useState<CartPaymentDto[]>()
     const [paymentPrice, setPaymentPrice] = useState<number>(0);
+    const [address, setAddress] = useState("");
     const [voucherModal, setVoucherModal] = useState<VoucherModalProps>({
         cartId: "",
         open: false,
@@ -134,7 +135,7 @@ const CardView = () => {
                         voucherCodeId: item.voucherInfo?.codeId,
                         cartId: item.cartId,
                         note: '',
-                        address: ''
+                        address: address
                     };
                     cartDto.transaction.push(cardPaymentTransaction)
                 }
@@ -166,7 +167,7 @@ const CardView = () => {
         
         handleDto();
         
-    }, [cartItems]);
+    }, [cartItems, address]);
 
     const setComboInfo = (cartItems: CartByStoreResponseInterface[], storeId: string, combo: ProductComboDetailResponseInterface | null) => {
         if (!combo) {
@@ -510,7 +511,10 @@ const CardView = () => {
                                 <Col span={4} className="flex items-center justify-around">
                                     <Button type="text">Xóa</Button>
                                 </Col>
-                                <Col span={16} className="flex items-center justify-end">
+                                <Col span={4} className="flex items-center justify-around">
+                                    <Input placeholder="địa chỉ nhận hàng" type="text" onChange={(value) => setAddress(value.target.value) }/>
+                                </Col>
+                                <Col span={12} className="flex items-center justify-end">
                                     <Text className="mr-2">Tổng thanh toán {formatCurrency(paymentPrice)}</Text>
                                     <Button type="primary" onClick={() => paymentCartItem()}>Mua hàng</Button>
                                 </Col>
