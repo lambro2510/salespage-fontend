@@ -97,7 +97,7 @@ const Page = () => {
             <LoginFormPage
                 backgroundImageUrl="./4k-bg.jpg"
                 logo="./icon.png"
-                title="Đăng nhập E-web"
+                title="Đăng nhập"
                 subTitle="E-WEB"
                 submitter={{
                     searchConfig: {
@@ -106,30 +106,30 @@ const Page = () => {
                 }
                 }
                 onFinish={(value) => loginByUsername(value)}
-                activityConfig={{
-                    style: {
-                        boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.2)',
-                        color: token.colorTextHeading,
-                        borderRadius: 8,
-                        backgroundColor: 'rgba(255,255,255,0.25)',
-                        backdropFilter: 'blur(4px)',
-                    },
-                    title: 'Trang demo dự án E-web',
-                    subTitle: 'Sàn giao dịch thương mại điện tử',
-                    action: (
-                        <Button
-                            size="large"
-                            style={{
-                                borderRadius: 20,
-                                background: token.colorBgElevated,
-                                color: token.colorPrimary,
-                                width: 120,
-                            }}
-                        >
-                            Xem thêm
-                        </Button>
-                    ),
-                }}
+                // activityConfig={{
+                //     style: {
+                //         boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.2)',
+                //         color: token.colorTextHeading,
+                //         borderRadius: 8,
+                //         backgroundColor: 'rgba(255,255,255,0.25)',
+                //         backdropFilter: 'blur(4px)',
+                //     },
+                //     title: 'Trang bán đồ gốm',
+                //     subTitle: 'Sàn giao dịch thương mại điện tử',
+                //     action: (
+                //         <Button
+                //             size="large"
+                //             style={{
+                //                 borderRadius: 20,
+                //                 background: token.colorBgElevated,
+                //                 color: token.colorPrimary,
+                //                 width: 120,
+                //             }}
+                //         >
+                //             Xem thêm
+                //         </Button>
+                //     ),
+                // }}
                 actions={
                     <div
                         style={{

@@ -239,10 +239,13 @@ const Layout = () => {
         <Row gutter={[0, 32]}>
           <Col xs={24} lg={8}>
             <Col span={24}>
-              <Title level={3} className='text-center mb-10'>E-web</Title>
+              <Title level={3} className='text-center mb-10'>Điều khoản và chính sách</Title>
             </Col>
             <Col span={24} className='flex justify-center'>
-              <Text className='mb-5'>E-web nơi bạn có thể giao dịch mọi thứ</Text>
+              <Text className='mb-5'>Chính sách giao hàng</Text>
+            </Col>
+            <Col span={24} className='flex justify-center'>
+              <Text className='mb-5'>Điều khoản điều kiện</Text>
             </Col>
           </Col>
           <Col xs={24} lg={4}>
@@ -365,7 +368,7 @@ const Layout = () => {
                     <Input
                       placeholder='Tìm kiếm...'
                       size='small'
-                      prefix={<BiSearch />}
+                      suffix={<BiSearch />}
                       style={{ maxWidth: 200 }}
                     />
                     {renderNotifiMenu()}
@@ -405,7 +408,7 @@ const Layout = () => {
                     <Input
                       placeholder='Tìm kiếm...'
                       size='small'
-                      prefix={<BiSearch />}
+                      suffix={<BiSearch />}
                       style={{ maxWidth: 200 }}
                     />
 

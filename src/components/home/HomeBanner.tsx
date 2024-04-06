@@ -2,41 +2,42 @@ import { Col, Row } from "antd";
 import Slider from "react-slick";
 import LazyImage from "../lazy-image";
 import Banner from "../base/Banner";
+import { webRoutes } from "../../routes/web";
 
 const imagesData = [
+    // {
+    //     imageUrl: "https://gombattrang.vn/wp-content/uploads/2022/09/banner-danh-muc-do-tho-men-ran-day-du.jpg",
+    //     title: "Đồ thờ bát tràng",
+    //     subTitle: "Nhận khuyến mãi lên đến 99.000Đ khi tham gia chương trình",
+    //     link: "#",
+    // },
     {
-        imageUrl: "https://cf.shopee.vn/file/vn-50009109-2eb798374b65de905510aa91380aaf62_xxhdpi",
-        title: "Giảm giá sock",
-        subTitle: "Nhận khuyến mãi lên đến 99.000Đ khi tham gia chương trình",
-        link: "#",
-    },
-    {
-        imageUrl: "https://cf.shopee.vn/file/vn-50009109-3b4844af326ff3b9c1e1793d0dbda9f3_xxhdpi",
-        title: "Tham gia E-Web ngay",
-        subTitle: "Nhận ngay mã giảm giá 50.000Đ cho đơn hàng đầu tiên",
-        link: "#",
-    },
-    {
-        imageUrl: "https://cf.shopee.vn/file/vn-50009109-31751216f4ecebd91cd98b2aabe69c70_xxhdpi",
-        title: "Săn sale cuối tuần",
-        subTitle: "Xem quảng cáo nhận xu, ngoài ra còn các mã giảm giá lên đến 60.000Đ đang chờ bạn",
-        link: "#",
-    },
-    {
-        imageUrl: "https://cf.shopee.vn/file/vn-50009109-1f18bb1d3f752570668b28ee92501320_xxhdpi",
-        title: "Khuyến mãi sản phẩm gia đình",
-        subTitle: "Nhận khuyến mãi lên đến 50% khi tham gia chương trình",
-        link: "#",
-    },
-    {
-        imageUrl: "https://cf.shopee.vn/file/vn-50009109-0fffe0b1b0b7e9af17ad1e53346f4311_xhdpi",
-        title: "Làm đẹp không giới hạn",
-        subTitle: "Nhận khuyến mãi lên đến 50% khi tham gia chương trình",
-        link: "#",
+        imageUrl: "https://gombattrang.vn/wp-content/uploads/2022/09/banner-danh-muc-san-pham-binh-hut-loc-gom-bat-trang.jpg",
+        title: "Gốm sứ bát tràng",
+        subTitle: "Gốm sứ bát tràng chính hãng cao cấp",
+        link: webRoutes.products,
     }
+    // {
+    //     imageUrl: "https://gombattrang.vn/wp-content/uploads/2022/09/banner-danh-muc-loc-binh-gom-bat-trang.jpg",
+    //     title: "Săn sale cuối tuần",
+    //     subTitle: "Xem quảng cáo nhận xu, ngoài ra còn các mã giảm giá lên đến 60.000Đ đang chờ bạn",
+    //     link: "#",
+    // },
+    // {
+    //     imageUrl: "https://cf.shopee.vn/file/vn-50009109-1f18bb1d3f752570668b28ee92501320_xxhdpi",
+    //     title: "Khuyến mãi sản phẩm gia đình",
+    //     subTitle: "Nhận khuyến mãi lên đến 50% khi tham gia chương trình",
+    //     link: "#",
+    // },
+    // {
+    //     imageUrl: "https://gombattrang.vn/wp-content/uploads/2022/09/banner-danh-muc-qua-tang-doanh-nghiep-1.jpg",
+    //     title: "Làm đẹp không giới hạn",
+    //     subTitle: "Nhận khuyến mãi lên đến 50% khi tham gia chương trình",
+    //     link: "#",
+    // }
 ];
 
-const backgroundUrl = "https://media.istockphoto.com/id/1326061969/vi/anh/n%E1%BB%81n-t%E1%BA%A3ng-c%E1%BB%A7a-m%E1%BB%99t-tr%C4%83m-t%E1%BB%9D-euro.jpg?s=2048x2048&w=is&k=20&c=WacclBMxsTHx0YoeT5mhHjfRkFHEQLD4RmwoeHmPmfA="
+const backgroundUrl = "https://gomsuthanhtam.com/UserFile/editor/Noi-mua-bo-bat-dia-xanh-hoa-bien-gom-su-Bat-Trang-cao-cap-dung-trong-nha-hang-khach-san-sang-trong.jpg"
 
 const settings = {
     dots: false,

@@ -110,7 +110,7 @@ const ProductList = () => {
                                     onChange={handleChange}
                                 />
                             </Col>
-                            <Col xs={12} lg={24} className="flex items-center">
+                            {/* <Col xs={12} lg={24} className="flex items-center">
                                 <Input
                                     placeholder="Nhập loại sản phẩm"
                                     name="categoryName"
@@ -118,7 +118,7 @@ const ProductList = () => {
                                     type="text"
                                     onChange={handleChange}
                                 />
-                            </Col>
+                            </Col> */}
                             <Col xs={12} lg={24}>
                                 <Row>
                                     <Col span={24}>

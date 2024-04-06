@@ -64,16 +64,19 @@ const ListCardProduct = ({title, products, loading, nextPage }: ListCardProductP
                                                     color="yellow"
                                                 />
                                             </div>
-                                            <div className="flex justify-start items-center text-red">
-                                                <p>{formatCurrency(product.minSellPrice)}</p>
-                                            </div>
+                                            
                                         </Col>
                                         <Col xs={12} lg={12}>
+                                        <div className="flex justify-start items-center text-red">
+                                                <p>{formatCurrency(product.minSellPrice)}</p>
+                                            </div>
+                                            </Col>
+                                        {/* <Col xs={12} lg={12}>
                                             <div className="flex justify-center items-center">
                                                 <p>{product.totalView} </p>
                                                 <GrFormView />
                                             </div>
-                                        </Col>
+                                        </Col> */}
                                     </Row>
                                 }
                             />

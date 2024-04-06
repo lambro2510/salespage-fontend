@@ -19,7 +19,13 @@ export const sidebar = [
   {
     path: webRoutes.stores,
     key: webRoutes.stores,
-    name: 'Đánh giá',
+    name: 'Liên hệ',
+    icon: <ShopOutlined />,
+  },
+  {
+    path: webRoutes.stores,
+    key: webRoutes.stores,
+    name: 'Giới thiệu',
     icon: <ShopOutlined />,
   }
 ];

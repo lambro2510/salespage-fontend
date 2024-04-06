@@ -1,23 +1,15 @@
 import { useEffect, useState } from "react";
-import ProfileCard from "../profile/ProfileCard";
 import http from "../../utils/http";
 import { apiRoutes } from "../../routes/api";
 import { handleErrorResponse } from "../../utils";
-import ListProduct from "./ListReview";
-import { Product } from "../../interfaces/models/product";
 import { ProductDataResponse, ProductInfoResponse } from "../../interfaces/interface";
-import Carousel from "../layout/Carousel";
-import { ProCard } from "@ant-design/pro-components";
 import { Col, Divider, Row, Space } from "antd";
 import HomeBanner from "./HomeBanner";
 import ListCategories from "./Category";
 import HotProduct from "./HotProduct";
 import ListCardProduct from "./ListCardProduct";
-import ListHotStore from "./ListHotStore";
 import FooterBanner from "./FooterBanner";
 import Support from "./Support";
-import BasePageContainer from "../layout/PageContainer";
-import ListReview from "./ListReview";
 import { useDispatch } from "react-redux";
 import { SyncLoader } from "react-spinners";
 
@@ -37,8 +29,6 @@ const Home = () => {
     const [hotProducts, setHotProducts] = useState<ProductDataResponse[]>([]);
     const [allProducts, setAllProduct] = useState<ProductDataResponse[]>([]);
     const [page, setPage] = useState<number>(0);
-    const [saleProducts, setSaleProducts] = useState<[]>([]);
-    const [suggestProduct, setSuggestProduct] = useState<[]>([]);
     const dispatch = useDispatch();
 
     const loadHotProduct = async () => {
@@ -116,20 +106,20 @@ const Home = () => {
                 </Col>
                 <Divider className="mb-20" />
                 <Col span={24} style={{ paddingRight: '5%', paddingLeft: '5%' }}>
-                    <ListCardProduct title="Sản phẩm phổ biên" products={allProducts} loading={nextPageLoading} nextPage={() => setPage(page + 1)} />
+                    <ListCardProduct title="Sản phẩm phổ biến" products={allProducts} loading={nextPageLoading} nextPage={() => setPage(page + 1)} />
                 </Col>
-                <Col span={24} style={{ paddingRight: '5%', paddingLeft: '5%' }}>
+                {/* <Col span={24} style={{ paddingRight: '5%', paddingLeft: '5%' }}>
                     <ListHotStore />
-                </Col>
-                <Col span={24} style={{ marginTop: '2%', paddingRight: '15%', paddingLeft: '15%' }}>
+                </Col> */}
+                {/* <Col span={24} style={{ marginTop: '2%', paddingRight: '15%', paddingLeft: '15%' }}>
                     <FooterBanner />
-                </Col>
+                </Col> */}
                 <Col span={24} style={{ marginTop: '2%', paddingRight: '5%', paddingLeft: '5%' }}>
                     <Support />
                 </Col>
-                <Col span={24} style={{ marginTop: '2%', paddingRight: '5%', paddingLeft: '5%' }}>
+                {/* <Col span={24} style={{ marginTop: '2%', paddingRight: '5%', paddingLeft: '5%' }}>
                     <ListReview />
-                </Col>
+                </Col> */}
             </Row>
         )
     }
