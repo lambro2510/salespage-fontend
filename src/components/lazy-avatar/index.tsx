@@ -6,10 +6,11 @@ import { ImUser } from 'react-icons/im';
 
 export interface LazyAvatarProps {
   src: string;
+  icon?: any;
   [key: string]: string | React.ReactNode | undefined;
 }
 
-const LazyAvatar = ({ src, ...rest }: LazyAvatarProps) => {
+const LazyAvatar = ({ src,icon, ...rest }: LazyAvatarProps) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -22,7 +23,7 @@ const LazyAvatar = ({ src, ...rest }: LazyAvatarProps) => {
   }, [src]);
 
   return (
-    <Fragment>{loading ? <Avatar size={'large'} className='flex justify-center items-center' icon={<ImUser />} shape='square'/> : <Avatar size={'large'} className='flex justify-center items-center'src={src} {...rest}/>}</Fragment>
+    <Fragment>{loading ? <Avatar size={'large'} className='flex justify-center items-center' icon={icon == undefined ? <ImUser /> :icon } shape='square'/> : <Avatar size={'large'} className='flex justify-center items-center'src={src} {...rest}/>}</Fragment>
   );
 };
 

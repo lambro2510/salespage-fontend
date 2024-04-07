@@ -23,8 +23,8 @@ export const sidebar = [
     icon: <ShopOutlined />,
   },
   {
-    path: webRoutes.stores,
-    key: webRoutes.stores,
+    path: webRoutes.home,
+    key: webRoutes.home,
     name: 'Giới thiệu',
     icon: <ShopOutlined />,
   }

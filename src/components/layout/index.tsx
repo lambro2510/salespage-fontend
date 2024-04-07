@@ -1,21 +1,15 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { webRoutes } from '../../routes/web';
-import { Badge, Button, Col, Popover, Input, Row, Typography, Dropdown, Card, Modal, Avatar } from 'antd';
+import { Badge, Button, Col, Popover, Input, Row, Typography, Dropdown, Card, Modal, Avatar, AutoComplete } from 'antd';
 import { ProCard, ProLayout, ProLayoutProps } from '@ant-design/pro-components';
-import {
-  LogoutOutlined, CheckCircleOutlined,
-  ShoppingCartOutlined,
-  DollarCircleOutlined,
-  ExclamationCircleOutlined,
-  CreditCardOutlined,
-} from '@ant-design/icons';
+import {LogoutOutlined, LoadingOutlined} from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/slices/authSlice';
 import { memo, useEffect, useState } from 'react';
 import { sidebar } from './sidebar';
 import { apiRoutes } from '../../routes/api';
 import http from '../../utils/http';
-import { convertToVietnamTime, convertUTCToVietnamTime, formatTimeDifference, handleErrorResponse } from '../../utils';
+import { convertToVietnamTime, formatTimeDifference, handleErrorResponse } from '../../utils';
 import { BiCart, BiMoney, BiSearch } from 'react-icons/bi';
 import { MdOutlineNotificationsNone, MdPayment } from "react-icons/md";
 import { RootState } from '../../store';
@@ -30,16 +24,43 @@ import { CartResponse, NotificationDetailResponse, NotificationResponse, Notific
 import { modalState } from '../../interfaces/models/data';
 import { RiPassExpiredFill } from 'react-icons/ri';
 import { FaPlus } from 'react-icons/fa6';
+import LazyAvatar from '../lazy-avatar';
+import image from '../../assets/img/empty-image.png';
 const { Title, Text } = Typography;
+
+interface ProductInfo {
+  productId: string;
+  productName: string;
+  productRate: {
+    totalPoint: number;
+    totalRate: number;
+    avgPoint: number;
+  };
+  sellerUsername: string;
+  minSellPrice: number;
+  maxSellPrice: number;
+  minOriginPrice: number;
+  maxOriginPrice: number;
+  maxDiscountPercent: number;
+  totalSell: number;
+  totalView: number;
+  imageUrl: string;
+  createdAt: number;
+  categoryId: string;
+  isHot: boolean;
+}
+
 const Layout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const auth = useSelector((state: RootState) => state.auth);
+  const [searchValue, setSearchValue] = useState('');
   const [notifications, setNotifications] = useState<NotificationResponse[]>([])
   const [cartItems, setCartItems] = useState<CartResponse[]>([])
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [total, setTotal] = useState<number>(0);
+  const [products, setProducts] = useState<ProductInfo[]>([]);
   const [modalProps, setModalProps] = useState<modalState>(
     {
       isOpen: false,
@@ -86,6 +107,17 @@ const Layout = () => {
     // });
   };
 
+
+  const getProduct = async (productName: any) => {
+    const response = await http.get(apiRoutes.products, {
+      params: {
+        productName: productName,
+        page: 0,
+        size: 5
+      }
+    })
+    setProducts(response.data.data.data)
+  }
   const getNotification = async () => {
     try {
       const response = await http.get(`${apiRoutes.notification}/NOT_SEEN`, {
@@ -159,7 +191,9 @@ const Layout = () => {
     }
   }, [auth]);
 
-
+  useEffect(() => {
+    getProduct(searchValue)
+  }, [searchValue])
 
   const renderNotifiMenu = () => {
     return (
@@ -366,6 +400,7 @@ const Layout = () => {
                 <div className='hover:bg-inherit'>
                   <div className='flex justify-around items-center'>
                     <Input
+                      onChange={(e) => getProduct(e.target.value)}
                       placeholder='Tìm kiếm...'
                       size='small'
                       suffix={<BiSearch />}
@@ -404,12 +439,31 @@ const Layout = () => {
             } else {
               return (
                 <div>
-                  <div className='flex justify-around items-center'>
-                    <Input
+                  <div className='flex justify-evenly items-center'>
+                    <AutoComplete
+                      options={products.map((product) => ({
+                        label: (
+                          <Row className="flex  justify-around items-center m-2">
+                            <Col span={6}>
+                              <LazyAvatar src={product.imageUrl} icon={<LoadingOutlined />}/>
+                            </Col>
+                            <Col span={18}>
+                              <p>{product.productName}</p>
+                            </Col>
+                          </Row>
+                        ),
+                        value: product.productId
+                      }))}
+                      onSelect={(value) => {
+                        navigate(`${webRoutes.products}/${value}`);
+                        setSearchValue(''); // Xoá dữ liệu trong ô nhập
+                      }}
+                      onChange={(value) => setSearchValue(value)}
+                      value={searchValue} // Gán giá trị của ô nhập
                       placeholder='Tìm kiếm...'
                       size='small'
-                      suffix={<BiSearch />}
-                      style={{ maxWidth: 200 }}
+                      suffixIcon={<BiSearch />}
+                      className='w-64 min-w-fit'
                     />
 
                     {renderNotifiMenu()}
