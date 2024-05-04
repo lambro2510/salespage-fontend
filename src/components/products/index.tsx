@@ -1,11 +1,12 @@
 import { ProCard } from "@ant-design/pro-components";
-import { Checkbox, Col, Input, Row, Typography, Slider, Form, Radio } from "antd";
+import { Checkbox, Col, Input, Row, Typography, Slider, Form, Radio, Divider } from "antd";
 import { useEffect, useState } from "react";
 import { ProductDataResponse } from "../../interfaces/interface";
 import { handleErrorResponse } from "../../utils";
 import http from "../../utils/http";
 import { apiRoutes } from "../../routes/api";
 import ListCardProduct from "../home/ListCardProduct";
+import HomeBanner from "../home/HomeBanner";
 
 interface ProductFilter {
     productName?: string | undefined,
@@ -96,6 +97,13 @@ const ProductList = () => {
     return (
         <div className="flex justify-center">
             <Row gutter={[32, 16]} className="w-11/12">
+                <Col span={24}><HomeBanner /></Col>
+                <Col className="flex justify-center items-center" span={24}>
+                    <Typography.Title title="Sản phẩm bán">
+                        Danh sách sản phẩm
+                    </Typography.Title>
+                </Col>
+                <Col span={24}><Divider /></Col>
                 <Col xs={24} lg={4}>
                     <Form
                         className="w-full"

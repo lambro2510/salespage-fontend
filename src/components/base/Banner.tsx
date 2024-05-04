@@ -21,7 +21,7 @@ const Banner = ({ imageUrl, title, subTitle, link }: { imageUrl: string, title: 
                 </div>
             </Col>
             <Col lg={16} className="flex justify-center items-center">
-                <img style={{}} src={imageUrl} />
+                <img style={{objectFit : "cover"}} src={imageUrl} />
             </Col>
         </Row>
     )

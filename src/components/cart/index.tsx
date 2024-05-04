@@ -28,6 +28,7 @@ const CardView = () => {
     const [cartDto, setCartDto] = useState<CartPaymentDto[]>()
     const [paymentPrice, setPaymentPrice] = useState<number>(0);
     const [address, setAddress] = useState("");
+    const [note, setNote] = useState("");
     const [voucherModal, setVoucherModal] = useState<VoucherModalProps>({
         cartId: "",
         open: false,
@@ -124,7 +125,7 @@ const CardView = () => {
         for (let data of cartItems) {
             let cartDto: CartPaymentDto = {
                 comboId: data.selectedCombo?.id,
-                note: '',
+                note: note,
                 transaction: []
             };
             for (let item of data.cartResponses) {
@@ -134,7 +135,7 @@ const CardView = () => {
                         storeId: item.storeId,
                         voucherCodeId: item.voucherInfo?.codeId,
                         cartId: item.cartId,
-                        note: '',
+                        note: note,
                         address: address
                     };
                     cartDto.transaction.push(cardPaymentTransaction)
@@ -167,7 +168,7 @@ const CardView = () => {
         
         handleDto();
         
-    }, [cartItems, address]);
+    }, [cartItems, address, note]);
 
     const setComboInfo = (cartItems: CartByStoreResponseInterface[], storeId: string, combo: ProductComboDetailResponseInterface | null) => {
         if (!combo) {
@@ -505,16 +506,19 @@ const CardView = () => {
                     <Row>
                         <Col span={24}>
                             <Row className="p-5 ">
-                                <Col span={4} className="flex items-center">
+                                <Col span={3} className="flex items-center">
                                     <Checkbox >Chọn tất cả</Checkbox>
                                 </Col>
-                                <Col span={4} className="flex items-center justify-around">
+                                <Col span={1} className="flex items-center justify-around">
                                     <Button type="text">Xóa</Button>
                                 </Col>
-                                <Col span={4} className="flex items-center justify-around">
-                                    <Input placeholder="địa chỉ nhận hàng" type="text" onChange={(value) => setAddress(value.target.value) }/>
+                                <Col span={6} className="flex items-center justify-around">
+                                    <Input className="w-2/3" placeholder="địa chỉ nhận hàng" type="text" onChange={(value) => setAddress(value.target.value) }/>
                                 </Col>
-                                <Col span={12} className="flex items-center justify-end">
+                                <Col span={6} className="flex items-center justify-around">
+                                    <Input className="w-2/3" placeholder="ghi chú" type="text" onChange={(value) => setNote(value.target.value) }/>
+                                </Col>
+                                <Col span={8} className="flex items-center justify-end">
                                     <Text className="mr-2">Tổng thanh toán {formatCurrency(paymentPrice)}</Text>
                                     <Button type="primary" onClick={() => paymentCartItem()}>Mua hàng</Button>
                                 </Col>

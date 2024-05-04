@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { PageContainer } from "@ant-design/pro-components";
 import { BreadcrumbProps, Button, Col, Input, InputNumber, Rate, Row, Tag, Typography } from "antd";
-import { Link, NavLink, useLocation, useParams } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import http from "../../utils/http";
 import { apiRoutes } from "../../routes/api";
 import { webRoutes } from "../../routes/web";
@@ -18,6 +18,7 @@ const { Text } = Typography;
 
 const ProductDetailView = () => {
     const { productId } = useParams();
+    const navigate = useNavigate();
     const location = useLocation();
     const [loading, setLoading] = useState<boolean>()
     const [product, setProduct] = useState<ProductDetailResponse>();
@@ -345,7 +346,11 @@ const ProductDetailView = () => {
 
                                         <Row className="pt-5 flex justify-around">
                                             <Button type="default" icon={<BiCartAdd />} onClick={() => addToCart()}>Thêm vào giỏ hàng</Button>
-                                            <Button type="primary">Mua ngay</Button>
+                                            <Button type="primary"
+                                                onClick={() => {
+                                                    addToCart();
+                                                    navigate(webRoutes.cart);
+                                                }}>Mua ngay</Button>
                                         </Row>
                                     </div>
                                 </div>

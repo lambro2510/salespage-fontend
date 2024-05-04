@@ -25,7 +25,6 @@ import { modalState } from '../../interfaces/models/data';
 import { RiPassExpiredFill } from 'react-icons/ri';
 import { FaPlus } from 'react-icons/fa6';
 import LazyAvatar from '../lazy-avatar';
-import image from '../../assets/img/empty-image.png';
 const { Title, Text } = Typography;
 
 interface ProductInfo {
