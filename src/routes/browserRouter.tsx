@@ -40,6 +40,10 @@ const ListProduct = loadable(() => import('../components/products'), {
 const CartView = loadable(() => import('../components/cart'), {
   fallback: fallbackElement,
 });
+
+const VoucherView = loadable(() => import('../components/voucher'), {
+  fallback: fallbackElement,
+});
 export const browserRouter = createBrowserRouter([
   {
     path: webRoutes.home,
@@ -59,6 +63,12 @@ export const browserRouter = createBrowserRouter([
       {
         path: `${webRoutes.products}`,
         element: <ListProduct />,
+        errorElement: errorElement,
+      },
+      
+      {
+        path: `${webRoutes.vouchers}`,
+        element: <VoucherView />,
         errorElement: errorElement,
       },
     ]
