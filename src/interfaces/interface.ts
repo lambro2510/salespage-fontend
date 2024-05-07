@@ -326,7 +326,6 @@ export interface CartResponse {
     totalPrice: number;
     product: ProductInfoResponse
 }
-
 export interface FavoriteResponse {
     type: FavoriteType;
     refId: string;

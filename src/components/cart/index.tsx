@@ -336,9 +336,10 @@ const CardView = () => {
                     if (item.isInCombo) {
                         totalPriceInCombo += item.totalPrice;
                     } else {
-                        totalPrice += item.quantity * item.sellPrice;
+                        totalPriceInCombo += item.totalPrice;
 
                     }
+
                 }
 
             })
