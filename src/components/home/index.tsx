@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import http from "../../utils/http";
 import { apiRoutes } from "../../routes/api";
 import { handleErrorResponse } from "../../utils";
 import { ProductDataResponse, ProductInfoResponse } from "../../interfaces/interface";
 import { Col, Divider, Row, Space } from "antd";
-import HomeBanner from "./HomeBanner";
 import ListCategories from "./Category";
 import HotProduct from "./HotProduct";
 import ListCardProduct from "./ListCardProduct";
@@ -21,7 +20,7 @@ const imageUrls = [
     "https://cf.shopee.vn/file/vn-50009109-0fffe0b1b0b7e9af17ad1e53346f4311_xhdpi"
 ]
 
-
+const HomeBanner = React.lazy(() => import('../home/HomeBanner'));
 const Home = () => {
 
     const [loading, setLoading] = useState<boolean>(true);
