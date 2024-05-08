@@ -116,6 +116,7 @@ const Layout = () => {
       }
     })
     setProducts(response.data.data.data)
+    console.log("response.data.data.data" , response.data.data.data)
   }
   const getNotification = async () => {
     try {
@@ -389,7 +390,7 @@ const Layout = () => {
         avatarProps={{
           src: auth ? auth.imgUrl : '',
           className: 'bg-primary bg-opacity-20 text-primary text-opacity-90',
-          size: 'small',
+          size: 'large',
           shape: 'square',
           title: auth ? (!isMobile ? auth.username : '') : 'Đăng nhập',
 
@@ -398,12 +399,30 @@ const Layout = () => {
               return (
                 <div className='hover:bg-inherit'>
                   <div className='flex justify-around items-center'>
-                    <Input
-                      onChange={(e) => getProduct(e.target.value)}
+                  <AutoComplete
+                      options={products.map((product) => ({
+                        label: (
+                          <Row className="flex  justify-around items-center m-2">
+                            <Col span={6}>
+                              <LazyAvatar src={product.imageUrl} icon={<LoadingOutlined />}/>
+                            </Col>
+                            <Col span={18}>
+                              <p style={{fontSize : '5'}}>{product.productName}</p>
+                            </Col>
+                          </Row>
+                        ),
+                        value: product.productId
+                      }))}
+                      onSelect={(value) => {
+                        navigate(`${webRoutes.products}/${value}`);
+                        setSearchValue(''); // Xoá dữ liệu trong ô nhập
+                      }}
+                      onChange={(value) => setSearchValue(value)}
+                      value={searchValue} // Gán giá trị của ô nhập
                       placeholder='Tìm kiếm...'
                       size='small'
-                      suffix={<BiSearch />}
-                      style={{ maxWidth: 200 }}
+                      suffixIcon={<BiSearch />}
+                      className='w-96 min-w-fit'
                     />
                     {renderNotifiMenu()}
                     {renderCardMenu()}
@@ -439,7 +458,7 @@ const Layout = () => {
               return (
                 <div>
                   <div className='flex justify-evenly items-center'>
-                    <AutoComplete
+                  <AutoComplete
                       options={products.map((product) => ({
                         label: (
                           <Row className="flex  justify-around items-center m-2">

@@ -23,7 +23,8 @@ interface VoucherModalProps {
 }
 const CardView = () => {
     const navigate = useNavigate();
-    const [loading, setLoading] = useState<boolean>();
+    const [loading, setLoading] = useState<boolean>(false);
+    const [loadBuying, setLoadBuying] = useState<boolean>(false);
     const [cartItems, setCartItems] = useState<CartByStoreResponseInterface[]>([]);
     const [cartDto, setCartDto] = useState<CartPaymentDto[]>()
     const [paymentPrice, setPaymentPrice] = useState<number>(0);
@@ -102,6 +103,7 @@ const CardView = () => {
 
     const paymentCartItem = async () => {
         try {
+            setLoadBuying(true)
             if(!cartDto || cartDto.length == 0 || cartDto[0].transaction.length == 0) {
 
                 showNotification('Bạn chưa chon sản phẩm nào', NotificationType.ERROR);
@@ -117,6 +119,7 @@ const CardView = () => {
             handleErrorResponse(error);
         } finally {
             setLoading(false);
+            setLoadBuying(false)
         }
     };
 
@@ -521,7 +524,7 @@ const CardView = () => {
                                 </Col>
                                 <Col span={8} className="flex items-center justify-end">
                                     <Text className="mr-2">Tổng thanh toán {formatCurrency(paymentPrice)}</Text>
-                                    <Button type="primary" onClick={() => paymentCartItem()}>Mua hàng</Button>
+                                    <Button loading={loadBuying} type="primary" onClick={() => paymentCartItem()}>Mua hàng</Button>
                                 </Col>
                             </Row>
                         </Col>
