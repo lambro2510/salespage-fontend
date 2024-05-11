@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import BasePageContainer from '../layout/PageContainer';
-import { Avatar, Button, Col, Divider, List, Row, Skeleton, Typography } from 'antd';
+import { Avatar, Button, Col, Divider, List, Row, Skeleton, Tooltip, Typography } from 'antd';
 import { PercentageOutlined } from '@ant-design/icons'
 import http from '../../utils/http';
 import { apiRoutes } from '../../routes/api';
@@ -21,24 +21,10 @@ interface UserVoucherResponse {
     discountType: string; // Assuming DiscountType is represented as a string in JavaScript
     storeType: string; // Assuming VoucherStoreType is represented as a string in JavaScript
     dayToExpireTime: number;
+    voucherReceived: number;
     isLimited: boolean;
 }
 
-const exampleResponse: UserVoucherResponse[] = [
-    {
-        voucherStoreName: "Example Store",
-        voucherCodeId: "12345",
-        voucherStoreId: "67890",
-        voucherCode: "ABC123",
-        minPrice: 50,
-        maxPrice: 100,
-        value: 10,
-        discountType: "Percentage", // Example value
-        storeType: "Online", // Example value
-        dayToExpireTime: 30,
-        isLimited: false
-    }
-]
 
 const image = {
     imageUrl: "https://gombattrang.vn/wp-content/uploads/2022/09/banner-danh-muc-do-tho-men-ran-day-du.jpg",
@@ -122,7 +108,13 @@ const VoucherView = () => {
                         dataSource={allVoucher}
                         renderItem={(item) => (
                             <List.Item
-                                actions={[<Button key="list-loadmore-edit" onClick={() => saveVoucher(item.voucherStoreId)}>Nhận</Button>]}
+                                actions={[
+                                    <Tooltip title={`Đã nhận ${item.voucherReceived} voucher`}>
+                                        <Button disabled={item.isLimited} key="list-loadmore-edit" onClick={() => saveVoucher(item.voucherStoreId)}>
+                                            Nhận
+                                        </Button>
+                                    </Tooltip>
+                                ]}
                             >
                                 <Skeleton avatar title={false} loading={loading} active>
                                     <List.Item.Meta

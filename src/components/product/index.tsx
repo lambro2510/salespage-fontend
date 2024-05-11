@@ -190,7 +190,7 @@ const ProductDetailView = () => {
                                 {voucher.isLimited == true ?
                                     <>
                                         <Tag key={voucher.voucherStoreId}
-                                            color="magenta"
+                                            color="gray"
                                             className="cursor-pointer"
                                         >
                                             <p className="pr-1">{voucher.value}{voucher.discountType == 'PERCENT' ? '%' : ''}</p>
