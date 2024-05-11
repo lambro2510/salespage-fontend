@@ -45,7 +45,7 @@ const second5SaleProduct = {
     imgUrl: "https://gombattrang.vn/wp-content/uploads/2022/09/bong-hut-loc-an-phu-lien-ngu-su-khu-gom-bat-trang.jpg",
     name: 'BÓNG HÚT LỘC AN PHÚ LIÊN NGƯ SỨ KHỬ',
     storeId: '1',
-    description: 'hiệu năng cực mạnh'
+    description: 'Bình hút lộc tài phú'
 }
 const HotProduct = () => {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -58,15 +58,16 @@ const HotProduct = () => {
                 </Col>
                 <Col xs={24} sm={24} md={24} lg={24}>
                     <p className="text-center">{saleProduct.name}
-                        <span className="ml-5">
-                            <Tag color="red">
-                                Giảm {saleProduct.discount} %
-                            </Tag>
-                        </span>
+                        
                     </p>
                 </Col>
 
             </Row>
+            <span className="absolute top-3 right-0">
+                            <Tag color="red">
+                                Giảm {saleProduct.discount} %
+                            </Tag>
+                        </span>
         </ProCard>
     );
     return (

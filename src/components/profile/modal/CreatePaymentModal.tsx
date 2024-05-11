@@ -10,6 +10,7 @@ interface CreatePaymentModalProps {
     bankAccounts: BankAccountResponse[];
     paymentId: string | undefined;
     close: () => void;
+    done: () => void;
 }
 
 const { Step } = Steps;
@@ -21,6 +22,7 @@ const CreatePaymentModal = ({
     bankAccounts,
     paymentId,
     close,
+    done
 }: CreatePaymentModalProps) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [payment, setPayment] = useState<string | undefined>(paymentId)
@@ -106,66 +108,79 @@ const CreatePaymentModal = ({
 
     const renderSelectBank = () => {
         return (
-            <Row>
-                <Radio.Group name="bank">
-                    {bankAccounts.map((account) => {
-                        return (
-                            <Col span={24}>
-                                <Row>
-                                    <Col lg={1} className="flex items-center">
-                                        <Radio value={account.bankAccountId} onClick={() => setBankAccountId(account.bankAccountId)} />
-                                    </Col>
-                                    <Col lg={5} className="flex items-center">
-                                        <img src={account.bankLogoUrl} />
-                                    </Col>
-                                    <Col lg={12} className="flex items-center">
-                                        {account.bankFullName}
-                                    </Col>
-                                    <Col lg={6} className="flex items-center">
-                                        {account.accountNo}
-                                    </Col>
-                                </Row>
-                            </Col>
-                        )
-                    })}
-                </Radio.Group>
+            <Row className="mt-2" gutter={[16, 16]}>
+                <Col span={24} className="flex justify-center">
+                    <p>Chọn tài khoản dùng để nạp tiền</p>
+                </Col>
+                <Col span={24}>
+                    <Radio.Group name="bank">
+                        {bankAccounts.map((account) => {
+                            return (
+                                <Col span={24}>
+                                    <Row>
+                                        <Col lg={1} className="flex items-center">
+                                            <Radio value={account.bankAccountId} onClick={() => setBankAccountId(account.bankAccountId)} />
+                                        </Col>
+                                        <Col lg={5} className="flex items-center">
+                                            <img src={account.bankLogoUrl} />
+                                        </Col>
+                                        <Col lg={12} className="flex items-center">
+                                            {account.bankFullName}
+                                        </Col>
+                                        <Col lg={6} className="flex items-center">
+                                            {account.accountNo}
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            )
+                        })}
+                    </Radio.Group>
+                </Col>
             </Row>
         )
     }
 
     const renderTranfertBank = () => {
         return (
-            <Row className="w-full">
-                <Radio.Group name="tranferBank">
-                    {paymentMethod.map((payment) => {
-                        return (
-                            <Col span={24} className="mt-5 mb-5">
+            <Row className="w-full mt-2 mb-2">
+                <Col span={24}>
+                    <p className="text-center">Chọn thanh toán đến ngân hàng</p>
+                </Col>
+                <Col span={24}>
+                    <Radio.Group name="tranferBank">
+                        {paymentMethod.map((payment) => {
+                            return (
                                 <Row >
-                                    <Col span={2} className="flex items-center">
+                                    <Col span={10} className="flex items-center">
                                         <Radio value={payment.bin} onClick={() => {
                                             setBin(payment.bin)
                                             setBankAccountNo(payment.bankAccountNo)
                                         }} />
                                     </Col>
-                                    <Col span={11} className="flex items-center ">
-                                        {payment.accountName}
-                                    </Col>
-                                    <Col span={11} className="flex items-center">
+                                    <Col span={10} className="flex items-center ">
                                         {payment.bankShortName}
                                     </Col>
+                                    <Col span={4} className="flex items-center">
+                                        {payment.bankAccountNo}
+                                    </Col>
                                 </Row>
-                            </Col>
-                        )
-                    })}
-                </Radio.Group>
-                <Input type="number" onChange={(e) => setAmount(Number(e.target.value))} placeholder="Nhập số tiền cần nạp" />
+                            )
+                        })}
+                    </Radio.Group>
+
+                </Col>
+                <Col span={24} className="mt-2">
+                    <Input type="number" onChange={(e) => setAmount(Number(e.target.value))} placeholder="Nhập số tiền cần nạp" />
+                </Col>
             </Row>
         )
     }
 
     const renderQrPaymentConfirm = () => {
         return (
-            <img src={qrCodeUrl} />
+            <div className="flex justify-center">
+                <img src={qrCodeUrl} />
+            </div>
         )
     }
     const steps = [
@@ -192,17 +207,20 @@ const CreatePaymentModal = ({
             <div style={{ marginTop: 24 }}>
                 {current < steps.length - 1 && (
                     <Button type="primary" onClick={() => next()}>
-                        Next
+                        Tiếp tục
                     </Button>
                 )}
                 {current === steps.length - 1 && (
-                    <Button type="primary" onClick={() => console.log('Processing complete!')}>
-                        Done
+                    <Button type="primary" onClick={() => {
+                        setCurrent(0);
+                        done();
+                    }}>
+                        Hoàn thành
                     </Button>
                 )}
                 {current > 0 && (
                     <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
-                        Previous
+                        Trở về
                     </Button>
                 )}
             </div>
