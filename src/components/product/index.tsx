@@ -86,7 +86,7 @@ const ProductDetailView = () => {
         getPublicVoucher();
     }, [location]);
 
-    const addToCart = async () => {
+    const addToCart = async (isNavigate ?: boolean) => {
         try {
             if (!selectedStoreId) {
                 showNotification("Chưa chọn cửa hàng bán", NotificationType.ERROR)
@@ -98,7 +98,9 @@ const ProductDetailView = () => {
                 })
                 showNotification(res?.data?.message)
             }
-
+            if(isNavigate) {
+                navigate(webRoutes.cart);
+            }
         } catch (error) {
             handleErrorResponse(error);
         }
@@ -348,8 +350,7 @@ const ProductDetailView = () => {
                                             <Button type="default" icon={<BiCartAdd />} onClick={() => addToCart()}>Thêm vào giỏ hàng</Button>
                                             <Button type="primary"
                                                 onClick={() => {
-                                                    addToCart();
-                                                    navigate(webRoutes.cart);
+                                                    addToCart(true);
                                                 }}>Mua ngay</Button>
                                         </Row>
                                     </div>

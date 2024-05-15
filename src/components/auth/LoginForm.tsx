@@ -5,6 +5,7 @@ import {
     FacebookFilled,
     TwitterOutlined,
     UserOutlined,
+    LeftOutlined
 } from '@ant-design/icons';
 import {
     LoginForm,
@@ -15,6 +16,7 @@ import {
     ProFormCheckbox,
     ProFormText,
 } from '@ant-design/pro-components';
+
 import { Button, Divider, Space, Tabs, message, theme } from 'antd';
 import type { CSSProperties } from 'react';
 import { useEffect, useState } from 'react';
@@ -66,7 +68,7 @@ const Page = () => {
             const auth: Auth = response?.data?.data;
             console.log(response?.data?.data?.role);
             console.log(from);
-            
+
             if (response?.data?.data?.role != 'USER') {
                 showNotification("Vui lòng đăng nhập trang quản trị viên để sử dụng", NotificationType.ERROR);
             } else {
@@ -80,11 +82,11 @@ const Page = () => {
         }
     };
 
-    const sendOtp =async (phone : string) => {
+    const sendOtp = async (phone: string) => {
         try {
             const response = await http.post(`${apiRoutes.account}/verify-code/${phone}`);
         } catch (error) {
-            
+
         }
     }
     return (
@@ -106,30 +108,31 @@ const Page = () => {
                 }
                 }
                 onFinish={(value) => loginByUsername(value)}
-                // activityConfig={{
-                //     style: {
-                //         boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.2)',
-                //         color: token.colorTextHeading,
-                //         borderRadius: 8,
-                //         backgroundColor: 'rgba(255,255,255,0.25)',
-                //         backdropFilter: 'blur(4px)',
-                //     },
-                //     title: 'Trang bán đồ gốm',
-                //     subTitle: 'Sàn giao dịch thương mại điện tử',
-                //     action: (
-                //         <Button
-                //             size="large"
-                //             style={{
-                //                 borderRadius: 20,
-                //                 background: token.colorBgElevated,
-                //                 color: token.colorPrimary,
-                //                 width: 120,
-                //             }}
-                //         >
-                //             Xem thêm
-                //         </Button>
-                //     ),
-                // }}
+                activityConfig={{
+                    style: {
+                        boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.2)',
+                        color: token.colorTextHeading,
+                        borderRadius: 8,
+                        backgroundColor: 'rgba(255,255,255,0.25)',
+                        backdropFilter: 'blur(4px)',
+                    },
+                    title: 'Trang bán đồ gốm',
+                    subTitle: 'Gốm sứ bát tràng chính hãng',
+                    action: (
+                        <Button
+                            onClick={() => navigate(webRoutes.home)}
+                            size="large"
+                            style={{
+                                borderRadius: 20,
+                                background: token.colorBgElevated,
+                                color: token.colorPrimary,
+                                width: 120,
+                            }}
+                        >
+                            Trang chủ
+                        </Button>
+                    ),
+                }}
                 actions={
                     <div
                         style={{
@@ -310,7 +313,7 @@ const Page = () => {
                                     message: 'Chưa điền mã xác nhận',
                                 },
                             ]}
-                            onGetCaptcha={async (moblie : any) => {
+                            onGetCaptcha={async (moblie: any) => {
                                 await sendOtp(moblie)
                             }}
                         />
