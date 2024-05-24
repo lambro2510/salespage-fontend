@@ -117,7 +117,6 @@ const Register = () => {
                         </Form.Item>
                         <Form.Item
                             name="userRole"
-                            rules={[{ required: true, message: "Chưa điền số điện thoại!" }]}
                         >
                             <Select placeholder="Loại tài khoản" defaultValue={'USER'}>
                                 <Select.Option key={'USER'} children="Người mua hàng" />
