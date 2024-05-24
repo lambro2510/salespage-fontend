@@ -117,8 +117,9 @@ const Register = () => {
                         </Form.Item>
                         <Form.Item
                             name="userRole"
+                            initialValue={'USER'}
                         >
-                            <Select placeholder="Loại tài khoản" defaultValue={'USER'}>
+                            <Select placeholder="Loại tài khoản" defaultValue={'USER'} >
                                 <Select.Option key={'USER'} children="Người mua hàng" />
                             </Select>
                         </Form.Item>
