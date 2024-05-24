@@ -57,11 +57,11 @@ const HomeBanner = () => {
             <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}></div>
             <Row style={{ padding: '2% 5%' }}>
                 <Col span={24}>
-                    <Slider {...settings} >
+                    {/* <Slider {...settings} > */}
                         {imagesData.map((img, index) => (
                             <Banner key={index} imageUrl={img.imageUrl} title={img.title} subTitle={img.subTitle} link={img.link}/>
                         ))}
-                    </Slider>
+                    {/* </Slider> */}
                 </Col>
             </Row>
         </div>

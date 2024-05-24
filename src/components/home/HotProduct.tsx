@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ProCard } from "@ant-design/pro-components";
-import { Col, Row, Tag } from "antd";
+import { Col, Row, Tag, Typography } from "antd";
 import { webRoutes } from "../../routes/web";
 import { useNavigate } from 'react-router-dom';
 
@@ -69,9 +69,9 @@ const HotProduct = () => {
                 <Col xs={24} sm={24} md={24} lg={24}>
                     <img src={saleProduct.imgUrl} alt={saleProduct.name} />
                 </Col>
-                <Col xs={24} sm={24} md={24} lg={24}>
-                    <p className="text-center">{saleProduct.name}
-
+                <Col xs={24} sm={24} md={24} lg={24} className='mt-2'>
+                    <p className="text-center line-clamp-1">
+                        {saleProduct.name}
                     </p>
                 </Col>
 
@@ -86,7 +86,7 @@ const HotProduct = () => {
     return (
         <ProCard>
             <Row gutter={[32, 32]}>
-                <Col xs={24} sm={24} md={16} lg={16} >
+                <Col xs={24} sm={24} md={15} lg={14} >
                     <ProCard
                         className="bg-card cursor-pointer"
                         bordered
@@ -107,7 +107,7 @@ const HotProduct = () => {
                     </ProCard>
                 </Col>
                 {!isMobile && <>
-                    <Col xs={24} sm={24} md={8} lg={8}>
+                    <Col xs={24} sm={24} md={9} lg={10}>
                         {renderProcard(secondSaleProduct)}
                     </Col>
                     <Col xs={12} sm={12} md={6} lg={6}>

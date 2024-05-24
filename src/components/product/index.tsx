@@ -180,7 +180,7 @@ const ProductDetailView = () => {
 
     const renderVoucher = (vouchers: UserVoucherResponse[]) => {
         return (
-            <Row>
+            <Row className="mt-4 mb-4">
                 <Col span={6}>
                     Mã giảm giá
                 </Col>

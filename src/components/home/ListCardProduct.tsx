@@ -1,6 +1,6 @@
 import React from "react";
 import { ProductDataResponse } from "../../interfaces/interface";
-import { Card, Col, Row } from "antd";
+import { Card, Col, Rate, Row } from "antd";
 import LazyImage from "../lazy-image";
 import { formatCurrency } from "../../utils";
 import { ImStarFull } from "react-icons/im";
@@ -10,13 +10,13 @@ import { useNavigate } from "react-router-dom";
 import { webRoutes } from "../../routes/web";
 
 interface ListCardProductProps {
-    title : string;
+    title: string;
     products: ProductDataResponse[];
     loading?: boolean;
     nextPage?: any;
 }
 
-const ListCardProduct = ({title, products, loading, nextPage }: ListCardProductProps) => {
+const ListCardProduct = ({ title, products, loading, nextPage }: ListCardProductProps) => {
     const navigate = useNavigate();
 
     const handleCardHover = (productId: string, isHovered: boolean) => {
@@ -50,11 +50,21 @@ const ListCardProduct = ({title, products, loading, nextPage }: ListCardProductP
                                 <LazyImage src={product.imageUrl} />
                             </div>
                             <Card.Meta
-                                title={<h3 style={{ fontSize: '16px', fontWeight: 'bold' }}>{product.productName}</h3>}
+                                title={
+                                    <Row>
+                                        <Col xs={24} lg={24} className="mt-3" style={{ fontSize: '12px' }}>
+                                            {product.productName}
+                                        </Col>
+                                        <Col xs={24} lg={24}>
+                                            <Rate className="w-full" disabled allowHalf value={product.productRate.avgPoint} />
+                                        </Col>
+                                    </Row>
+                                }
                                 description={
                                     <Row>
-                                        <Col xs={12} lg={12}>
-                                            <div className="flex justify-start items-center">
+                                        <Col xs={12} lg={24}>
+                                            {/* <Rate className="w-full" disabled allowHalf value={product.productRate.avgPoint} /> */}
+                                            {/* <div className="flex justify-start items-center">
                                                 <p className="xs">
                                                     {product.productRate.avgPoint.toFixed(0)}
                                                 </p>
@@ -63,14 +73,14 @@ const ListCardProduct = ({title, products, loading, nextPage }: ListCardProductP
                                                     size={'15px'}
                                                     color="yellow"
                                                 />
-                                            </div>
-                                            
+                                            </div> */}
+
                                         </Col>
-                                        <Col xs={12} lg={12}>
-                                        <div className="flex justify-start items-center text-red">
-                                                <p>{formatCurrency(product.minSellPrice)}</p>
+                                        <Col xs={12} lg={24}>
+                                            <div className="flex justify-start items-center text-red">
+                                                <p style={{ fontSize: '12px' }}>{formatCurrency(product.minSellPrice)}</p>
                                             </div>
-                                            </Col>
+                                        </Col>
                                         {/* <Col xs={12} lg={12}>
                                             <div className="flex justify-center items-center">
                                                 <p>{product.totalView} </p>

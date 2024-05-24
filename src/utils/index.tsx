@@ -85,7 +85,7 @@ export function formatCurrency(amount : any) {
     }
   } else {
     // Nếu không phải số, trả về giá trị không thay đổi
-    return amount;
+    return 'Sắp mở bán';
   }
 }
 export function formatQuantity(amount: number) {

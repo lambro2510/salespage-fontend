@@ -9,7 +9,7 @@ import { apiRoutes } from "../../routes/api";
 import { webRoutes } from "../../routes/web";
 import { Auth } from "../../interfaces/models/auth";
 import { login } from "../../store/slices/authSlice";
-import image from '../../../public/4k-bg.jpg';
+import image from '/4k-bg.jpg';
 const Register = () => {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const dispatch = useDispatch();
