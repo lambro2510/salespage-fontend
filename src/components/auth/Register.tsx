@@ -54,7 +54,7 @@ const Register = () => {
         <div
             className="h-screen w-full"
             style={{
-                backgroundImage: "url(" + { image } + ")"
+                backgroundImage: `url(${image})`
             }}>
             <div className="flex justify-center items-center h-screen">
                 <Card
