@@ -88,6 +88,24 @@ export function formatCurrency(amount : any) {
     return 'Sắp mở bán';
   }
 }
+
+export function formatCurrency0D(amount : any) {
+  // Kiểm tra nếu amount là số
+  if (typeof amount === 'number') {
+    // Định dạng số tiền theo yêu cầu
+    if (amount >= 10000000) {
+      return (amount / 1000000).toFixed(1) + 'tr đ';
+    } else {
+      return amount.toLocaleString('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+      });
+    }
+  } else {
+    // Nếu không phải số, trả về giá trị không thay đổi
+    return amount;
+  }
+}
 export function formatQuantity(amount: number) {
   if (amount > 1000) {
     return amount / 1000 + ' k';

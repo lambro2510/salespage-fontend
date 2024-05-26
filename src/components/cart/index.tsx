@@ -7,7 +7,7 @@ import { ProCard } from "@ant-design/pro-components";
 import QuantityInput from "../quantityInput";
 import { CartByStoreResponseInterface, CartPaymentDto, CartPaymentTransaction, ProductComboDetailResponseInterface } from "../../interfaces/models/cart";
 import { modalState } from "../../interfaces/models/data";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { webRoutes } from "../../routes/web";
 import { SyncLoader } from "react-spinners";
 import { UserVoucherResponse } from "../../interfaces/interface";
@@ -76,8 +76,8 @@ const CardView = () => {
     const removeVoucher = async (cartId: string) => {
         let updatedCartItem = [...cartItems]
         updatedCartItem.forEach(cartItem => {
-            for(let item of cartItem.cartResponses){
-                if(item.cartId == cartId){
+            for (let item of cartItem.cartResponses) {
+                if (item.cartId == cartId) {
                     item.voucherInfo.isUse = false;
                 }
             }
@@ -104,7 +104,7 @@ const CardView = () => {
     const paymentCartItem = async () => {
         try {
             setLoadBuying(true)
-            if(!cartDto || cartDto.length == 0 || cartDto[0].transaction.length == 0) {
+            if (!cartDto || cartDto.length == 0 || cartDto[0].transaction.length == 0) {
 
                 showNotification('Bạn chưa chon sản phẩm nào', NotificationType.ERROR);
                 return;
@@ -168,9 +168,9 @@ const CardView = () => {
     }, []);
 
     useEffect(() => {
-        
+
         handleDto();
-        
+
     }, [cartItems, address, note]);
 
     const setComboInfo = (cartItems: CartByStoreResponseInterface[], storeId: string, combo: ProductComboDetailResponseInterface | null) => {
@@ -211,6 +211,7 @@ const CardView = () => {
         return combo;
     };
 
+    
     const renderProductCombo = (cartItem: CartByStoreResponseInterface) => {
 
         const setSelectedCombo = (combo: ProductComboDetailResponseInterface) => {
@@ -290,21 +291,57 @@ const CardView = () => {
         }
     };
 
+    const totalPrice = (cartItems : CartByStoreResponseInterface[]) => {
+        let totalPrice = 0;
+        for(let cartItem of cartItems ) {
+            totalPrice += countPriceNeedPayment(cartItem)
+        }
+        return totalPrice;
+    }
+
+    const countPriceNeedPayment = (cartItem : CartByStoreResponseInterface) => {
+        let totalPrice = 0;
+        let totalPriceInCombo = 0;
+        let combo: ProductComboDetailResponseInterface | null = cartItem.selectedCombo;
+        cartItem.cartResponses.forEach(item => {
+            if (item.isSelected) {
+                if (item.isInCombo) {
+                    totalPriceInCombo += item.totalPrice;
+                } else {
+                    totalPriceInCombo += item.totalPrice;
+                }
+            }
+
+        })
+        if (combo?.canUseCombo) {
+            if (combo.type == "PERCENT") {
+                totalPriceInCombo = totalPriceInCombo - totalPriceInCombo * (combo.value / 100);
+
+            } else if (combo.type == "TOTAL") {
+                totalPriceInCombo = totalPriceInCombo - combo.value;
+            }
+        }
+        console.log('totalPriceInCombo: ', totalPriceInCombo);
+        console.log('totalPrice: ', totalPrice);
+        console.log('totalPrice + totalPriceInCombo: ', totalPrice + totalPriceInCombo);
+        return totalPrice + totalPriceInCombo;
+
+    };
 
     const renderCartItem = (cartItem: CartByStoreResponseInterface) => {
 
         const selectItem = (cartId: string, checked: boolean) => {
-            let paymentNeedPrice = countPriceNeedPayment();
+            let paymentNeedPrice = countPriceNeedPayment(cartItem);
             let updatedCartItems = [...cartItems];
             updatedCartItems.forEach(item => {
                 if (item.storeId === cartItem.storeId) {
                     item.cartResponses.forEach(itemInfo => {
                         if (itemInfo.cartId === cartId) {
                             itemInfo.isSelected = checked;
-                            if(checked == true){
-                                setPaymentPrice(paymentPrice - paymentNeedPrice +  countPriceNeedPayment())
-                            }else{
-                                setPaymentPrice(paymentPrice - (paymentNeedPrice - countPriceNeedPayment()))
+                            if (checked == true) {
+                                setPaymentPrice(paymentPrice - paymentNeedPrice + countPriceNeedPayment(cartItem))
+                            } else {
+                                setPaymentPrice(paymentPrice - (paymentNeedPrice - countPriceNeedPayment(cartItem)))
                             }
                         }
                     })
@@ -330,36 +367,7 @@ const CardView = () => {
             updateCartItems(cartId, quantity, undefined);
         };
 
-        const countPriceNeedPayment = () => {
-            let totalPrice = 0;
-            let totalPriceInCombo = 0;
-            let combo: ProductComboDetailResponseInterface | null = cartItem.selectedCombo;
-            cartItem.cartResponses.forEach(item => {
-                if (item.isSelected) {
-                    if (item.isInCombo) {
-                        totalPriceInCombo += item.totalPrice;
-                    } else {
-                        totalPriceInCombo += item.totalPrice;
 
-                    }
-
-                }
-
-            })
-            if (combo?.canUseCombo) {
-                if (combo.type == "PERCENT") {
-                    totalPriceInCombo = totalPriceInCombo - totalPriceInCombo * (combo.value / 100);
-
-                } else if (combo.type == "TOTAL") {
-                    totalPriceInCombo = totalPriceInCombo - combo.value;
-                }
-            }
-            console.log('totalPriceInCombo: ', totalPriceInCombo);
-            console.log('totalPrice: ', totalPrice);
-            console.log('totalPrice + totalPriceInCombo: ', totalPrice + totalPriceInCombo);
-            return totalPrice + totalPriceInCombo;
-
-        };
 
         return (
             <ProCard
@@ -388,7 +396,11 @@ const CardView = () => {
                                 </Col>
                                 <Col span={7} className="flex items-center justify-center">
                                     <div>
-                                        <Text className="flex justify-center">{item.productName}</Text>
+                                        <NavLink
+                                            className="flex justify-center"
+                                            to={`${webRoutes.products}/${item.productId}`}
+                                        >{item.productName}
+                                        </NavLink>
                                         <Text className="flex justify-center opacity-75" >({item.productDetailName})</Text>
                                     </div>
                                 </Col>
@@ -398,9 +410,9 @@ const CardView = () => {
                                             <Text delete className="text-gray-400">
                                                 {formatCurrency(item.price)}
                                             </Text>
-                                            &nbsp;-&nbsp;
+                                            &nbsp;&nbsp;
                                             <Text className="text-rose-500">
-                                                {formatCurrency(item.totalPrice)}
+                                                {formatCurrency(item.sellPrice)}
                                             </Text>
                                         </div>
                                     ) : (
@@ -463,7 +475,7 @@ const CardView = () => {
                 <Divider />
                 <div className="float-right">
                     <Text>Tổng tiền thanh toán cho cửa hàng: </Text>
-                    <Text className="text-primary"> {formatCurrency(countPriceNeedPayment())} </Text>
+                    <Text className="text-primary"> {formatCurrency(countPriceNeedPayment(cartItem))} </Text>
                 </div>
             </ProCard>
         );
@@ -517,13 +529,13 @@ const CardView = () => {
                                     <Button type="text">Xóa</Button>
                                 </Col>
                                 <Col span={6} className="flex items-center justify-around">
-                                    <Input className="w-2/3" placeholder="địa chỉ nhận hàng" type="text" onChange={(value) => setAddress(value.target.value) }/>
+                                    <Input className="w-2/3" placeholder="địa chỉ nhận hàng" type="text" onChange={(value) => setAddress(value.target.value)} />
                                 </Col>
                                 <Col span={6} className="flex items-center justify-around">
-                                    <Input className="w-2/3" placeholder="ghi chú" type="text" onChange={(value) => setNote(value.target.value) }/>
+                                    <Input className="w-2/3" placeholder="ghi chú" type="text" onChange={(value) => setNote(value.target.value)} />
                                 </Col>
                                 <Col span={8} className="flex items-center justify-end">
-                                    <Text className="mr-2">Tổng thanh toán {formatCurrency(paymentPrice)}</Text>
+                                    <Text className="mr-2">Tổng thanh toán {formatCurrency(totalPrice(cartItems))}</Text>
                                     <Button loading={loadBuying} type="primary" onClick={() => paymentCartItem()}>Mua hàng</Button>
                                 </Col>
                             </Row>

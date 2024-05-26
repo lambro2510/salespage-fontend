@@ -8,7 +8,7 @@ import { webRoutes } from "../../routes/web";
 import ListCarousel from "../listCarousel";
 import BasePageContainer from "../layout/PageContainer";
 import LazyImage from "../lazy-image";
-import { NotificationType, formatCurrency, handleErrorResponse, showNotification } from '../../utils/index'
+import { NotificationType, formatCurrency, formatCurrency0D, handleErrorResponse, showNotification } from '../../utils/index'
 import { BiCartAdd } from "react-icons/bi";
 import QuantityInput from "../quantityInput";
 import { ProductDataResponse, ProductDetailInfoResponse, ProductDetailResponse, UploadImageData, UserVoucherResponse } from "../../interfaces/interface";
@@ -159,10 +159,10 @@ const ProductDetailView = () => {
                 {selectedProductDetail?.discountPercent ? (
                     <>
                         <Text delete className="text-2xs text-gray-500 pr-2">
-                            {formatCurrency(selectedProductDetail.originPrice)}
+                            {formatCurrency0D(selectedProductDetail.originPrice)}
                         </Text>
                         <Text className="text-2xl text-red pr-2">
-                            {formatCurrency(selectedProductDetail.sellPrice)}
+                            {formatCurrency0D(selectedProductDetail.sellPrice)}
                         </Text>
                         <Tag color="red" className="flex items-center">
                             <span className="pr-1">{selectedProductDetail.discountPercent}% giảm</span>
@@ -170,7 +170,7 @@ const ProductDetailView = () => {
                     </>
                 ) : (
                     <Text className="text-2xl text-red">
-                        {formatCurrency(selectedProductDetail?.sellPrice)}
+                        {formatCurrency0D(selectedProductDetail?.sellPrice)}
                     </Text>
                 )}
             </div>
