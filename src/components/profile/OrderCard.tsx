@@ -36,7 +36,7 @@ const getTransactionState = (state: ProductTransactionState) => {
 const { Title, Text } = Typography;
 const OrderCard = () => {
     const [loading, setLoading] = useState<boolean>(true);
-    const [transactions, setTransactions] = useState([]);
+    const [transactions, setTransactions] = useState<ProductTransactionResponse[]>([]);
     const [page, setpage] = useState<number>(1)
     const [total, setTotal] = useState<number>(0);
     const [openOrderModal, setOpenOrderModal] = useState<boolean>(false);
@@ -75,11 +75,24 @@ const OrderCard = () => {
             <Col span={24}>
                 <Row className="flex items-center">
                     <Col xs={4} lg={1}>
-                        <Avatar src={transaction.details[0].store.imageUrl} alt={transaction.details[0].store.storeName} shape="circle" />
+                        <Avatar src={transaction?.details?.[0]?.store?.imageUrl} alt={transaction?.details?.[0]?.store?.imageUrl} shape="circle" />
                     </Col>
                     <Col xs={10} lg={15}>
-                        <Text>Đơn hàng {transaction.id} - {`(${transaction.details[0].store.storeName})`}</Text>
+                        <Text>
+                            {transaction && transaction.id && transaction?.details?.[0]?.store?.storeName ? (
+                                <>
+                                    Đơn hàng {transaction.id} - ({transaction?.details?.[0]?.store?.storeName})
+                                </>
+                            ) :
+                                (
+                                    <>
+                                        Sản phẩm đã bị xóa
+                                    </>
+                                )
+                            }
+                        </Text>
                     </Col>
+
                     <Col xs={10} lg={8} className="flex justify-between">
                         <div>
                             {transaction.comboInfo.isUseCombo ?
@@ -173,7 +186,7 @@ const OrderCard = () => {
                                         }
                                     </div>
                                     <Collapse>
-                                        {transaction.details.map((detail: ProductTransactionDetailResponse) => {
+                                        {transaction?.details?.map((detail: ProductTransactionDetailResponse) => {
                                             return (
                                                 <Collapse.Panel key={detail.id} header={renderTransactionDetailHeader(detail)} >
                                                     {renderTransactionDetail(detail)}

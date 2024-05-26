@@ -65,7 +65,7 @@ export interface ProductTransactionResponse {
     note: number;
     createdAt: number;
     comboInfo : ComboInfo;
-    details : ProductTransactionDetailResponse[]
+    details ?: ProductTransactionDetailResponse[]
 }
 
 export interface ComboInfo {
