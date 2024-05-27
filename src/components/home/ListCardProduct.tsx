@@ -2,7 +2,7 @@ import React from "react";
 import { ProductDataResponse } from "../../interfaces/interface";
 import { Card, Col, Rate, Row } from "antd";
 import LazyImage from "../lazy-image";
-import { formatCurrency } from "../../utils";
+import { formatCurrency, formatCurrency0D } from "../../utils";
 import { ImStarFull } from "react-icons/im";
 import { GrFormView } from "react-icons/gr";
 import { SyncLoader } from "react-spinners";
@@ -78,7 +78,7 @@ const ListCardProduct = ({ title, products, loading, nextPage }: ListCardProduct
                                         </Col>
                                         <Col xs={12} lg={24}>
                                             <div className="flex justify-start items-center text-red">
-                                                <p style={{ fontSize: '12px' }}>{formatCurrency(product.minSellPrice)}</p>
+                                                <p style={{ fontSize: '12px' }}>{formatCurrency0D(product.minSellPrice)}</p>
                                             </div>
                                         </Col>
                                         {/* <Col xs={12} lg={12}>
