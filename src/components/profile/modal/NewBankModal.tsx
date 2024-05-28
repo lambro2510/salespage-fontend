@@ -12,9 +12,10 @@ const { Text } = Typography;
 interface NewBankModalProps {
     banks: BankListData[];
     close: () => void
+    done: () => void
 }
 
-const NewBankModal = ({ banks,close }: NewBankModalProps) => {
+const NewBankModal = ({ banks,close, done }: NewBankModalProps) => {
     const [loading, setLoading] = useState<boolean>(false)
     const [currentStep, setCurrentStep] = useState(0);
     const [bin, setBin] = useState<number | undefined>();
@@ -33,7 +34,7 @@ const NewBankModal = ({ banks,close }: NewBankModalProps) => {
                 accountNumber: bankAccountNo
             })
             showNotification(response.data.message)
-            close()
+            done()
         } catch (err) {
             handleErrorResponse(err)
         } finally {

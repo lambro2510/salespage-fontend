@@ -248,7 +248,13 @@ const PaymentCard = () => {
                 </Card>
             </Col>
             <Modal title='Tạo thanh toán mới' open={openNewBankModal} onCancel={() => setOpenNewBankModal(false)} footer={false}>
-                <NewBankModal banks={bankAccount} close={() => setOpenNewBankModal(false)} />
+                <NewBankModal 
+                banks={bankAccount} 
+                close={() => setOpenNewBankModal(false)} 
+                done={() => {
+                    setOpenNewBankModal(false);
+                    getLinkBankAccount();
+                }}/>
             </Modal>
             <Modal width={1000} title='Nạp tiền tài khoản' open={openPaymentModal} onCancel={() => setOpenPaymentModal(false)} footer={false}>
                 <CreatePaymentModal
