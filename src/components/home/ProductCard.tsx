@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { webRoutes } from "../../routes/web";
 import LazyImage from "../lazy-image";
 import { BiSolidCartAdd } from "react-icons/bi";
-import { formatCurrency } from "../../utils";
+import { formatCurrency, formatCurrency0D } from "../../utils";
 import { ProductDataResponse } from "../../interfaces/interface";
 
 const { Text, Title } = Typography;
@@ -35,7 +35,7 @@ const ProductCard = ({ product }: { product: ProductDataResponse }) => {
                             {product.productName}
                         </p>
                     </div>
-                    <p>{formatCurrency(product.minSellPrice)}</p>
+                    <p>{formatCurrency0D(product.minSellPrice)}</p>
                 </div>
             </div>
         </div>
