@@ -64,7 +64,7 @@ const Profile = () => {
                     <Row gutter={[32, 16]}>
                         <Col span={24}>
                             <ProfileCard profile={profile} updateProfile={() => getProfile()}>
-                                <Tabs type="line" defaultActiveKey='profile'>
+                                <Tabs type="line" defaultActiveKey='transaction'>
                                     <TabPane tab="Thông tin tài khoản" key="profile" >
                                         <ProfileDetail profile={profile} />
                                     </TabPane>
